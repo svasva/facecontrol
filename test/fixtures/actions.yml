@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyString
+  conditions: 
+  delay: 1
+  parent_id: 1
+  has_children: false
+  start_time: 2011-09-13 17:44:13
+
+two:
+  name: MyString
+  description: MyString
+  conditions: 
+  delay: 1
+  parent_id: 1
+  has_children: false
+  start_time: 2011-09-13 17:44:13

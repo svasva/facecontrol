@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyString
+  actions: 
+  energy: 1
+  drive: 1
+  glory: 1
+  real_glory: 1
+  glamour: 1
+  money: 1
+
+two:
+  name: MyString
+  description: MyString
+  actions: 
+  energy: 1
+  drive: 1
+  glory: 1
+  real_glory: 1
+  glamour: 1
+  money: 1
