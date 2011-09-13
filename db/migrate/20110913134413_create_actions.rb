@@ -3,14 +3,15 @@ class CreateActions < ActiveRecord::Migration
     create_table :actions do |t|
       t.string :name
       t.text :description
-      t.references :conditions
       t.integer :delay
       t.integer :parent_id
       t.boolean :has_children
-      t.timestamp :start_time
 
       t.timestamps
     end
-    add_index :actions, :conditions_id
+    create_table :actions_conditions, :id => false do |t|
+      t.references :action, :condition
+    end
+    add_index :actions_conditions, [:action_id, :condition_id]
   end
 end

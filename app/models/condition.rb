@@ -1,3 +1,3 @@
 class Condition < ActiveRecord::Base
-  belongs_to :actions
+  has_and_belongs_to_many :actions
 end

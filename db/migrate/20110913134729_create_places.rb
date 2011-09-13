@@ -3,11 +3,13 @@ class CreatePlaces < ActiveRecord::Migration
     create_table :places do |t|
       t.string :name
       t.string :description
-      t.references :conditions
       t.string :picture_url
 
       t.timestamps
     end
-    add_index :places, :conditions_id
+    create_table :places_conditions, :id => false do |t|
+      t.references :place, :condition
+    end
+    add_index :places_conditions, [:place_id, :condition_id]
   end
 end
