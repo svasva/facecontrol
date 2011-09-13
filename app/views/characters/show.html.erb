@@ -1,0 +1,7 @@
+<p id="notice"><%= notice %></p>
+  <% @character.attributes.each do |key,value| %>
+    <p><strong><%=key%></strong>: <%=value%></p>
+  <% end %>
+
+<%= link_to 'Edit', edit_character_path(@character) %> |
+<%= link_to 'Back', characters_path %>

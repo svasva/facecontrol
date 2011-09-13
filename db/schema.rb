@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110913140222) do
+ActiveRecord::Schema.define(:version => 20110913150512) do
 
   create_table "actions", :force => true do |t|
     t.string   "name"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(:version => 20110913140222) do
     t.boolean  "has_children"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "repeat"
+    t.integer  "delta_energy"
+    t.integer  "delta_glory"
+    t.integer  "delta_drive"
+    t.integer  "delta_glamour"
+    t.integer  "delta_real_glory"
+    t.integer  "delta_money"
   end
 
   create_table "actions_conditions", :id => false, :force => true do |t|
