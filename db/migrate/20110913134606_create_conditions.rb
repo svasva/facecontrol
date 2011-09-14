@@ -1,8 +1,8 @@
 class CreateConditions < ActiveRecord::Migration
   def change
     create_table :conditions do |t|
-      t.string :name
-      t.string :description
+      t.string :name, :default => ''
+      t.string :description, :default => ''
       t.references :actions
       t.integer :energy
       t.integer :drive

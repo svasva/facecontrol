@@ -11,24 +11,36 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110913150512) do
+ActiveRecord::Schema.define(:version => 20110914123843) do
 
-  create_table "actions", :force => true do |t|
+  create_table "action_groups", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "delay"
-    t.integer  "parent_id"
-    t.boolean  "has_children"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "repeat"
-    t.integer  "delta_energy"
-    t.integer  "delta_glory"
-    t.integer  "delta_drive"
-    t.integer  "delta_glamour"
-    t.integer  "delta_real_glory"
-    t.integer  "delta_money"
   end
+
+  create_table "actions", :force => true do |t|
+    t.string   "name",             :default => ""
+    t.text     "description",      :default => ""
+    t.integer  "delay",            :default => 0
+    t.integer  "parent_id",        :default => 0
+    t.boolean  "has_children",     :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "repeat",           :default => false
+    t.integer  "delta_energy",     :default => 0
+    t.integer  "delta_glory",      :default => 0
+    t.integer  "delta_drive",      :default => 0
+    t.integer  "delta_glamour",    :default => 0
+    t.integer  "delta_real_glory", :default => 0
+    t.integer  "delta_money",      :default => 0
+    t.integer  "contest_rating",   :default => 0
+    t.integer  "action_group_id"
+    t.integer  "ttl"
+  end
+
+  add_index "actions", ["action_group_id"], :name => "index_actions_on_action_group_id"
 
   create_table "actions_conditions", :id => false, :force => true do |t|
     t.integer "action_id"
@@ -37,31 +49,48 @@ ActiveRecord::Schema.define(:version => 20110913150512) do
 
   add_index "actions_conditions", ["action_id", "condition_id"], :name => "index_actions_conditions_on_action_id_and_condition_id"
 
-  create_table "character_actions", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "action_id"
-    t.string   "status"
-    t.datetime "start_time"
+  create_table "character_action_groups", :force => true do |t|
+    t.integer  "action_group_id"
+    t.integer  "character_id"
+    t.integer  "action_group_rating"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "character_action_groups", ["action_group_id", "character_id"], :name => "cag_index"
+
+  create_table "character_actions", :force => true do |t|
+    t.integer  "character_id"
+    t.integer  "action_id"
+    t.string   "status",              :default => "pending"
+    t.datetime "start_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "target_character_id"
+    t.datetime "stop_time"
+    t.integer  "repeat_count",        :default => 0
+    t.integer  "repeat_index"
+    t.integer  "disabler_action_id"
+  end
+
+  add_index "character_actions", ["character_id", "action_id"], :name => "index_character_actions_on_character_id_and_action_id"
   add_index "character_actions", ["status"], :name => "index_character_actions_on_status"
-  add_index "character_actions", ["user_id", "action_id"], :name => "index_character_actions_on_user_id_and_action_id"
 
   create_table "characters", :force => true do |t|
-    t.string   "name"
-    t.integer  "energy"
-    t.integer  "drive"
-    t.integer  "glory"
-    t.integer  "real_glory"
+    t.string   "name",       :default => ""
+    t.integer  "energy",     :default => 0
+    t.integer  "drive",      :default => 0
+    t.integer  "glory",      :default => 0
+    t.integer  "glamour",    :default => 0
+    t.integer  "real_glory", :default => 0
+    t.integer  "money",      :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "conditions", :force => true do |t|
-    t.string   "name"
-    t.string   "description"
+    t.string   "name",        :default => ""
+    t.string   "description", :default => ""
     t.integer  "actions_id"
     t.integer  "energy"
     t.integer  "drive"
@@ -71,17 +100,18 @@ ActiveRecord::Schema.define(:version => 20110913150512) do
     t.integer  "money"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "operator",    :default => ">="
   end
 
   add_index "conditions", ["actions_id"], :name => "index_conditions_on_actions_id"
 
   create_table "items", :force => true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.integer  "glamour"
+    t.string   "name",          :default => ""
+    t.text     "description",   :default => ""
+    t.integer  "glamour",       :default => 0
     t.integer  "conditions_id"
-    t.string   "picture_url"
-    t.integer  "price"
+    t.string   "picture_url",   :default => ""
+    t.integer  "price",         :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -89,9 +119,9 @@ ActiveRecord::Schema.define(:version => 20110913150512) do
   add_index "items", ["conditions_id"], :name => "index_items_on_conditions_id"
 
   create_table "places", :force => true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "picture_url"
+    t.string   "name",        :default => ""
+    t.string   "description", :default => ""
+    t.string   "picture_url", :default => ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
