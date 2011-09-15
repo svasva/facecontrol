@@ -59,14 +59,13 @@ ActiveRecord::Schema.define(:version => 20110915075304) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "username"
     t.integer  "failed_attempts",                    :default => 0
     t.datetime "locked_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "admins", ["username"], :name => "index_admins_on_username", :unique => true
+  add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
 
   create_table "character_action_groups", :force => true do |t|
     t.integer  "action_group_id"
