@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110914123843) do
+ActiveRecord::Schema.define(:version => 20110914151127) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -21,23 +21,24 @@ ActiveRecord::Schema.define(:version => 20110914123843) do
   end
 
   create_table "actions", :force => true do |t|
-    t.string   "name",             :default => ""
-    t.text     "description",      :default => ""
-    t.integer  "delay",            :default => 0
-    t.integer  "parent_id",        :default => 0
-    t.boolean  "has_children",     :default => false
+    t.string   "name",               :default => ""
+    t.text     "description"
+    t.integer  "delay",              :default => 0
+    t.integer  "parent_id",          :default => 0
+    t.boolean  "has_children",       :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "repeat",           :default => false
-    t.integer  "delta_energy",     :default => 0
-    t.integer  "delta_glory",      :default => 0
-    t.integer  "delta_drive",      :default => 0
-    t.integer  "delta_glamour",    :default => 0
-    t.integer  "delta_real_glory", :default => 0
-    t.integer  "delta_money",      :default => 0
-    t.integer  "contest_rating",   :default => 0
+    t.boolean  "repeat",             :default => false
+    t.integer  "delta_energy",       :default => 0
+    t.integer  "delta_glory",        :default => 0
+    t.integer  "delta_drive",        :default => 0
+    t.integer  "delta_glamour",      :default => 0
+    t.integer  "delta_real_glory",   :default => 0
+    t.integer  "delta_money",        :default => 0
+    t.integer  "contest_rating",     :default => 0
     t.integer  "action_group_id"
     t.integer  "ttl"
+    t.integer  "disabler_action_id"
   end
 
   add_index "actions", ["action_group_id"], :name => "index_actions_on_action_group_id"
@@ -52,7 +53,7 @@ ActiveRecord::Schema.define(:version => 20110914123843) do
   create_table "character_action_groups", :force => true do |t|
     t.integer  "action_group_id"
     t.integer  "character_id"
-    t.integer  "action_group_rating"
+    t.integer  "action_group_rating", :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -70,7 +71,6 @@ ActiveRecord::Schema.define(:version => 20110914123843) do
     t.datetime "stop_time"
     t.integer  "repeat_count",        :default => 0
     t.integer  "repeat_index"
-    t.integer  "disabler_action_id"
   end
 
   add_index "character_actions", ["character_id", "action_id"], :name => "index_character_actions_on_character_id_and_action_id"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(:version => 20110914123843) do
 
   create_table "items", :force => true do |t|
     t.string   "name",          :default => ""
-    t.text     "description",   :default => ""
+    t.text     "description"
     t.integer  "glamour",       :default => 0
     t.integer  "conditions_id"
     t.string   "picture_url",   :default => ""
