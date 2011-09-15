@@ -16,6 +16,8 @@ gem 'rails3-amf', :git => 'git://github.com/warhammerkid/rails3-amf.git'
 gem 'aasm'
 # background processor
 gem 'resque'
+gem 'devise'
+gem 'therubyracer' 
 
 ###
 
