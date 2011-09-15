@@ -11,8 +11,8 @@ gem 'mysql2'
 #our custom gems
 
 # amf
-gem 'RocketAMF', :git => 'git://github.com/warhammerkid/rocket-amf.git'
-gem 'rails3-amf', :git => 'git://github.com/warhammerkid/rails3-amf.git'
+gem "RocketAMF", :git => "git://github.com/rubyamf/rocketamf.git"
+gem 'rubyamf', :git => 'git://github.com/rubyamf/rubyamf.git'
 # state machine
 gem 'aasm'
 # background processor

@@ -2,7 +2,6 @@ class Character < ActiveRecord::Base
 	has_many :character_actions
 	has_many :action_groups, :through => :character_action_groups
 	has_many :character_action_groups
-	virtual_attribute :cloth_id
 
 	def cloth_id
 		1
