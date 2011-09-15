@@ -17,6 +17,9 @@ gem 'aasm'
 # background processor
 gem 'resque'
 
+# js compiler
+gem 'therubyracer'
+
 ###
 
 # Gems used only for assets and not required
@@ -30,7 +33,7 @@ end
 gem 'jquery-rails'
 
 # Use unicorn as the web server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
