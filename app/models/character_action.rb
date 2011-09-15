@@ -67,7 +67,7 @@ class CharacterAction < ActiveRecord::Base
 
     # check stop_time
     logger.info "stop_time check entry"
-    if self.stop_time or self.aasm_current_state == :stopped
+    if self.stop_time or CharacterAction.find(self.id).status == 'stopped'
       logger.info "stop_time check: #{Time.now.utc.to_i} >= #{self.stop_time.to_i}"
       if Time.now.utc.to_i >= self.stop_time.to_i
         self.stop!
@@ -78,7 +78,10 @@ class CharacterAction < ActiveRecord::Base
     # delay
     logger.info "delay_loop entry #{self.action.id}"
     loop do
-      (self.stop! and return true) if self.aasm_current_state == :stopped
+      if CharacterAction.find(self.id).status == 'stopped'
+        self.stop!
+        return true
+      end
       start_at = (self.start_time == nil) ? self.created_at.utc : self.start_time.utc
       logger.info "action##{self.action.id} #{Time.now.utc.to_i} >= #{start_at.utc.to_i} + #{self.action.delay}"
       break if Time.now.utc.to_i >= (start_at.to_i + self.action.delay)
