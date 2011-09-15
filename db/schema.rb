@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110914151127) do
+ActiveRecord::Schema.define(:version => 20110915075304) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110914151127) do
 
   create_table "actions", :force => true do |t|
     t.string   "name",               :default => ""
-    t.text     "description"
+    t.text     "description",        :default => ""
     t.integer  "delay",              :default => 0
     t.integer  "parent_id",          :default => 0
     t.boolean  "has_children",       :default => false
@@ -49,6 +49,24 @@ ActiveRecord::Schema.define(:version => 20110914151127) do
   end
 
   add_index "actions_conditions", ["action_id", "condition_id"], :name => "index_actions_conditions_on_action_id_and_condition_id"
+
+  create_table "admins", :force => true do |t|
+    t.string   "email",                              :default => "", :null => false
+    t.string   "encrypted_password",  :limit => 128, :default => "", :null => false
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                      :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "username"
+    t.integer  "failed_attempts",                    :default => 0
+    t.datetime "locked_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "admins", ["username"], :name => "index_admins_on_username", :unique => true
 
   create_table "character_action_groups", :force => true do |t|
     t.integer  "action_group_id"
@@ -107,7 +125,7 @@ ActiveRecord::Schema.define(:version => 20110914151127) do
 
   create_table "items", :force => true do |t|
     t.string   "name",          :default => ""
-    t.text     "description"
+    t.text     "description",   :default => ""
     t.integer  "glamour",       :default => 0
     t.integer  "conditions_id"
     t.string   "picture_url",   :default => ""
