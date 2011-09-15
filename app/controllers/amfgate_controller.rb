@@ -1,0 +1,2 @@
+class AmfgateController < ApplicationController
+end
