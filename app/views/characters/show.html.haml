@@ -1,0 +1,8 @@
+%p#notice= notice
+- @character.attributes.each do |key,value|
+  %p
+    %strong>= key
+    \: #{value}
+= link_to 'Edit', edit_character_path(@character)
+|
+\#{link_to 'Back', characters_path}

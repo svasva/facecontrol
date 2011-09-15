@@ -34,6 +34,10 @@ end
 
 gem 'jquery-rails'
 
+gem 'haml'
+gem 'haml-rails'
+
+
 # Use unicorn as the web server
 gem 'unicorn'
 
