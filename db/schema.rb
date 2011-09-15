@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110915075304) do
+ActiveRecord::Schema.define(:version => 20110915123820) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110915075304) do
 
   create_table "actions", :force => true do |t|
     t.string   "name",               :default => ""
-    t.text     "description",        :default => ""
+    t.text     "description"
     t.integer  "delay",              :default => 0
     t.integer  "parent_id",          :default => 0
     t.boolean  "has_children",       :default => false
@@ -103,6 +103,8 @@ ActiveRecord::Schema.define(:version => 20110915075304) do
     t.integer  "money",      :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "sex"
+    t.integer  "level"
   end
 
   create_table "conditions", :force => true do |t|
@@ -124,7 +126,7 @@ ActiveRecord::Schema.define(:version => 20110915075304) do
 
   create_table "items", :force => true do |t|
     t.string   "name",          :default => ""
-    t.text     "description",   :default => ""
+    t.text     "description"
     t.integer  "glamour",       :default => 0
     t.integer  "conditions_id"
     t.string   "picture_url",   :default => ""

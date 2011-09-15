@@ -5,7 +5,7 @@ class AmfgateController < ApplicationController
 #  public var character:CharacterDTO;  
   
   def autorize
-    @character_id = self.getCharacter(params)
+    @character_id = self.get_character(params)
     @character = Character.find(@character_id)
     @sessid = self.getSessid
     respond_with(@character) do |format|
@@ -51,8 +51,8 @@ class AmfgateController < ApplicationController
 #  }
 # }
 
-  def getCharacter
-    1
+  def getCharacter(params)
+    Character.new
   end
   
   def getSessid
