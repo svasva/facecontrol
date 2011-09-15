@@ -5,13 +5,14 @@
 #   gem 'sqlite3'
 development:
   adapter: mysql2
+  encoding: utf8
   database: facecontrol
-  port: 3306
-  username: facecontrol
-  password: bi4Phahh
+  pool: 5
+  username: root
+  password:
+  host: localhost
   #adapter: sqlite3
   #database: db/development.sqlite3
-  #pool: 5
   #timeout: 5000
 
 # Warning: The database defined as "test" will be erased and

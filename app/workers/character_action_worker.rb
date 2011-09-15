@@ -7,7 +7,11 @@ class CharacterActionWorker
 		charactions.each {|charaction|
   		puts "= starting action #{charaction.action.name}(#{charaction.action.id}) for #{charaction.character.id} ="
     	begin	
-				charaction.process_action ? charaction.processed! : charaction.failed!
+				if charaction.process_action
+					charaction.done! unless charaction.status == 'stopped'
+				else
+					charaction.failed!
+				end
 			rescue => e
 				puts e.inspect
 				charaction.failed!
