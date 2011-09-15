@@ -17,6 +17,7 @@ gem 'rubyamf', :git => 'git://github.com/rubyamf/rubyamf.git'
 gem 'aasm'
 # background processor
 gem 'resque'
+gem 'resque-scheduler', :git => 'git://github.com/bvandenbos/resque-scheduler.git'
 gem 'devise'
 
 # js compiler
