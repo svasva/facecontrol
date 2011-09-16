@@ -76,7 +76,11 @@ class CharacterAction < ActiveRecord::Base
     self.start!
 
     # process
-    self.character.modify(self.action)
+    begin
+      self.character.modify(self.action)
+    rescue => e
+      logger.error e.inspect
+    end
     # check if we have to disable some actions
     # Action.where(:disabler_action_id => self.action.id).each
     self.action.disabling_actions.each {|action|
