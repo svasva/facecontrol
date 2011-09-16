@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110915123820) do
+ActiveRecord::Schema.define(:version => 20110916094232) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -66,6 +66,16 @@ ActiveRecord::Schema.define(:version => 20110915123820) do
   end
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
+
+  create_table "amf_sessions", :force => true do |t|
+    t.integer  "characters_id"
+    t.string   "expire"
+    t.string   "sid"
+    t.integer  "user_id"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "character_action_groups", :force => true do |t|
     t.integer  "action_group_id"
@@ -151,5 +161,15 @@ ActiveRecord::Schema.define(:version => 20110915123820) do
   end
 
   add_index "places_conditions", ["place_id", "condition_id"], :name => "index_places_conditions_on_place_id_and_condition_id"
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
 end
