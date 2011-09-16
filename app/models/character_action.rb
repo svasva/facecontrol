@@ -78,14 +78,15 @@ class CharacterAction < ActiveRecord::Base
     # process
     self.character.modify(self.action)
     # check if we have to disable some actions
-    Action.where(:disabler_action_id => self.action.id).each {|action|
-      logger.info "have to stop action #{action.name}(#{action.id})"
+    # Action.where(:disabler_action_id => self.action.id).each
+    self.action.disabling_actions.each {|action|
+      logger.info "have to cancel action #{action.name}(#{action.id})"
       CharacterAction.where(
         :character_id => self.character_id,
         :action_id => action.id,
         :status => ['pending']
       ).each {|ca|
-        logger.info "stopping CA ##{ca.id}"
+        logger.info "canceling CA ##{ca.id}"
         ca.cancel!
         ca.save
       }

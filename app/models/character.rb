@@ -2,6 +2,7 @@ class Character < ActiveRecord::Base
 	has_many :character_actions
 	has_many :action_groups, :through => :character_action_groups
 	has_many :character_action_groups
+	attr_accessor :cloth_id
 
 	def cloth_id
 		1
