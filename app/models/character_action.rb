@@ -66,7 +66,7 @@ class CharacterAction < ActiveRecord::Base
   # called from resque
   def process_action
     # check stop_time
-    if (self.stop_time and (Time.now.utc.to_i >= self.stop_time.to_i)) or self.reload_status == 'stopped'
+    if self.stop_time and (Time.now.utc.to_i >= self.stop_time.to_i)
       logger.info "cancel, #{self.stop_time} | #{self.status}"
       self.cancel!
       return true
@@ -92,7 +92,7 @@ class CharacterAction < ActiveRecord::Base
       ).each {|ca|
         logger.info "canceling CA ##{ca.id}"
         ca.cancel!
-        ca.save
+        #ca.save
       }
     }
 
@@ -102,10 +102,11 @@ class CharacterAction < ActiveRecord::Base
       self.repeat_index = 1 if not self.repeat_index or self.repeat_index == 0
       if self.repeat_count == 0 or (self.repeat_count and (self.repeat_index < self.repeat_count)) or (self.stop_time and (Time.now.utc <= self.stop_time))
         logger.info "REPEAT CharacterAction #{self.id}"
-        ca_repeat = self.dup
-        ca_repeat.status = 'pending'
-        ca_repeat.repeat_index += 1
-        ca_repeat.save
+        ca_repeat = self.character.do_action self.action
+        if ca_repeat
+          ca_repeat.repeat_index = self.repeat_index + 1
+          ca_repeat.save
+        end
       else
         logger.info "REPEAT STOP CharacterAction #{self.id}"
       end
@@ -113,11 +114,7 @@ class CharacterAction < ActiveRecord::Base
 
     if self.action.has_children
       self.action.children.each {|child|
-        CharacterAction.create(
-          :action => child,
-          :character => self.character,
-          :target_character => self.target_character
-        )
+        self.character.do_action child, self.target_character
       }
     end
     return true
