@@ -8,10 +8,7 @@ class AmfgateController < ApplicationController
     #@character_id = self.get_character(params)
     @character = Character.first
     #@character.name = 'somewhatt 2323'
-    @sessid = self.getSessid
-    respond_with(@character) do |format|
-      format.amf { render :amf => @character.to_amf(:except => [:updated_at, :created_at]) }
-    end
+    render :amf => {:char => @character.to_amf(:except => [:updated_at, :created_at]), :someval => 123123}
   end
 
 #  public var id:int;

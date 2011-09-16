@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110915123820) do
 
   create_table "actions", :force => true do |t|
     t.string   "name",               :default => ""
-    t.text     "description"
+    t.text     "description",        :default => ""
     t.integer  "delay",              :default => 0
     t.integer  "parent_id",          :default => 0
     t.boolean  "has_children",       :default => false
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(:version => 20110915123820) do
 
   create_table "items", :force => true do |t|
     t.string   "name",          :default => ""
-    t.text     "description"
+    t.text     "description",   :default => ""
     t.integer  "glamour",       :default => 0
     t.integer  "conditions_id"
     t.string   "picture_url",   :default => ""
