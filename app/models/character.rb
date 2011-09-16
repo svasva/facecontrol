@@ -37,10 +37,8 @@ class Character < ActiveRecord::Base
 	 # if character passes Action`s conditions
 	 # otherwise returns false
 	 def do_action(action, target_char = nil)
-	 	action.conditions.each {|cond|
-	 		return false unless self.pass_condition? cond
-	 	}
-	 	return CharacterAction.create(
+	 	return false unless self.pass_conditions? action
+	 	CharacterAction.create(
 	 		:character => self,
 	 		:action => action,
 	 		:target_character => target_char
