@@ -3,6 +3,6 @@ Gemfile.lock
 db/*.sqlite3
 log/*.log
 tmp/
-config/database*
+config/database.yml
 .sass-cache/
 
