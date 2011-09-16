@@ -8,5 +8,6 @@ namespace :resque do
     require 'resque/scheduler'
     Resque.schedule = YAML.load_file("#{Rails.root}/config/resque_schedule.yml")
     Resque::Scheduler.dynamic = true
+    Resque::Scheduler.poll_sleep_amount = 1
 	end
 end

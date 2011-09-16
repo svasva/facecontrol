@@ -5,10 +5,10 @@ class CharacterActionWorker
 		ca = CharacterAction.find(ca_id)
 		puts "= performing action #{ca.action.name}(#{ca.action.id}) for #{ca.character.id} ="
   	begin
-			if ca.status == 'canceled'
-				puts "#{ca.action.name}(#{ca.action.id}) was canceled"
-			else
+			unless ca.status == 'canceled'
 				ca.process_action ? ca.done! : ca.failed!
+			else
+				puts "#{ca.action.name}(#{ca.action.id}) was canceled"
 			end
 		rescue => e
 			puts e.inspect
