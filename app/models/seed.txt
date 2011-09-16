@@ -1,0 +1,11 @@
+Character.create(:name => 'упырь', :glory => 99)
+Place.create(:name => 'Клуб1')
+Condition.create(:name => 'Вход в клуб1', :glory => 100)
+Place.first.conditions << Condition.first
+
+Action.create(:name => 'Вход в клуб', :has_children => true)
+Action.create(:name => 'Нахождение в клубе - расход энергии', :delta_energy => -1, :repeat => true, :delay => 10)
+Action.first.children << Action.last
+Action.create(:name => 'Купить энергетик', :delta_energy => 20, :delay => 0, :delta_money => -10)
+
+VVERBOSE=1 QUEUE=* rake resque:work 2>&1 >> log/worker.development.log &

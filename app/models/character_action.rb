@@ -3,7 +3,7 @@ class CharacterAction < ActiveRecord::Base
   belongs_to :action
   belongs_to :target_character, :class_name => 'Character'
 
-  after_create :process
+  after_create :enqueue
   before_create :set_stop_time
 
   # state machine settings
@@ -12,22 +12,17 @@ class CharacterAction < ActiveRecord::Base
   aasm_initial_state :pending
 
   aasm_state :pending
-  aasm_state :timer_active
   aasm_state :processing
   aasm_state :done
-  aasm_state :stopped
+  aasm_state :canceled
   aasm_state :failed
 
-  aasm_event :timer do
-    transitions :from => :pending, :to => :timer_active
-  end
-
   aasm_event :start do
-    transitions :from => :timer_active, :to => :processing
+    transitions :from => :pending, :to => :processing
   end
 
-  aasm_event :stop do
-    transitions :from => [:timer_active, :pending], :to => :stopped
+  aasm_event :cancel do
+    transitions :from => [:pending, :processing], :to => :canceled
   end
 
   aasm_event :done do
@@ -41,7 +36,7 @@ class CharacterAction < ActiveRecord::Base
   def reset
     self.aasm_enter_initial_state
     self.save
-    self.process
+    self.enqueue
   end
 
   # state machine settings END
@@ -54,38 +49,27 @@ class CharacterAction < ActiveRecord::Base
   end
 
   # enqueue task to background worker
-	def process
-    Resque.enqueue(CharacterActionWorker)
+  # called after CharacterAction#create
+	def enqueue
+    start_at = (self.start_time == nil) ? self.created_at.utc : self.start_time.utc
+    start_at += self.action.delay.seconds if self.action.delay
+
+    (Time.now.utc >= start_at) ? Resque.enqueue(CharacterActionWorker, self.id) : Resque.enqueue_at(start_at, CharacterActionWorker, self.id)
   end
 
-  # executes after CharacterAction#create
+
+  def reload_status
+    self.status = CharacterAction.find(self.id).status
+    self.status
+  end
+
+  # called from resque
   def process_action
-    logger.info "process entry"
-
-    # mark as timer_active
-    self.timer!
-
     # check stop_time
-    logger.info "stop_time check entry"
-    if self.stop_time or CharacterAction.find(self.id).status == 'stopped'
-      logger.info "stop_time check: #{Time.now.utc.to_i} >= #{self.stop_time.to_i}"
-      if Time.now.utc.to_i >= self.stop_time.to_i
-        self.stop!
-        return true
-      end
-    end
-
-    # delay
-    logger.info "delay_loop entry #{self.action.id}"
-    loop do
-      if CharacterAction.find(self.id).status == 'stopped'
-        self.stop!
-        return true
-      end
-      start_at = (self.start_time == nil) ? self.created_at.utc : self.start_time.utc
-      logger.info "action##{self.action.id} #{Time.now.utc.to_i} >= #{start_at.utc.to_i} + #{self.action.delay}"
-      break if Time.now.utc.to_i >= (start_at.to_i + self.action.delay)
-      sleep 1
+    if (self.stop_time and (Time.now.utc.to_i >= self.stop_time.to_i)) or self.reload_status == 'stopped'
+      logger.info "cancel, #{self.stop_time} | #{self.status}"
+      self.cancel!
+      return true
     end
 
     # mark action as processing after delay checks & so on
@@ -99,10 +83,10 @@ class CharacterAction < ActiveRecord::Base
       CharacterAction.where(
         :character_id => self.character_id,
         :action_id => action.id,
-        :status => ['timer_active', 'pending']
+        :status => ['pending']
       ).each {|ca|
         logger.info "stopping CA ##{ca.id}"
-        ca.stop!
+        ca.cancel!
         ca.save
       }
     }

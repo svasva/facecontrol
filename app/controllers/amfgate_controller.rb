@@ -6,6 +6,7 @@ class AmfgateController < ApplicationController
   
   def authorize
     #@character_id = self.get_character(params)
+    logger.info params.inspect
     @character = Character.first
     #@character.name = 'somewhatt 2323'
     render :amf => {:char => @character.to_amf(:except => [:updated_at, :created_at]), :someval => 123123}
