@@ -1,16 +1,42 @@
-= form_for(@character) do |f|
-  - if @character.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@character.errors.count, "error")
-        prohibited this character from being saved:
-      %ul
-        - @character.errors.full_messages.each do |msg|
-          %li= msg
-  - @character.attributes.each do |key,value|
-    %label
-      = key
-      = f.text_field key.to_sym
-    %br/
-  .actions
-    = f.submit
+.group
+  = f.label :name, t("activerecord.attributes.character.name", :default => "Name"), :class => :label
+  = f.text_field :name, :class => 'text_field'
+  %span.description Ex: a simple text
+.group
+  = f.label :energy, t("activerecord.attributes.character.energy", :default => "Energy"), :class => :label
+  = f.number_field :energy, :class => 'number_field'
+  %span.description Ex: a simple text
+.group
+  = f.label :drive, t("activerecord.attributes.character.drive", :default => "Drive"), :class => :label
+  = f.number_field :drive, :class => 'number_field'
+  %span.description Ex: a simple text
+.group
+  = f.label :glory, t("activerecord.attributes.character.glory", :default => "Glory"), :class => :label
+  = f.number_field :glory, :class => 'number_field'
+  %span.description Ex: a simple text
+.group
+  = f.label :glamour, t("activerecord.attributes.character.glamour", :default => "Glamour"), :class => :label
+  = f.number_field :glamour, :class => 'number_field'
+  %span.description Ex: a simple text
+.group
+  = f.label :real_glory, t("activerecord.attributes.character.real_glory", :default => "Real glory"), :class => :label
+  = f.number_field :real_glory, :class => 'number_field'
+  %span.description Ex: a simple text
+.group
+  = f.label :money, t("activerecord.attributes.character.money", :default => "Money"), :class => :label
+  = f.number_field :money, :class => 'number_field'
+  %span.description Ex: a simple text
+.group
+  = f.label :sex, t("activerecord.attributes.character.sex", :default => "Sex"), :class => :label
+  = f.check_box :sex, :class => 'check_box'
+  %span.description Ex: a simple text
+.group
+  = f.label :level, t("activerecord.attributes.character.level", :default => "Level"), :class => :label
+  = f.number_field :level, :class => 'number_field'
+  %span.description Ex: a simple text
+.group.navform.wat-cf
+  %button.button{:type => "submit"}
+    = image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}")
+    = t("web-app-theme.save", :default => "Save")
+  %span.text_button_padding= t("web-app-theme.or", :default => "or")
+  = link_to t("web-app-theme.cancel", :default => "Cancel"), characters_path, :class => "text_button_padding link_button"

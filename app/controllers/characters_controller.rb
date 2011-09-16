@@ -5,7 +5,8 @@ class CharactersController < ApplicationController
   # before /characters
   # GET /characters.json
   def index
-    @characters = Character.all
+    @characters = Character.paginate(:page => params[:page], :per_page => 30)
+
 
     respond_to do |format|
       format.html # index.html.erb

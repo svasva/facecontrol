@@ -1,0 +1,42 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first= link_to "#{t("web-app-theme.list", :default => "List")}", items_path
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_item_path
+      %li.active= link_to "#{t("web-app-theme.show", :default => "Show")}", item_path
+  .content
+    .inner
+      %p
+        %b
+          = t("activerecord.attributes.item.name", :default => t("activerecord.labels.name", :default => "Name"))
+          \:
+        = @item.name
+      %p
+        %b
+          = t("activerecord.attributes.item.description", :default => t("activerecord.labels.description", :default => "Description"))
+          \:
+        = @item.description
+      %p
+        %b
+          = t("activerecord.attributes.item.glamour", :default => t("activerecord.labels.glamour", :default => "Glamour"))
+          \:
+        = @item.glamour
+      %p
+        %b
+          = t("activerecord.attributes.item.conditions_id", :default => t("activerecord.labels.conditions_id", :default => "Conditions"))
+          \:
+        = @item.conditions_id
+      %p
+        %b
+          = t("activerecord.attributes.item.picture_url", :default => t("activerecord.labels.picture_url", :default => "Picture url"))
+          \:
+        = @item.picture_url
+      %p
+        %b
+          = t("activerecord.attributes.item.price", :default => t("activerecord.labels.price", :default => "Price"))
+          \:
+        = @item.price
+      .wat-cf
+        = link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_item_path(@item), :class => "button"
+        = link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), item_path(@item), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"
+- content_for :sidebar, render(:partial => 'sidebar')

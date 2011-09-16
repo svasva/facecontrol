@@ -46,5 +46,11 @@ module Facecontrol
     config.assets.version = '1.0'
 
     config.rubyamf.gateway_path = "/amf"
+
+    #move it somwhere
+    config.to_prepare do 
+      Devise::SessionsController.layout "sign" 
+    end
   end
+
 end
