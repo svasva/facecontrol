@@ -6,10 +6,14 @@ gem 'rails', '3.1.0'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 group :test, :development do
- 	gem 'sqlite3'
+	gem 'sqlite3'
   gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl'
+
+  gem 'web-app-theme', :git => 'git://github.com/jweslley/web-app-theme.git'
+  gem 'hpricot'
+  gem 'ruby_parser'
 end
 
 gem 'mysql2'
@@ -44,6 +48,7 @@ gem 'jquery-rails'
 
 gem 'haml'
 gem 'haml-rails'
+gem 'will_paginate'
 
 
 # Use unicorn as the web server
