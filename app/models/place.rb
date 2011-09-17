@@ -1,3 +1,4 @@
 class Place < ActiveRecord::Base
-  has_and_belongs_to_many :conditions, :join_table => 'places_conditions'
+  has_many :actions, :as => :subject
+  #has_one leave/enter/etc
 end

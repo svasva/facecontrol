@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110916094232) do
+ActiveRecord::Schema.define(:version => 20110917183738) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -39,6 +39,9 @@ ActiveRecord::Schema.define(:version => 20110916094232) do
     t.integer  "action_group_id"
     t.integer  "ttl"
     t.integer  "disabler_action_id"
+    t.integer  "subject_id"
+    t.string   "subject_type"
+    t.boolean  "need_target"
   end
 
   add_index "actions", ["action_group_id"], :name => "index_actions_on_action_group_id"
@@ -135,17 +138,14 @@ ActiveRecord::Schema.define(:version => 20110916094232) do
   add_index "conditions", ["actions_id"], :name => "index_conditions_on_actions_id"
 
   create_table "items", :force => true do |t|
-    t.string   "name",          :default => ""
-    t.text     "description",   :default => ""
-    t.integer  "glamour",       :default => 0
-    t.integer  "conditions_id"
-    t.string   "picture_url",   :default => ""
-    t.integer  "price",         :default => 0
+    t.string   "name",        :default => ""
+    t.text     "description", :default => ""
+    t.integer  "glamour",     :default => 0
+    t.string   "picture_url", :default => ""
+    t.integer  "price",       :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "items", ["conditions_id"], :name => "index_items_on_conditions_id"
 
   create_table "places", :force => true do |t|
     t.string   "name",        :default => ""
@@ -154,13 +154,6 @@ ActiveRecord::Schema.define(:version => 20110916094232) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "places_conditions", :id => false, :force => true do |t|
-    t.integer "place_id"
-    t.integer "condition_id"
-  end
-
-  add_index "places_conditions", ["place_id", "condition_id"], :name => "index_places_conditions_on_place_id_and_condition_id"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false

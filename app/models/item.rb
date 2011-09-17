@@ -1,3 +1,3 @@
 class Item < ActiveRecord::Base
-  belongs_to :conditions
+  has_many :actions, :as => :subject
 end
