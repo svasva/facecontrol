@@ -9,11 +9,13 @@ group :test, :development do
 	gem 'sqlite3'
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'factory_girl'
+  gem 'factory_girl_rails'
 
   gem 'web-app-theme', :git => 'git://github.com/jweslley/web-app-theme.git'
   gem 'hpricot'
   gem 'ruby_parser'
+  gem 'mocha'
+  gem 'database_cleaner'
 end
 
 gem 'mysql2'
