@@ -11,7 +11,6 @@ class Place < ActiveRecord::Base
 
   after_initialize :init_default_actions
 
-
   private #studio
 
   def init_default_actions
