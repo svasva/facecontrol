@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110917211953) do
+ActiveRecord::Schema.define(:version => 20110918192250) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20110917211953) do
     t.integer  "subject_id"
     t.string   "subject_type"
     t.boolean  "need_target"
+    t.string   "type"
   end
 
   add_index "actions", ["action_group_id"], :name => "index_actions_on_action_group_id"
