@@ -1,3 +1,3 @@
 class AmfSession < ActiveRecord::Base
-	belogns_to :chracter
+	belongs_to :chracter
 end

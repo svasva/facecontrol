@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110917183738) do
+ActiveRecord::Schema.define(:version => 20110917211953) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -45,13 +45,6 @@ ActiveRecord::Schema.define(:version => 20110917183738) do
   end
 
   add_index "actions", ["action_group_id"], :name => "index_actions_on_action_group_id"
-
-  create_table "actions_conditions", :id => false, :force => true do |t|
-    t.integer "action_id"
-    t.integer "condition_id"
-  end
-
-  add_index "actions_conditions", ["action_id", "condition_id"], :name => "index_actions_conditions_on_action_id_and_condition_id"
 
   create_table "admins", :force => true do |t|
     t.string   "email",                              :default => "", :null => false
@@ -123,7 +116,7 @@ ActiveRecord::Schema.define(:version => 20110917183738) do
   create_table "conditions", :force => true do |t|
     t.string   "name",        :default => ""
     t.string   "description", :default => ""
-    t.integer  "actions_id"
+    t.integer  "action_id"
     t.integer  "energy"
     t.integer  "drive"
     t.integer  "glory"
@@ -135,7 +128,7 @@ ActiveRecord::Schema.define(:version => 20110917183738) do
     t.string   "operator",    :default => ">="
   end
 
-  add_index "conditions", ["actions_id"], :name => "index_conditions_on_actions_id"
+  add_index "conditions", ["action_id"], :name => "index_conditions_on_actions_id"
 
   create_table "items", :force => true do |t|
     t.string   "name",        :default => ""
