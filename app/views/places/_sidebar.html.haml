@@ -1,7 +1,10 @@
 .block.notice
   %h3 Simple Block
   .content
-    %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    = form_for :import, :url => {:action => :import} do |form|
+      = form.file_field :file
+      = form.submit
+
 .block
   %h3 Links
   %ul.navigation

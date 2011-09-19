@@ -38,8 +38,9 @@ module Models
         end
 
         require "csv"
-        def parse_csv
-          data = CSV.read("table.csv")[2..-1]
+        def parse_csv(params)
+
+          data = CSV.read(params[:file].tempfile)[2..-1]
           self.parse_table data
         end
 

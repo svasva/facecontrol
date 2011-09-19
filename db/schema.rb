@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110919071223) do
 
   create_table "actions", :force => true do |t|
     t.string   "name",               :default => ""
-    t.text     "description"
+    t.text     "description",        :default => ""
     t.integer  "delay",              :default => 0
     t.integer  "parent_id",          :default => 0
     t.boolean  "has_children",       :default => false
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(:version => 20110919071223) do
     t.integer  "subject_id"
     t.string   "subject_type"
     t.boolean  "need_target"
+    t.string   "type"
+    t.string   "deafault_type"
     t.string   "default_type"
   end
 
@@ -136,7 +138,7 @@ ActiveRecord::Schema.define(:version => 20110919071223) do
 
   create_table "items", :force => true do |t|
     t.string   "name",        :default => ""
-    t.text     "description"
+    t.text     "description", :default => ""
     t.integer  "glamour",     :default => 0
     t.string   "picture_url", :default => ""
     t.integer  "price",       :default => 0

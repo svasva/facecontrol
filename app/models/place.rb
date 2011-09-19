@@ -3,12 +3,23 @@
 class Place < ActiveRecord::Base
   has_many :actions, :as => :subject
 
-  has_one :enter_action, :as => :subject, :class_name => 'Action',
-	:conditions => {:default_type => "enter"}, :autosave => true
-  has_one :stay_action, :as => :subject, :class_name => 'Action',
-	:conditions => {:default_type => "stay"}, :autosave => true
-  has_one :leave_action, :as => :subject, :class_name => 'Action',
-	:conditions => {:default_type => "leave"}, :autosave => true
+  has_one :enter_action,
+		:as => :subject,
+		:class_name => 'Action',
+		:conditions => {:default_type => "enter"},
+	  :autosave => true
+
+  has_one :stay_action,
+  	:as => :subject,
+  	:class_name => 'Action',
+		:conditions => {:default_type => "stay"},
+		:autosave => true
+		
+  has_one :leave_action,
+  	:as => :subject,
+  	:class_name => 'Action',
+  	:conditions => {:default_type => "leave"},
+  	:autosave => true
 
   accepts_nested_attributes_for :enter_action, :stay_action, :leave_action, :actions
 

@@ -52,6 +52,12 @@ Facecontrol::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => 'characters#index'
   resources :characters, :actions, :conditions, :items
+
+  resources :places do
+    post :import, :on => :collection
+    get :export, :on => :collection
+  end
+   
   match 'amfgate/:action' => 'amfgate'
 
   # See how all your routes lay out with "rake routes"
