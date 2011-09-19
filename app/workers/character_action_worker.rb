@@ -1,9 +1,13 @@
 class CharacterActionWorker
 	@queue = :CharacterActions
+	def self.plong(str)
+		puts str.gsub(/\s+/, " ").strip
+	end
 
 	def self.perform(ca_id)
 		ca = CharacterAction.find(ca_id)
-		puts "= performing action #{ca.action.name}(#{ca.action.id}) for #{ca.character.id} ="
+		plong "= performing action #{ca.action.name}(#{ca.action.id}) \
+					for #{ca.character.id} ="
   	begin
 			unless ca.status == 'canceled'
 				ca.process_action ? ca.done! : ca.failed!

@@ -51,16 +51,31 @@ class CharacterAction < ActiveRecord::Base
   # enqueue task to background worker
   # called after CharacterAction#create
 	def enqueue
-    start_at = (self.start_time == nil) ? self.created_at.utc : self.start_time.utc
+    start_at = self.start_time.nil? ? self.created_at.utc : self.start_time.utc
     start_at += self.action.delay.seconds if self.action.delay
 
-    (Time.now.utc >= start_at) ? Resque.enqueue(CharacterActionWorker, self.id) : Resque.enqueue_at(start_at, CharacterActionWorker, self.id)
+    if Time.now.utc >= start_at
+      Resque.enqueue(CharacterActionWorker, self.id)
+    else
+      Resque.enqueue_at(start_at, CharacterActionWorker, self.id)
+    end
   end
 
 
   def reload_status
     self.status = CharacterAction.find(self.id).status
     self.status
+  end
+
+  def repeat_active?
+    if self.action.repeat
+      logger.info "REPEAT CHECK CharacterAction #{self.id}"
+      self.repeat_index = 1 if not self.repeat_index or self.repeat_index == 0
+      return true if self.repeat_count == 0
+      return true if self.repeat_index < self.repeat_count
+      return true if self.stop_time and (Time.now.utc <= self.stop_time)
+    end
+    return false
   end
 
   # called from resque
@@ -97,26 +112,14 @@ class CharacterAction < ActiveRecord::Base
     }
 
     # repeat
-    if self.action.repeat
-      logger.info "REPEAT CHECK CharacterAction #{self.id}"
-      self.repeat_index = 1 if not self.repeat_index or self.repeat_index == 0
-      if self.repeat_count == 0 or (self.repeat_count and (self.repeat_index < self.repeat_count)) or (self.stop_time and (Time.now.utc <= self.stop_time))
-        logger.info "REPEAT CharacterAction #{self.id}"
-        ca_repeat = self.character.do_action self.action
-        if ca_repeat
-          ca_repeat.repeat_index = self.repeat_index + 1
-          ca_repeat.save
-        end
-      else
-        logger.info "REPEAT STOP CharacterAction #{self.id}"
-      end
+    if self.repeat_active? and ca_repeat = self.character.do_action(self.action)
+      ca_repeat.repeat_index = self.repeat_index + 1
+      ca_repeat.save
     end
 
-    if self.action.has_children
-      self.action.children.each {|child|
-        self.character.do_action child, self.target_character
-      }
-    end
+    self.action.children.each {|child|
+      self.character.do_action(child, self.target_character)
+    }
     return true
     # PROCESS
   end
