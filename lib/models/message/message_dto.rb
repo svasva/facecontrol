@@ -1,3 +1,5 @@
+require 'character_dto.rb'
+
 class MessageDTO
 	attr_accessor :id
 	attr_accessor :source

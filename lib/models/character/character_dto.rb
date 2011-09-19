@@ -14,7 +14,7 @@ class CharacterDTO
 	@id, @social_id, @name, @sex, @glory, @real_glory, @liking, @energy, @drive = nil;
 
 	def initialize(char)
-		@id = msg.id
+		@id = char.id
 		@social_id = char.social_id
 		@name = char.name
 		@sex = char.sex
