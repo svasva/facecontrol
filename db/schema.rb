@@ -146,16 +146,17 @@ ActiveRecord::Schema.define(:version => 20110919071223) do
 
   create_table "messages", :force => true do |t|
     t.text     "content"
-    t.integer  "from_id"
-    t.integer  "to_id"
+    t.integer  "source_id"
+    t.integer  "target_id"
     t.integer  "rating"
     t.boolean  "need_answer"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "messages", ["from_id"], :name => "index_messages_on_from_id"
-  add_index "messages", ["to_id"], :name => "index_messages_on_to_id"
+  add_index "messages", ["need_answer"], :name => "index_messages_on_need_answer"
+  add_index "messages", ["source_id"], :name => "index_messages_on_source_id"
+  add_index "messages", ["target_id"], :name => "index_messages_on_target_id"
 
   create_table "places", :force => true do |t|
     t.string   "name",        :default => ""

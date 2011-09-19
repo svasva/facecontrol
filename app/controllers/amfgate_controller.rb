@@ -1,45 +1,48 @@
 class AmfgateController < ApplicationController
-  respond_to :html, :amf
+  respond_to :amf
   before_filter :amf_init
 
   @character = nil
   @auth = false
-  
+  @amf = nil
+
 #  public var sid:String;
 #  public var character:CharacterDTO;  
 
   def authorize
-    @character = @character.amf unless @character.nil?
+    @amf = @character.amf unless @character.nil?
     render_amf
   end
 
   def register
-    @character = Character.create @char_params unless @char_params.nil?
+    char_params = {
+      :name => @misc_params[0],
+      :sex => @misc_params[1],
+      :social_id => @flash_vars['viewer_id']
+    }
+    @amf = Character.create(char_params).amf unless @char_params.nil?
     render_amf
   end
 
-#  public var id:int;
-#  public var social_id:String;
-#  public var name:String;
-#  public var sex:int = 0;
-#  public var level:int = 0;
-#  public var rating:int = 0;
-#  public var glory:int = 0;
-#  public var real_glory:int = 0;
-#  public var glamour:int = 0;
-#  public var money:int = 0;
-#  public var energy:int = 0;
-#  public var drive:int = 0;
+  def get_rumors(offset = 0, limit = 50)
+    @amf = []
+    limit.times.do
+      @amf << Message.new(
+        :text => "трололо #{rand(99999)}",
+        :source => Character.first,
+        :target => Character.last
+      ).amf
+    end
+    render_amf
+  end
   
   protected
 
   def amf_init
     @flash_vars = params[0][0]
-    @char_params = {
-      :name => params[0][1],
-      :sex => params[0][2],
-      :social_id => @flash_vars['viewer_id']
-    }
+    @misc_params = []
+    params[0].each {|p| @misc_params << p unless p == @flash_vars }
+
     @auth = auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
     @character = Character.find(:first, :conditions => {:social_id => @flash_vars['viewer_id']})
   end
@@ -52,10 +55,6 @@ class AmfgateController < ApplicationController
   end
 
   def render_amf
-    render :amf => @character
-    #render :amf => {
-    #  :auth => @auth,
-    #  :char => @character
-    #}
+    render :amf => @amf
   end
 end
