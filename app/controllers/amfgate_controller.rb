@@ -1,5 +1,5 @@
 class AmfgateController < ApplicationController
-  respond_to :amf
+  respond_to :amf, :html
   before_filter :amf_init
 
   @character = nil
