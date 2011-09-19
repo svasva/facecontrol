@@ -26,7 +26,6 @@ class Place < ActiveRecord::Base
   after_initialize :init_default_actions
   before_create :add_names_to_default_actions
 
-
   private #studio
 
   def init_default_actions
@@ -34,7 +33,7 @@ class Place < ActiveRecord::Base
 			build_enter_action
 			build_stay_action
 			build_leave_action
-			enter_action.conditions.build	
+			enter_action.conditions.build
 		end
   end
 
