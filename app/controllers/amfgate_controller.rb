@@ -20,15 +20,15 @@ class AmfgateController < ApplicationController
       :sex => @misc_params[1],
       :social_id => @flash_vars['viewer_id']
     }
-    @amf = Character.create(char_params).amf unless @char_params.nil?
+    @amf = Character.create(char_params).amf unless char_params.nil?
     render_amf
   end
 
   def get_rumors(offset = 0, limit = 50)
     @amf = []
-    limit.times.do
+    limit.times do
       @amf << Message.new(
-        :text => "trololo #{rand(99999)}",
+        :content => "trololo #{rand(99999)}",
         :source => Character.first,
         :target => Character.last
       ).amf
