@@ -13,7 +13,7 @@ class Action < ActiveRecord::Base
   belongs_to :disabler_action,
   	:class_name => 'Action',
   	:foreign_key => 'disabler_action_id'
-
-  
-  #TODO add check for type uniquiness
+ 
+  validates :default_type,
+    :uniqueness => {:scope => [:subject_type, :subject_id]}
 end
