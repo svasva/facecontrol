@@ -10,7 +10,7 @@ class AmfgateController < ApplicationController
 #  public var character:CharacterDTO;  
 
   def authorize
-    @amf = @character.amf unless @character.nil?
+    @amf = CharacterDTO.new(@character) unless @character.nil?
     render_amf
   end
 
@@ -20,7 +20,7 @@ class AmfgateController < ApplicationController
       :sex => @misc_params[1],
       :social_id => @flash_vars['viewer_id']
     }
-    @amf = Character.create(char_params).amf unless char_params.nil?
+    @amf = CharacterDTO.new(Character.create(char_params)) unless char_params.nil?
     render_amf
   end
 
@@ -31,7 +31,7 @@ class AmfgateController < ApplicationController
         :content => "trololo #{rand(99999)}",
         :source => Character.first,
         :target => Character.last
-      )
+      ))
     end
     render_amf
   end

@@ -8,8 +8,8 @@ class MessageDTO
 
 	def initialize(msg)
 		@id = msg.id
-		@source = msg.source.amf
-		@target = msg.target.amf
+		@source = CharacterDTO.new msg.source
+		@target = CharacterDTO.new msg.target
 		@content = msg.content
 	end
 end
