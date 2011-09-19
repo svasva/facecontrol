@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110919071223) do
+ActiveRecord::Schema.define(:version => 20110919152503) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110919071223) do
 
   create_table "actions", :force => true do |t|
     t.string   "name",               :default => ""
-    t.text     "description"
+    t.text     "description",        :default => ""
     t.integer  "delay",              :default => 0
     t.integer  "parent_id",          :default => 0
     t.boolean  "has_children",       :default => false
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(:version => 20110919071223) do
 
   create_table "items", :force => true do |t|
     t.string   "name",        :default => ""
-    t.text     "description"
+    t.text     "description", :default => ""
     t.integer  "glamour",     :default => 0
     t.string   "picture_url", :default => ""
     t.integer  "price",       :default => 0
@@ -164,6 +164,9 @@ ActiveRecord::Schema.define(:version => 20110919071223) do
     t.string   "picture_url", :default => ""
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "map_x"
+    t.integer  "map_y"
+    t.text     "video_urls"
   end
 
   create_table "sessions", :force => true do |t|

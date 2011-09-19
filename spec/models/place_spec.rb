@@ -16,9 +16,9 @@ describe Place do
 			@bo = Factory.create :blue_oyster
 			@table = [
 			[@bo.id, "Бар 'Голубая устрица2'", "всем известное место2",
-				"http://pic3.ru", 4, 3, 2, 1, -100,200, 50, 500],
+				"http://pic3.ru",33,45,"v_urls", 4, 3, 2, 1, -100,200, 50, 500],
 			[nil,"Рюмочная 'Второе дыхание'", "спасение изнурённому человеку",
-				"http://pic2.ru", 5, 6, 7, 8, 100, 100, 100, -500]]
+				"http://pic2.ru",31, 42, "v_urls2", 5, 6, 7, 8, 100, 100, 100, -500]]
 		end
 
 		it "changes Place count" do
@@ -33,6 +33,9 @@ describe Place do
 			@bo.name.should == "Бар 'Голубая устрица2'"
 			@bo.description.should == "всем известное место2"
 			@bo.picture_url.should == "http://pic3.ru"
+			@bo.map_x.should == 33
+			@bo.map_y.should == 45
+			@bo.video_urls.should == "v_urls"
 		end
 
 
@@ -61,7 +64,9 @@ describe Place do
 			Place.parse_table @table		
 			new_place.name.should == "Рюмочная 'Второе дыхание'"
 			new_place.description.should == "спасение изнурённому человеку"
-			new_place.picture_url.should == "http://pic2.ru"
+			new_place.map_x.should == 31
+			new_place.map_y.should == 42
+			new_place.video_urls.should == "v_urls2"
 		end
 
 		it "writes attributes to enter_action of new enteries" do

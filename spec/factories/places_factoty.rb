@@ -51,6 +51,9 @@ FactoryGirl.define do
     name "Бар 'Голубая устрица'"
     description  "всем известное место"
     picture_url "http://pic.ru"
+    map_x 21
+    map_y 53
+    video_urls "someurls"
     association :enter_action, :factory => :bo_enter
     association :stay_action, :factory => :bo_stay
     association :leave_action, :factory => :leave

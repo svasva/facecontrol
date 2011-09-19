@@ -27,7 +27,9 @@ module Models
             [ p.id,
               p.name,
               p.description,
-              p.picture_url,
+              p.map_x,
+              p.map_y,
+              p.video_urls,
               p.enter_action.conditions.first.glory,
               p.enter_action.conditions.first.real_glory,
               p.enter_action.conditions.first.glamour,
@@ -48,18 +50,22 @@ module Models
 
         private
         def assign_attributes(record, row)
-          record.name = row[1]  
-          record.description = row[2] 
-          record.picture_url = row[3]
           enter_condition = record.enter_action.conditions.first
-          enter_condition.glory = row[4]
-          enter_condition.real_glory = row[5]
-          enter_condition.glamour = row[6]
-          enter_condition.energy = row[7]
-          record.enter_action.delta_energy = row[8]
-          record.enter_action.delta_glory = row[9]
-          record.enter_action.delta_drive = row[10]
-          record.enter_action.delta_glamour = row[11]
+          
+          record.name,  
+          record.description, 
+          record.picture_url,
+          record.map_x,
+          record.map_y,
+          record.video_urls,
+          enter_condition.glory,
+          enter_condition.real_glory,
+          enter_condition.glamour,
+          enter_condition.energy,
+          record.enter_action.delta_energy,
+          record.enter_action.delta_glory,
+          record.enter_action.delta_drive,
+          record.enter_action.delta_glamour = row[1..-1]
           record
         end
       end
