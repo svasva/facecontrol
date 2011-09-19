@@ -1,5 +1,5 @@
 class AmfgateController < ApplicationController
-  respond_to :amf
+  respond_to :amf, :html
   before_filter :amf_init
 
   @character = nil
@@ -10,7 +10,7 @@ class AmfgateController < ApplicationController
 #  public var character:CharacterDTO;  
 
   def authorize
-    @amf = @character.amf unless @character.nil?
+    @amf = CharacterDTO.new(@character) unless @character.nil?
     render_amf
   end
 
@@ -20,22 +20,34 @@ class AmfgateController < ApplicationController
       :sex => @misc_params[1],
       :social_id => @flash_vars['viewer_id']
     }
-    @amf = Character.create(char_params).amf unless @char_params.nil?
+    @amf = CharacterDTO.new(Character.create(char_params)) unless char_params.nil?
     render_amf
   end
 
   def get_rumors(offset = 0, limit = 50)
     @amf = []
-    limit.times.do
-      @amf << Message.new(
-        :text => "трололо #{rand(99999)}",
+    limit.times do
+      @amf << MessageDTO.new(Message.new(
+        :content => "trololo #{rand(99999)}",
         :source => Character.first,
         :target => Character.last
-      ).amf
+      ))
     end
     render_amf
   end
   
+  def get_interviews(offset = 0, limit = 50)
+    @amf = []
+    limit.times do
+      @amf << MessageDTO.new(Message.new(
+        :content => "trololo #{rand(99999)}",
+        :source => Character.first,
+        :target => Character.last
+      ))
+    end
+    render_amf
+  end
+
   protected
 
   def amf_init
