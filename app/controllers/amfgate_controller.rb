@@ -40,7 +40,7 @@ class AmfgateController < ApplicationController
       :sex => params[0][2]
     }
     @auth = auth_vk? @flashVars['viewer_id'], @flashVars['auth_key']
-    @character = Character.find_by_social_id(flashVars['viewer_id'])
+    @character = Character.find(:first, :conditions => {:social_id => flashVars['viewer_id']})
   end
   
   def auth_vk?(social_id, session_key)
