@@ -27,11 +27,11 @@ class AmfgateController < ApplicationController
   def get_rumors(offset = 0, limit = 50)
     @amf = []
     limit.times do
-      @amf << Message.new(
+      @amf << MessageDTO.new(Message.new(
         :content => "trololo #{rand(99999)}",
         :source => Character.first,
         :target => Character.last
-      ).amf
+      )
     end
     render_amf
   end
