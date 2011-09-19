@@ -28,7 +28,7 @@ class AmfgateController < ApplicationController
     @amf = []
     limit.times.do
       @amf << Message.new(
-        :text => "трололо #{rand(99999)}",
+        :text => "trololo #{rand(99999)}",
         :source => Character.first,
         :target => Character.last
       ).amf
