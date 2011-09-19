@@ -1,6 +1,7 @@
 class Action < ActiveRecord::Base
   belongs_to :subject, :polymorphic => true
-  has_many :conditions
+  has_many :conditions, :dependent => :destroy
+
   has_many :children,
   	:class_name => 'Action',
   	:foreign_key => 'parent_id'
@@ -13,5 +14,6 @@ class Action < ActiveRecord::Base
   	:class_name => 'Action',
   	:foreign_key => 'disabler_action_id'
 
+  
   #TODO add check for type uniquiness
 end
