@@ -47,6 +47,8 @@ module Facecontrol
 
     config.rubyamf.gateway_path = "/amf"
 
+    config.autoload_paths += Dir["#{config.root}/lib/**/"] # include all subdirectories
+    
     #move it somwhere
     config.to_prepare do 
       Devise::SessionsController.layout "sign" 

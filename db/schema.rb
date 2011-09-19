@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(:version => 20110918192250) do
     t.integer  "subject_id"
     t.string   "subject_type"
     t.boolean  "need_target"
-    t.string   "type"
+    t.string   "default_type"
   end
 
   add_index "actions", ["action_group_id"], :name => "index_actions_on_action_group_id"
