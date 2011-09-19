@@ -6,19 +6,22 @@ FactoryGirl.define do
   	name "Зайти"
   	need_target false
   	repeat false
+    default_type "enter"
   end
 
   factory :stay, :class => Action do
     name "Тусить"
   	need_target false
   	repeat true
-  	ttl 60 #60 seconds
+  	delay 60 #60 seconds
+    default_type "stay"
   end
 
 	factory :leave, :class => Action do
     name "Выйти"
   	need_target false
   	repeat false
+    default_type "leave"
   end
 
   factory :enter_c, :class => Condition do
