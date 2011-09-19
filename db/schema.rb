@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110918192250) do
+ActiveRecord::Schema.define(:version => 20110919071223) do
 
   create_table "action_groups", :force => true do |t|
     t.string   "name"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110918192250) do
 
   create_table "actions", :force => true do |t|
     t.string   "name",               :default => ""
-    t.text     "description",        :default => ""
+    t.text     "description"
     t.integer  "delay",              :default => 0
     t.integer  "parent_id",          :default => 0
     t.boolean  "has_children",       :default => false
@@ -112,7 +112,10 @@ ActiveRecord::Schema.define(:version => 20110918192250) do
     t.datetime "updated_at"
     t.boolean  "sex"
     t.integer  "level"
+    t.string   "social_id"
   end
+
+  add_index "characters", ["social_id"], :name => "index_characters_on_social_id"
 
   create_table "conditions", :force => true do |t|
     t.string   "name",        :default => ""
@@ -133,13 +136,26 @@ ActiveRecord::Schema.define(:version => 20110918192250) do
 
   create_table "items", :force => true do |t|
     t.string   "name",        :default => ""
-    t.text     "description", :default => ""
+    t.text     "description"
     t.integer  "glamour",     :default => 0
     t.string   "picture_url", :default => ""
     t.integer  "price",       :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "messages", :force => true do |t|
+    t.text     "content"
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.integer  "rating"
+    t.boolean  "need_answer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["from_id"], :name => "index_messages_on_from_id"
+  add_index "messages", ["to_id"], :name => "index_messages_on_to_id"
 
   create_table "places", :force => true do |t|
     t.string   "name",        :default => ""
