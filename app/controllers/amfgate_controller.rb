@@ -9,7 +9,7 @@ class AmfgateController < ApplicationController
 #  public var character:CharacterDTO;  
 
   def authorize
-    char = @character.amf unless @character.nil?
+    @character = @character.amf unless @character.nil?
     render_amf
   end
 
@@ -37,10 +37,11 @@ class AmfgateController < ApplicationController
     @flash_vars = params[0][0]
     @char_params = {
       :name => params[0][1],
-      :sex => params[0][2]
+      :sex => params[0][2],
+      :social_id => @flash_vars['viewer_id']
     }
-    @auth = auth_vk? @flashVars['viewer_id'], @flashVars['auth_key']
-    @character = Character.find(:first, :conditions => {:social_id => flashVars['viewer_id']})
+    @auth = auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
+    @character = Character.find(:first, :conditions => {:social_id => @flash_vars['viewer_id']})
   end
   
   def auth_vk?(social_id, session_key)
@@ -51,9 +52,10 @@ class AmfgateController < ApplicationController
   end
 
   def render_amf
-    render :amf => {
-      :auth => @auth,
-      :char => @character
-    }
+    render :amf => @character
+    #render :amf => {
+    #  :auth => @auth,
+    #  :char => @character
+    #}
   end
 end
