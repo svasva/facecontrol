@@ -36,6 +36,18 @@ class AmfgateController < ApplicationController
     render_amf
   end
   
+  def get_interviews(offset = 0, limit = 50)
+    @amf = []
+    limit.times do
+      @amf << MessageDTO.new(Message.new(
+        :content => "trololo #{rand(99999)}",
+        :source => Character.first,
+        :target => Character.last
+      ))
+    end
+    render_amf
+  end
+
   protected
 
   def amf_init
