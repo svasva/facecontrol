@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Place do
 
-	it "init woth default actions" do
+	it "init with default actions" do
 		p = Place.new
 		p.enter_action.should_not == nil
 		p.stay_action.should_not == nil
@@ -21,7 +21,7 @@ describe Place do
 				"http://pic2.ru", 5, 6, 7, 8, 100, 100, 100, -500]]
 		end
 
-		it "chages Place count" do
+		it "changes Place count" do
 			expect do
 				Place.parse_table @table
 	      	end.to change {Place.count}.from(1).to(2)

@@ -5,6 +5,7 @@ class Action < ActiveRecord::Base
   has_many :children,
   	:class_name => 'Action',
   	:foreign_key => 'parent_id'
+    
   has_many :disabling_actions,
   	:class_name => 'Action',
   	:foreign_key => 'disabler_action_id'

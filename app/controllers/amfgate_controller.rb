@@ -6,9 +6,6 @@ class AmfgateController < ApplicationController
   @auth = false
   @amf = nil
 
-#  public var sid:String;
-#  public var character:CharacterDTO;  
-
   def authorize
     @amf = CharacterDTO.new(@character) unless @character.nil?
     render_amf
@@ -24,31 +21,38 @@ class AmfgateController < ApplicationController
     render_amf
   end
 
-  def get_rumors(offset = 0, limit = 50)
-    @amf = []
-    limit.times do
-      @amf << MessageDTO.new(Message.new(
-        :content => "trololo #{rand(99999)}",
-        :source => Character.first,
-        :target => Character.last
-      ))
-    end
+  def get_rumors
+    @amf = load_rumors
     render_amf
   end
   
-  def get_interviews(offset = 0, limit = 50)
-    @amf = []
-    limit.times do
-      @amf << MessageDTO.new(Message.new(
-        :content => "trololo #{rand(99999)}",
-        :source => Character.first,
-        :target => Character.last
-      ))
-    end
+  def get_interviews
+    @amf = load_rumors
+    render_amf
+  end
+
+  def get_presents
+    @amf = load_presents
     render_amf
   end
 
   protected
+
+  def load_rumors(offset = 0, limit = 50)
+    ret = []
+    limit.times do
+      ret << MessageDTO.new(Message.new(
+        :content => "trololo #{rand(99999)}",
+        :source => Character.first,
+        :target => Character.last
+      ))
+    end
+    return ret
+  end
+
+  def load_presents
+    
+  end
 
   def amf_init
     @flash_vars = params[0][0]
