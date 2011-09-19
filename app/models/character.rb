@@ -8,6 +8,10 @@ class Character < ActiveRecord::Base
 		1
 	end
 
+	def amf
+		self.to_amf(:except => [:updated_at, :created_at])
+	end
+
   def pass_conditions?(obj)
   	logger.info "= #{obj.class}(#{obj.id}) conditions check ="
   	obj.conditions.each {|condition|
@@ -55,4 +59,5 @@ class Character < ActiveRecord::Base
 		}
 		self.update_attributes(new_attributes)
 	end
+
 end
