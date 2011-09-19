@@ -7,19 +7,22 @@ class Place < ActiveRecord::Base
 		:as => :subject,
 		:class_name => 'Action',
 		:conditions => {:default_type => "enter"},
-	  :autosave => true
+	  :autosave => true,
+	  :dependent => :destroy
 
   has_one :stay_action,
   	:as => :subject,
   	:class_name => 'Action',
 		:conditions => {:default_type => "stay"},
-		:autosave => true
+		:autosave => true,
+		:dependent => :destroy
 
   has_one :leave_action,
   	:as => :subject,
   	:class_name => 'Action',
   	:conditions => {:default_type => "leave"},
-  	:autosave => true
+  	:autosave => true,
+  	:dependent => :destroy
 
   accepts_nested_attributes_for :enter_action, :stay_action, :leave_action, :actions
 
