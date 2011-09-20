@@ -3,7 +3,7 @@ class CreateConditions < ActiveRecord::Migration
     create_table :conditions do |t|
       t.string :name, :default => ''
       t.string :description, :default => ''
-      t.references :actions
+      t.references :action
       t.integer :energy
       t.integer :drive
       t.integer :glory
@@ -13,6 +13,6 @@ class CreateConditions < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :conditions, :actions_id
+    add_index :conditions, :action_id
   end
 end

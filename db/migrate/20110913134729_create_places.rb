@@ -7,9 +7,5 @@ class CreatePlaces < ActiveRecord::Migration
 
       t.timestamps
     end
-    create_table :places_conditions, :id => false do |t|
-      t.references :place, :condition
-    end
-    add_index :places_conditions, [:place_id, :condition_id]
   end
 end
