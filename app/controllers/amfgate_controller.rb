@@ -7,7 +7,7 @@ class AmfgateController < ApplicationController
   @amf = nil
 
   def authorize
-    @amf = CharacterDTO.new(@character) unless @character.nil?
+    @amf = @character.dto unless @character.nil?
     render_amf
   end
 
@@ -17,7 +17,7 @@ class AmfgateController < ApplicationController
       :sex => @misc_params[1],
       :social_id => @flash_vars['viewer_id']
     }
-    @amf = CharacterDTO.new(Character.create(char_params)) unless char_params.nil?
+    @amf = Character.create(char_params).dto unless char_params.nil?
     render_amf
   end
 
@@ -39,19 +39,15 @@ class AmfgateController < ApplicationController
   protected
 
   def load_rumors(offset = 0, limit = 50)
-    ret = []
+    msgs = []
     limit.times do
-      ret << MessageDTO.new(Message.new(
+      msgs << Message.new(
         :content => "trololo #{rand(99999)}",
         :source => Character.first,
         :target => Character.last
-      ))
+      ).dto
     end
-    return ret
-  end
-
-  def load_presents
-    
+    return msgs
   end
 
   def amf_init
