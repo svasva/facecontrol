@@ -1,7 +1,7 @@
 class CharacterAction < ActiveRecord::Base
   belongs_to :character
   belongs_to :action
-  belongs_to :target_character, :class_name => 'Character'
+  belongs_to :target_character, :class_name => 'Character', :foreign_key => 'target_character_id'
 
   after_create :enqueue
   before_create :set_stop_time
@@ -90,7 +90,7 @@ class CharacterAction < ActiveRecord::Base
     # mark action as processing after delay checks & so on
     self.start!
 
-    # process
+    # modify character with corresponding deltas
     begin
       self.character.modify(self.action)
     rescue => e
