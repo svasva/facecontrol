@@ -27,3 +27,6 @@ class CharacterDTO
 		@drive = char.drive
 	end
 end
+
+class Character::CharacterDTO < CharacterDTO
+end

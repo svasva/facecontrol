@@ -6,6 +6,9 @@ class Character < ActiveRecord::Base
 
 	def cloth_id
 		1
+	def dto
+		CharacterDTO.new self
+	end
 	end
 
 	def amf
