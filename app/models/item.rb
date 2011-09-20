@@ -29,6 +29,9 @@ class Item < ActiveRecord::Base
   after_initialize :init_default_actions
 
   has_one :item_type
+  def dto
+    ItemDTO.new self
+  end
 
   private #studio
 
