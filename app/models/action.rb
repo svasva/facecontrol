@@ -1,6 +1,7 @@
 class Action < ActiveRecord::Base
   belongs_to :subject, :polymorphic => true
   has_many :conditions, :dependent => :destroy
+  has_many :character_actions, :dependent => :destroy
 
   has_many :children,
   	:class_name => 'Action',
