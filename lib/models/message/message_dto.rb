@@ -1,5 +1,3 @@
-require 'character_dto.rb'
-
 class MessageDTO
 	attr_accessor :id
 	attr_accessor :source
@@ -11,9 +9,12 @@ class MessageDTO
 
 	def initialize(msg)
 		@id = msg.id
-		@source = CharacterDTO.new msg.source
-		@target = CharacterDTO.new msg.target
+		@source = msg.source.dto
+		@target = msg.target.dto
 		@rating = msg.rating
 		@content = msg.content
 	end
+end
+
+class Message::MessageDTO < MessageDTO
 end
