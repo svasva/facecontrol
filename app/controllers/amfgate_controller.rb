@@ -36,7 +36,18 @@ class AmfgateController < ApplicationController
     render_amf
   end
 
+  def get_gifts
+    @amf = load_gifts
+    render_amf
+  end
+
   protected
+
+  def load_gifts
+    items = []
+    @character.gift_items.each { |gift| items << gift.item.dto }
+    return items
+  end
 
   def load_rumors(offset = 0, limit = 50)
     msgs = []
