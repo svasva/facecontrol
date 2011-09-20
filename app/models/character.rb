@@ -3,6 +3,20 @@ class Character < ActiveRecord::Base
 	has_many :character_action_groups
 	has_many :action_groups, :through => :character_action_groups
 	attr_accessor :cloth_id
+	has_many :character_items
+	has_many :items, :through => :character_items
+	has_many :equipped_character_items,
+		:class_name => 'CharacterItem',
+		:conditions => {:equipped => true}
+
+	has_many :equipped_items,
+		:through => :equipped_character_items,
+		:class_name => 'Item',
+		:source => :item
+
+	has_many :gift_items,
+		:class_name => 'CharacterItem',
+		:conditions => {:gift => true}
 
 	def cloth_id
 		1
