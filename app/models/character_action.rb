@@ -96,6 +96,31 @@ class CharacterAction < ActiveRecord::Base
     rescue => e
       logger.error e.inspect
     end
+
+    # do something with action.subject
+    logger.info "#{self.action.default_type} subject: #{self.action.subject.inspect}"
+    case self.action.subject.class
+    when Item.class
+      case self.action.default_type
+      when 'buy_for_money', 'buy_for_energy'
+        logger.info "BUY! adding #{self.action.subject.name} to #{self.character.name}"
+        self.character.character_items << CharacterItem.create(
+          :item => self.action.subject,
+          :equipped => false,
+          :gift => false,
+          :wear => 0
+        )
+      when 'gift'
+        logger.info "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
+        self.target_character.character_items << CharacterItem.create(
+          :item => self.action.subject,
+          :equipped => false,
+          :gift => true,
+          :wear => 0
+        )
+      end
+    end
+
     # check if we have to disable some actions
     # Action.where(:disabler_action_id => self.action.id).each
     self.action.disabling_actions.each {|action|
