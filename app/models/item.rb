@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
   has_many :actions, :as => :subject, :dependent => :destroy
+  has_many :character_items, :dependent => :destroy
   has_one :buy_for_money_action,
     :as => :subject,
     :class_name => 'Action',
