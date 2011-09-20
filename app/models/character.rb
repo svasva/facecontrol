@@ -2,7 +2,6 @@ class Character < ActiveRecord::Base
 	has_many :character_actions
 	has_many :character_action_groups
 	has_many :action_groups, :through => :character_action_groups
-	attr_accessor :cloth_id
 	has_many :character_items
 	has_many :items, :through => :character_items
 	has_many :equipped_character_items,
@@ -18,8 +17,6 @@ class Character < ActiveRecord::Base
 		:class_name => 'CharacterItem',
 		:conditions => {:gift => true}
 
-	def cloth_id
-		1
 	def dto
 		CharacterDTO.new self
 	end
