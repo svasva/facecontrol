@@ -20,10 +20,42 @@ class Character < ActiveRecord::Base
 	def dto
 		CharacterDTO.new self
 	end
+
+	def glamour
+		glam = 0
+		self.equipped_character_items.each { |item| glam += item.glamour }
+		return glam
 	end
 
-	def amf
-		self.to_amf(:except => [:updated_at, :created_at])
+	def buy_item_for_money(item)
+		self.do_action item.buy_for_money_action
+	end
+
+	def buy_item_for_energy(item)
+		self.do_action item.buy_for_energy_action
+	end
+
+	def make_a_gift(item, target_character)
+		self.do_action item.gift_action, target_character if item.item_type.giftable
+	end
+
+	def can_put_on?(char_item)
+		return false unless char_item.character_id == self.id
+		return false unless char_item.wearable?
+		return false if char_item.wear_limit and char_item.find_same_type_eq.count >= char_item.wear_limit
+		return true
+	end
+
+	def put_on(char_item) #TODO can_put_on? method
+		return false if char_item.equipped
+		char_item.find_same_type_eq.each { |ci| self.take_off ci } if char_item.unique?
+		char_item.update_attributes :equipped => true if self.can_put_on? char_item
+	end
+
+	def take_off(char_item)
+		logger.info "take off #{char_item.inspect}"
+		#self.do_action character_item.item.take_off_action if character_item.character.id == self.id
+		CharacterItem.update char_item.id, :equipped => false
 	end
 
   def pass_conditions?(obj)
@@ -66,7 +98,7 @@ class Character < ActiveRecord::Base
 	def modify(action)
 	 	new_attributes = {}
 	 	action.attributes.each {|attrib,value|
-			next unless attrib.match /delta_/ and value != nil
+			next unless attrib.match /delta_/ and value != nil and value != 0
 			attrib = attrib.match('delta_(.*)')[1]
 			new_attributes[attrib] = (self.attributes[attrib] != nil) ? self.attributes[attrib] + value : value
 			logger.info "\tmodify '#{attrib}': #{self.attributes[attrib]} += #{value} = #{new_attributes[attrib]}"
