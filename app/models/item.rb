@@ -28,6 +28,8 @@ class Item < ActiveRecord::Base
 
   after_initialize :init_default_actions
 
+  has_one :item_type
+
   private #studio
 
   def init_default_actions
