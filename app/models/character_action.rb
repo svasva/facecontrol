@@ -102,7 +102,7 @@ class CharacterAction < ActiveRecord::Base
     case self.action.subject.class
     when Item.class
       case self.action.default_type
-      when 'buy_for_money', 'buy_for_energy'
+      when 'buy'
         logger.info "BUY! adding #{self.action.subject.name} to #{self.character.name}"
         self.character.character_items << CharacterItem.create(
           :item => self.action.subject,
@@ -110,7 +110,7 @@ class CharacterAction < ActiveRecord::Base
           :gift => false,
           :wear => 0
         )
-      when 'gift_for_money', 'gift_for_energy'
+      when 'gift'
         logger.info "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
         self.target_character.character_items << CharacterItem.create(
           :item => self.action.subject,

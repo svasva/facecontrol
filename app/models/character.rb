@@ -1,8 +1,8 @@
 class Character < ActiveRecord::Base
-	has_many :character_actions
-	has_many :character_action_groups
+	has_many :character_actions, :dependent => :destroy
+	has_many :character_action_groups, :dependent => :destroy
 	has_many :action_groups, :through => :character_action_groups
-	has_many :character_items
+	has_many :character_items, :dependent => :destroy
 	has_many :items, :through => :character_items
 	has_many :equipped_character_items,
 		:class_name => 'CharacterItem',
@@ -27,20 +27,16 @@ class Character < ActiveRecord::Base
 		return glam
 	end
 
-	def buy_item_for_money(item)
-		self.do_action item.buy_for_money_action
+	def buy_item(item)
+		self.do_action item.buy_action
 	end
 
-	def buy_item_for_energy(item)
-		self.do_action item.buy_for_energy_action
+	def use_item(item)
+		self.do_action item.use_action
 	end
 
-	def make_a_gift_for_money(item, target_character)
-		self.do_action item.gift_for_money_action, target_character if item.item_type.giftable
-	end
-
-	def make_a_gift_for_energy(item, target_character)
-		self.do_action item.gift_for_energy_action, target_character if item.item_type.giftable
+	def make_a_gift(item, target_character)
+		self.do_action item.gift_action, target_character if item.item_type.giftable
 	end
 
 	def can_put_on?(char_item)
