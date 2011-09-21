@@ -16,6 +16,13 @@ class Action < ActiveRecord::Base
   	:class_name => 'Action',
   	:foreign_key => 'disabler_action_id'
 
+  scope :by_place, lambda {|place_id|
+    where(
+        :subject_id => place_id,
+        :subject_type => 'Place'
+    )
+  }
+
   def dto
     PropertiesDTO.new self
   end
