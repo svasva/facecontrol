@@ -23,7 +23,6 @@ class Item < ActiveRecord::Base
   accepts_nested_attributes_for :buy_action, :gift_action, :actions, :use_action 
 
   after_initialize :init_default_actions
-  before_create :init_use_action
 
   belongs_to :item_type
 
@@ -44,12 +43,6 @@ class Item < ActiveRecord::Base
       build_use_action
       buy_action.conditions.build
     end
-  end
-
-  def init_use_action
-    use_action.attributes = buy_action.dup.attributes
-    use_action.default_type = 'use'
-    use_action.delta_money = 0
   end
 
 end
