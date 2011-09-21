@@ -11,6 +11,7 @@ module Models
        
         def parse_drinks_table(table)
           parse_generic_table(table) do |record, row|
+            record.item_type_id = ItemType.find_by_name("drink")
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]

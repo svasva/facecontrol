@@ -47,12 +47,14 @@ class Item < ActiveRecord::Base
       buy_action.conditions.build
     end
   end
-  include Models::Item::CsvExchange
+
 
   def add_names_to_default_actions
     buy_action.name = "Купить #{name}"
     gift_action.name = "Подарить #{name}"
     use_action.name = "Использовать #{name}"
   end
+  
+  include Models::Item::CsvExchange
 
 end
