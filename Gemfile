@@ -11,7 +11,8 @@ group :test, :development do
   gem 'capybara'
   gem 'factory_girl_rails'
 
-  gem 'web-app-theme', :git => 'git://github.com/jweslley/web-app-theme.git'
+  #gem 'web-app-theme', :git => 'git://github.com/jweslley/web-app-theme.git'
+  gem 'web-app-theme', '~> 0.8.0'
   gem 'hpricot'
   gem 'ruby_parser'
   gem 'mocha'
@@ -19,6 +20,9 @@ group :test, :development do
 end
 
 gem 'mysql2'
+# heroku
+
+gem 'pg'
 
 #our custom gems
 
@@ -30,7 +34,7 @@ gem 'aasm'
 # background processor
 gem 'resque'
 gem 'resque-scheduler', :git => 'git://github.com/bvandenbos/resque-scheduler.git'
-gem 'devise', :git => "git://github.com/plataformatec/devise.git" 
+gem 'devise', :git => "git://github.com/plataformatec/devise.git"
 gem 'foreman'
 
 # js compiler
