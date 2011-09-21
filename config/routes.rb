@@ -50,7 +50,7 @@ Facecontrol::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'characters#index'
+  root :to => 'places#index'
   resources :characters, :actions, :conditions, :items
 
   resources :places do
