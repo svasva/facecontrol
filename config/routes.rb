@@ -55,7 +55,6 @@ Facecontrol::Application.routes.draw do
 
   resources :places do
     post :import, :on => :collection
-    get :export, :on => :collection
   end
    
   match 'amfgate/:action' => 'amfgate'

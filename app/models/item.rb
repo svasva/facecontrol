@@ -47,10 +47,13 @@ class Item < ActiveRecord::Base
     end
   end
 
+
   def add_names_to_default_actions
     buy_action.name = "Купить #{name}"
     gift_action.name = "Подарить #{name}"
     use_action.name = "Использовать #{name}"
   end
+  
+  include Models::Item::CsvExchange
 
 end

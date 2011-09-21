@@ -12,6 +12,12 @@ class PlacesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.csv do 
+        CSV.generate do |csv|
+          csv << ["row", "of", "CSV", "data"]
+          csv << ["another", "row"]
+        end
+      end
       format.json { render json: @places }
     end
   end
@@ -91,9 +97,5 @@ class PlacesController < ApplicationController
     #TODO filter text/csv
     Place.parse_csv params[:import]
     redirect_to places_url, notice: 'Imported lots of shi... csv'
-  end
-
-  def export
-    
   end
 end
