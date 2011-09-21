@@ -1,15 +1,15 @@
 !!!
 %html
   %head
-    %title Web App
-    = stylesheet_link_tag    "application"
-    = javascript_include_tag "application"
-    = csrf_meta_tags
+    %title facecontrol - #{ENV['RAILS_ENV']}
+    = javascript_include_tag 'application'
+    = stylesheet_link_tag 'web_app_theme'
+    = csrf_meta_tag
   %body
     #container
       #header
         %h1
-          %a{:href => "/"} Web App
+          %a{:href => "/"} facecontrol - #{ENV['RAILS_ENV']}
         #user-navigation
           %ul.wat-cf
             %li
