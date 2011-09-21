@@ -110,7 +110,7 @@ class CharacterAction < ActiveRecord::Base
           :gift => false,
           :wear => 0
         )
-      when 'gift'
+      when 'gift_for_money', 'gift_for_energy'
         logger.info "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
         self.target_character.character_items << CharacterItem.create(
           :item => self.action.subject,

@@ -13,13 +13,19 @@ class Item < ActiveRecord::Base
     :conditions => {:default_type => "buy_for_energy"},
     :autosave => true
 
-  has_one :gift_action,
+  has_one :gift_for_money_action,
     :as => :subject,
     :class_name => 'Action',
-    :conditions => {:default_type => "gift"},
+    :conditions => {:default_type => "gift_for_money"},
     :autosave => true
 
-  accepts_nested_attributes_for :buy_for_money_action, :buy_for_energy_action, :gift_action, :actions
+  has_one :gift_for_energy_action,
+    :as => :subject,
+    :class_name => 'Action',
+    :conditions => {:default_type => "gift_for_energy"},
+    :autosave => true
+
+  accepts_nested_attributes_for :buy_for_money_action, :buy_for_energy_action, :gift_for_money_action, :gift_for_energy_action :actions
 
   after_initialize :init_default_actions
 
@@ -39,7 +45,8 @@ class Item < ActiveRecord::Base
     if new_record?
       build_buy_for_money_action
       build_buy_for_energy_action
-      build_gift_action
+      build_gift_for_money_action
+      build_gift_for_energy_action
       buy_for_money_action.conditions.build
       buy_for_energy_action.conditions.build
     end
