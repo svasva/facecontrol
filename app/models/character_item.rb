@@ -34,4 +34,8 @@ class CharacterItem < ActiveRecord::Base
 	  	:joins => {:item => :item_type}
   	)
   end
+
+  def remaining_ttl
+    Time.now.utc.to_i - (self.created_at.utc.to_i + self.item.ttl)
+  end
 end
