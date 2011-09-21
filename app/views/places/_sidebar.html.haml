@@ -1,16 +1,11 @@
 # encoding: utf-8
 
-.block.notice
-  %h3 Simple Block
-  .content
-    = form_for :import, :url => {:action => :import} do |form|
-      = form.file_field :file
-      = form.submit
-
 .block
-  %h3 Links
-  %ul.navigation
-    %li
-      %a{:href => "#"} Link 1
-    %li
-      %a{:href => "#"} Link 2
+  %h3 Mass upload (CSV)
+  .content
+    %br
+    = form_for :import, :url => {:action => :import} do |form|
+      = form.file_field :file, :style => 'width: 100%'
+      %br
+      %br
+      = form.submit :style => 'width: 100%'
