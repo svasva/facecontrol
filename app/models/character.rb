@@ -35,8 +35,12 @@ class Character < ActiveRecord::Base
 		self.do_action item.buy_for_energy_action
 	end
 
-	def make_a_gift(item, target_character)
-		self.do_action item.gift_action, target_character if item.item_type.giftable
+	def make_a_gift_for_money(item, target_character)
+		self.do_action item.gift_for_money_action, target_character if item.item_type.giftable
+	end
+
+	def make_a_gift_for_energy(item, target_character)
+		self.do_action item.gift_for_energy_action, target_character if item.item_type.giftable
 	end
 
 	def can_put_on?(char_item)
