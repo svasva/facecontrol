@@ -116,7 +116,8 @@ class CharacterAction < ActiveRecord::Base
           :item => self.action.subject,
           :equipped => false,
           :gift => true,
-          :wear => 0
+          :wear => 0,
+          :source_character_id => self.id
         )
       end
     end

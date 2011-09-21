@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Item < ActiveRecord::Base
   has_many :actions, :as => :subject, :dependent => :destroy
   has_many :character_items, :dependent => :destroy
@@ -23,6 +25,7 @@ class Item < ActiveRecord::Base
   accepts_nested_attributes_for :buy_action, :gift_action, :actions, :use_action 
 
   after_initialize :init_default_actions
+  before_create :add_names_to_default_actions
 
   belongs_to :item_type
 
@@ -45,5 +48,11 @@ class Item < ActiveRecord::Base
     end
   end
   include Models::Item::CsvExchange
+
+  def add_names_to_default_actions
+    buy_action.name = "Купить #{name}"
+    gift_action.name = "Подарить #{name}"
+    use_action.name = "Использовать #{name}"
+  end
 
 end

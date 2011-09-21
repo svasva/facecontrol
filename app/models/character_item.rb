@@ -38,6 +38,6 @@ class CharacterItem < ActiveRecord::Base
   end
 
   def remaining_ttl
-    Time.now.utc.to_i - (self.created_at.utc.to_i + self.item.ttl)
+    Time.now.utc.to_i - (self.created_at.utc.to_i + self.item.ttl) if self.item.ttl
   end
 end
