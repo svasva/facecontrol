@@ -3,12 +3,13 @@ class AmfgateController < ApplicationController
   before_filter :amf_init
 
   @character = nil
-  @auth = false
-  @amf = nil
 
   def authorize
-    @amf = @character.dto unless @character.nil?
-    render_amf
+    unless @character.nil?
+      render :amf => @character.dto
+    else
+      render :amf => nil
+    end
   end
 
   def register
@@ -17,35 +18,47 @@ class AmfgateController < ApplicationController
       :sex => @misc_params[1],
       :social_id => @flash_vars['viewer_id']
     }
-    @amf = Character.create(char_params).dto unless char_params.nil?
-    render_amf
+    render :amf => Character.create(char_params).dto unless char_params.nil?
   end
 
   def get_rumors
-    @amf = load_rumors
-    render_amf
+    render :amf => load_rumors
   end
   
   def get_interviews
-    @amf = load_rumors
-    render_amf
+    render :amf => load_rumors
   end
 
   def get_presents
-    @amf = load_presents
-    render_amf
+    render :amf => load_presents
   end
 
   def get_gifts
-    @amf = load_gifts
-    render_amf
+    render :amf => load_gifts
+  end
+
+  def get_giftable_items
+    render :amf => load_giftable_items
+  end
+
+  def make_a_gift
+    item = Item.find @misc_params[0]
+    target_char = Character.find @misc_params[1]
+    return false if item.nil? or target_char.nil?
+    render :amf => @character.make_a_gift(item, target_char)
   end
 
   protected
 
+  def load_giftable_items
+    items = []
+    Item.find_giftable.each {|item| items << item.dto}
+    return items
+  end
+
   def load_gifts
     items = []
-    @character.gift_items.each { |gift| items << gift.item.dto }
+    @character.gift_items.each { |gift| items << gift.gift_dto }
     return items
   end
 
@@ -66,7 +79,7 @@ class AmfgateController < ApplicationController
     @misc_params = []
     params[0].each {|p| @misc_params << p unless p == @flash_vars }
 
-    @auth = auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
+    raise 'unauthorized!' unless auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
     @character = Character.find(:first, :conditions => {:social_id => @flash_vars['viewer_id']})
   end
   
@@ -75,9 +88,5 @@ class AmfgateController < ApplicationController
     app_secret = 'c3j9y9BmHPcNo7JmkvRL'
     auth_key = Digest::MD5.hexdigest "#{app_id}_#{social_id}_#{app_secret}"
     return auth_key == session_key
-  end
-
-  def render_amf
-    render :amf => @amf
   end
 end
