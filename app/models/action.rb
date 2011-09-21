@@ -16,6 +16,6 @@ class Action < ActiveRecord::Base
   	:class_name => 'Action',
   	:foreign_key => 'disabler_action_id'
  
-  validates :default_type,
-    :uniqueness => {:scope => [:subject_type, :subject_id]}
+  # validates :default_type,
+  #   :uniqueness => {:scope => [:subject_type, :subject_id]}
 end
