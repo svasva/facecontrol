@@ -21,6 +21,9 @@ class Item < ActiveRecord::Base
     :conditions => {:default_type => "use"},
     :autosave => true
 
+  scope :giftable, lambda { joins(:item_type).where(:item_types => {:giftable => true, :usable => false}) }
+  scope :wearable, lambda { joins(:item_type).where(:item_types => {:wearable => true, :usable => false}) }
+  scope :usable,   lambda { joins(:item_type).where(:item_types => {:usable => true, :giftable => true}) }
 
   accepts_nested_attributes_for :buy_action, :gift_action, :actions, :use_action 
 
@@ -28,10 +31,6 @@ class Item < ActiveRecord::Base
   before_create :add_names_to_default_actions
 
   belongs_to :item_type
-
-  def self.find_giftable
-    self.all(:conditions => {:item_types => {:giftable => true}}, :joins => :item_type)
-  end
 
   def dto
     ItemDTO.new self
