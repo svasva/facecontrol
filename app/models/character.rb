@@ -1,5 +1,6 @@
 class Character < ActiveRecord::Base
 	has_many :character_actions, :dependent => :destroy
+	has_many :actions, :through => :character_actions
 	has_many :character_action_groups, :dependent => :destroy
 	has_many :action_groups, :through => :character_action_groups
 	has_many :character_items, :dependent => :destroy
