@@ -23,6 +23,7 @@ class Item < ActiveRecord::Base
   accepts_nested_attributes_for :buy_action, :gift_action, :actions, :use_action 
 
   after_initialize :init_default_actions
+  before_create :add_names_to_default_actions
 
   belongs_to :item_type
 
@@ -43,6 +44,12 @@ class Item < ActiveRecord::Base
       build_use_action
       buy_action.conditions.build
     end
+  end
+
+  def add_names_to_default_actions
+    buy_action.name = "Купить #{name}"
+    gift_action.name = "Подарить #{name}"
+    use_action.name = "Использовать #{name}"
   end
 
 end
