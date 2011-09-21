@@ -50,7 +50,7 @@ module Models
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
-            record.sex = (row[4] == "М" ? "Ж")? 1 : 0
+            record.sex = (row[4] == "М" ? "Ж") ? 1 : 0
 
             record.buy_action.delta_energy =  row[5]
             record.buy_action.delta_money = row[6]
