@@ -15,6 +15,10 @@ class Action < ActiveRecord::Base
   belongs_to :disabler_action,
   	:class_name => 'Action',
   	:foreign_key => 'disabler_action_id'
+
+  def dto
+    PropertiesDTO.new self
+  end
  
   # validates :default_type,
   #   :uniqueness => {:scope => [:subject_type, :subject_id]}
