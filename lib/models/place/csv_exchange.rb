@@ -6,19 +6,25 @@ module Models
       extend ActiveSupport::Concern
        
       module ClassMethods
-       
+        include Models::CsvParseCommons 
         def parse_table(table)
-          new_enteries, update_enteries = table.partition{|e| e[0].blank? }
-          #TODO check all id's for existence
-          
-          update_enteries.each do |e|
-            record = assign_attributes(self.find(e[0]), e) #Find by ID
-            record.save
-          end 
+          parse_generic_table(table) do |record, row|
+            enter_condition = record.enter_action.conditions.first
 
-          new_enteries.each do |e|
-            record = assign_attributes(self.new, e)
-            record.save
+            record.name,  
+            record.description, 
+            record.picture_url,
+            record.map_x,
+            record.map_y,
+            record.video_urls,
+            enter_condition.glory,
+            enter_condition.real_glory,
+            enter_condition.glamour,
+            enter_condition.energy,
+            record.enter_action.delta_energy,
+            record.enter_action.delta_glory,
+            record.enter_action.delta_drive,
+            record.enter_action.delta_wear = row[1..-1]
           end
         end
 
@@ -46,27 +52,6 @@ module Models
 
           data = CSV.read(params[:file].tempfile, {:encoding => "utf-8"})[2..-1]
           self.parse_table data
-        end
-
-        private
-        def assign_attributes(record, row)
-          enter_condition = record.enter_action.conditions.first
-          
-          record.name,  
-          record.description, 
-          record.picture_url,
-          record.map_x,
-          record.map_y,
-          record.video_urls,
-          enter_condition.glory,
-          enter_condition.real_glory,
-          enter_condition.glamour,
-          enter_condition.energy,
-          record.enter_action.delta_energy,
-          record.enter_action.delta_glory,
-          record.enter_action.delta_drive,
-          record.enter_action.delta_wear = row[1..-1]
-          record
         end
       end
     end

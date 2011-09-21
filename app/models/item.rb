@@ -52,4 +52,6 @@ class Item < ActiveRecord::Base
     use_action.delta_money = 0
   end
 
+  include Models::Item::CsvExchange
+
 end
