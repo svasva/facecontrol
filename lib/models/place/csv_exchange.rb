@@ -37,14 +37,14 @@ module Models
               p.enter_action.delta_energy,
               p.enter_action.delta_glory,
               p.enter_action.delta_drive,
-              p.enter_action.delta_glamour] 
+              p.enter_action.delta_wear] 
           end
         end
 
         require "csv"
         def parse_csv(params)
 
-          data = CSV.read(params[:file].tempfile)[2..-1]
+          data = CSV.read(params[:file].tempfile, {:encoding => "utf-8"})[2..-1]
           self.parse_table data
         end
 
@@ -65,7 +65,7 @@ module Models
           record.enter_action.delta_energy,
           record.enter_action.delta_glory,
           record.enter_action.delta_drive,
-          record.enter_action.delta_glamour = row[1..-1]
+          record.enter_action.delta_wear = row[1..-1]
           record
         end
       end

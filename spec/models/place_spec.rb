@@ -74,7 +74,7 @@ describe Place do
 			new_place.enter_action.delta_energy.should == 100
 			new_place.enter_action.delta_glory.should == 100
 			new_place.enter_action.delta_drive.should == 100
-			new_place.enter_action.delta_glamour.should == -500
+			new_place.enter_action.delta_wear.should == -500
 		end
 
 		it "writes attributes to conditions of enter_action" do

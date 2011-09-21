@@ -44,7 +44,7 @@ FactoryGirl.define do
     delta_energy -100
     delta_glory 200
     delta_drive 50
-    delta_glamour 500
+    delta_wear 500
   end
 
   factory :blue_oyster, :class => Place do
