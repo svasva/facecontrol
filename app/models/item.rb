@@ -25,9 +25,18 @@ class Item < ActiveRecord::Base
     :conditions => {:default_type => "gift_for_energy"},
     :autosave => true
 
-  accepts_nested_attributes_for :buy_for_money_action, :buy_for_energy_action, :gift_for_money_action, :gift_for_energy_action :actions
+
+  has_one :use_action,
+    :as => :subject,
+    :class_name => 'Action',
+    :conditions => {:default_type => "use"},
+    :autosave => true
+
+
+  accepts_nested_attributes_for :buy_for_money_action, :buy_for_energy_action, :gift_for_money_action, :gift_for_energy_action, :actions, :use_action 
 
   after_initialize :init_default_actions
+  before_save :init_use_action
 
   belongs_to :item_type
 
@@ -47,9 +56,15 @@ class Item < ActiveRecord::Base
       build_buy_for_energy_action
       build_gift_for_money_action
       build_gift_for_energy_action
+      build_use_action
       buy_for_money_action.conditions.build
       buy_for_energy_action.conditions.build
     end
+  end
+
+  def init_use_action
+    use_action = buy_for_money_action.dup
+    use_action.delta_money = 0
   end
 
 end

@@ -2,6 +2,8 @@ class CharacterItem < ActiveRecord::Base
   belongs_to :character
   belongs_to :source_character, :class_name => 'Character'
   belongs_to :item
+  delegate :use_action, :to => :item
+
 
   def glamour
     self.item.glamour - (self.wear * self.item.wear_factor)
