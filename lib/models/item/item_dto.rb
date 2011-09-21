@@ -4,8 +4,10 @@ class ItemDTO
 	attr_accessor :description
 	attr_accessor :image
 	attr_accessor :ttl
+	attr_accessor :properties
+	attr_accessor :type
 
-	@id, @source, @description, @image, @ttl = nil;
+	@id, @source, @description, @image, @ttl, @properties, @type = nil;
 
 	def initialize(item)
 		@id = item.id
@@ -13,6 +15,8 @@ class ItemDTO
 		@description = item.description
 		@image = item.picture_url
 		@ttl = item.ttl
+		@properties = item.buy_action.dto
+		@type = item.item_type.description
 	end
 end
 
