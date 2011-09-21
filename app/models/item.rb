@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Item < ActiveRecord::Base
   has_many :actions, :as => :subject, :dependent => :destroy
   has_many :character_items, :dependent => :destroy
