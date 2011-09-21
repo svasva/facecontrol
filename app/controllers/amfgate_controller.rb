@@ -29,16 +29,24 @@ class AmfgateController < ApplicationController
     render :amf => load_rumors
   end
 
-  def get_presents
-    render :amf => load_presents
-  end
-
   def get_gifts
-    render :amf => load_gifts
+    render :amf => @character.gift_items.map(&:gift_dto)
   end
 
   def get_giftable_items
-    render :amf => load_giftable_items
+    render :amf => Item.giftable.map(&:dto)
+  end
+
+  def get_usable_items
+    render :amf => Item.usable.map(&:dto)
+  end
+
+  def get_wearable_items
+    render :amf => Item.wearable.map(&:dto)
+  end
+
+  def get_places
+    render :amf => Place.all.map(&:dto)
   end
 
   def make_a_gift
@@ -49,18 +57,6 @@ class AmfgateController < ApplicationController
   end
 
   protected
-
-  def load_giftable_items
-    items = []
-    Item.find_giftable.each {|item| items << item.dto}
-    return items
-  end
-
-  def load_gifts
-    items = []
-    @character.gift_items.each { |gift| items << gift.gift_dto }
-    return items
-  end
 
   def load_rumors(offset = 0, limit = 50)
     msgs = []
