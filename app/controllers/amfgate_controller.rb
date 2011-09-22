@@ -46,14 +46,26 @@ class AmfgateController < ApplicationController
   end
 
   def get_places
-    render :amf => (Place.joins({:enter_action => :conditions}).all.map {|p| PlaceDTO.new(p, @character)})
+    render :amf => (Place.all.map {|p| PlaceDTO.new(p, @character)})
+  end
+
+  def buy_item
+    item = Item.find @misc_params[0]
+    return false if item.nil?
+    render :amf => @character.buy_item(item).action.subject.dto
   end
 
   def make_a_gift
     item = Item.find @misc_params[0]
     target_char = Character.find @misc_params[1]
     return false if item.nil? or target_char.nil?
-    render :amf => @character.make_a_gift(item, target_char)
+    render :amf => @character.make_a_gift(item, target_char).gift_dto
+  end
+
+  def get_my_items
+    render :amf => @character.character_items.joins({:item => :item_type}).where(
+      {:items => {:item_types => {:wearable => true} }}
+    ).map(&:dto)
   end
 
   protected
