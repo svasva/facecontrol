@@ -121,6 +121,7 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.0.3)
     mysql2 (0.3.7)
+    newrelic_rpm (3.1.2)
     nokogiri (1.5.0)
     orm_adapter (0.0.5)
     pg (0.11.0)
@@ -245,6 +246,7 @@ DEPENDENCIES
   jquery-rails
   mocha
   mysql2
+  newrelic_rpm
   pg
   rails (= 3.1.0)
   resque

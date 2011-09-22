@@ -22,6 +22,7 @@ end
 gem 'mysql2'
 # heroku
 
+gem 'newrelic_rpm'
 gem 'pg'
 
 #our custom gems
