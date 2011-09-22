@@ -9,7 +9,8 @@ module Models
         include Models::CsvParseCommons 
         def parse_table(table)
           parse_generic_table(table) do |record, row|
-            enter_condition = record.enter_action.conditions.first
+            enter_condition = Condition.new({:name => :enter_condition})
+            view_condition = Condition.new({:name => :visible_condition})
 
             record.name,  
             record.description, 
@@ -21,10 +22,21 @@ module Models
             enter_condition.real_glory,
             enter_condition.glamour,
             enter_condition.energy,
+
             record.enter_action.delta_energy,
             record.enter_action.delta_glory,
             record.enter_action.delta_drive,
-            record.enter_action.delta_wear = row[1..-1]
+            record.enter_action.delta_wear,
+
+            view_condition.energy,
+            view_condition.drive,
+            view_condition.glory,
+            view_condition.real_glory,
+            view_condition.glamour,
+            view_condition.money = row[1..-1]
+
+            record.enter_action.conditions = [enter_condition, view_condition]
+
           end
         end
 
