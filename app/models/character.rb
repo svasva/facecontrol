@@ -69,12 +69,18 @@ class Character < ActiveRecord::Base
 		return false if char_item.equipped
 		char_item.find_same_type_eq.each { |ci| self.take_off ci } if char_item.unique?
 		char_item.update_attributes :equipped => true if self.can_put_on? char_item
+		return char_item
+	end
+
+	def enter_place(place)
+		return place if self.do_action place.enter_action
 	end
 
 	def take_off(char_item)
 		logger.info "take off #{char_item.inspect}"
 		#self.do_action character_item.item.take_off_action if character_item.character.id == self.id
 		CharacterItem.update char_item.id, :equipped => false
+		return char_item
 	end
 
   def pass_conditions?(obj)
