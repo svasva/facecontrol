@@ -28,6 +28,10 @@ class Place < ActiveRecord::Base
 
   after_initialize :init_default_actions
   before_create :add_names_to_default_actions
+  
+  def dto(char = nil)
+    PlaceDTO.new self, char
+  end
 
   private #studio
 
