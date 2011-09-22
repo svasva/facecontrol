@@ -1,4 +1,5 @@
 class PlaceDTO
+	attr_accessor :id
 	attr_accessor :name
 	attr_accessor :description
 	attr_accessor :visible_properties
@@ -7,9 +8,10 @@ class PlaceDTO
 	attr_accessor :x
 	attr_accessor :y
 
-	@name, @description, @visible_properties, @enabled_properties, @rating, @x, @y = nil
+	@id, @name, @description, @visible_properties, @enabled_properties, @rating, @x, @y = nil
 
 	def initialize(place, char)
+		@id = place.id
 		@name = place.name
 		@description = place.description
 		@visible_properties = []
