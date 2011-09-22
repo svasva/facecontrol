@@ -40,6 +40,24 @@ class Character < ActiveRecord::Base
 		self.do_action item.gift_action, target_character if item.item_type.giftable
 	end
 
+	def post_rumor(content, target_char)
+		self.do_action Action.post_rumor.last, target_char, Message.create(
+			:source => self,
+			:target => target_char,
+			:need_answer => false,
+			:content => content
+		)
+	end
+
+	def post_question(content, target_char)
+		self.do_action Action.post_question.last, target_char, Message.create(
+			:source => self,
+			:target => target_char,
+			:need_answer => true,
+			:content => content
+		)
+	end
+
 	def can_put_on?(char_item)
 		return false unless char_item.character_id == self.id
 		return false unless char_item.wearable?
@@ -87,12 +105,13 @@ class Character < ActiveRecord::Base
 	 # creates CharacterAction for corresponding Action
 	 # if character passes Action`s conditions
 	 # otherwise returns false
-	 def do_action(action, target_char = nil)
+	 def do_action(action, target_char = nil, message = nil)
 	 	return false unless self.pass_conditions? action
 	 	CharacterAction.create(
 	 		:character => self,
 	 		:action => action,
-	 		:target_character => target_char
+	 		:target_character => target_char,
+	 		:message => message
 	 	)
 	 end
 
