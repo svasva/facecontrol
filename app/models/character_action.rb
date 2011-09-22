@@ -2,6 +2,7 @@ class CharacterAction < ActiveRecord::Base
   belongs_to :character
   belongs_to :action
   belongs_to :target_character, :class_name => 'Character', :foreign_key => 'target_character_id'
+  has_one :message
 
   after_create :enqueue
   before_create :set_stop_time
