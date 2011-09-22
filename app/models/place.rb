@@ -50,7 +50,7 @@ class Place < ActiveRecord::Base
 
   def add_names_to_default_actions
 		enter_action.name = "Войти в #{name}"
-		stay_action.name = "Находится в #{name}"
+		stay_action.name = "Находиться в #{name}"
 		leave_action.name = "Выйти из #{name}"
   end
 
