@@ -7,7 +7,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Admin.find_or_create_by_email :email => "admin@foobar.com", :password => "p@ssw0rd"
 ItemType.find_or_create_by_name :name => "drinks",
 	:description => "Коктель",
 	:wearable => false,
