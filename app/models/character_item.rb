@@ -4,13 +4,16 @@ class CharacterItem < ActiveRecord::Base
   belongs_to :item
   delegate :use_action, :to => :item
 
-
   def glamour
     self.item.glamour - (self.wear * self.item.wear_factor)
   end
 
   def gift_dto
   	GiftDTO.new self
+  end
+
+  def dto
+    CharacterItemDTO.new self
   end
 
   def wear_limit
