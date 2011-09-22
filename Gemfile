@@ -10,11 +10,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl_rails'
-
-  #gem 'web-app-theme', :git => 'git://github.com/jweslley/web-app-theme.git'
-  gem 'web-app-theme', '~> 0.8.0'
-  gem 'hpricot'
-  gem 'ruby_parser'
   gem 'mocha'
   gem 'database_cleaner'
 end
@@ -35,13 +30,16 @@ gem 'aasm'
 # background processor
 gem 'resque'
 gem 'resque-scheduler', :git => 'git://github.com/bvandenbos/resque-scheduler.git'
-gem 'devise', :git => "git://github.com/plataformatec/devise.git"
 gem 'foreman'
 
 # js compiler
 gem 'therubyracer'
 
 ###
+
+gem 'activeadmin'
+gem "meta_search",    '>= 1.1.0.pre'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -55,7 +53,6 @@ gem 'jquery-rails'
 
 gem 'haml'
 gem 'haml-rails'
-gem 'will_paginate'
 
 
 # Use unicorn as the web server

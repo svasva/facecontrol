@@ -49,10 +49,6 @@ module Facecontrol
 
     config.autoload_paths += Dir["#{config.root}/lib/**/"] # include all subdirectories
     
-    #move it somwhere
-    config.to_prepare do 
-      Devise::SessionsController.layout "sign" 
-    end
   end
 
 end

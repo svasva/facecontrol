@@ -23,7 +23,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-   config.authentication_keys = [ :email ]
+  # config.authentication_keys = [ :email ]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -69,7 +69,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "405e2afc919463830f229c9c2447aa2656085d5517c1e1108ed9f7e784ff4f06ba57374527e28ae32b5d2eda28c45b4b868476d2be20b5da4e33604dbcb069eb"
+  # config.pepper = "6e2574fc4fe5e612c215df88447ba57713a6fd01db7042f7103cbc620ab44aa13d558f4555eb70560084c697d5dc6c96d8e771f22021877a12530f8da9423557"
 
   # ==> Configuration for :confirmable
   # The time you want to give your user to confirm his account. During this time
