@@ -17,7 +17,7 @@ class CharacterDTO
 		@id = char.id
 		@social_id = char.social_id
 		@name = char.name
-		@sex = char.sex
+		@sex = char.male
 		@level = char.level
 		@glory = char.glory
 		@real_glory = char.real_glory

@@ -15,7 +15,7 @@ class AmfgateController < ApplicationController
   def register
     char_params = {
       :name => @misc_params[0],
-      :sex => @misc_params[1],
+      :male => @misc_params[1],
       :social_id => @flash_vars['viewer_id']
     }
     render :amf => Character.create(char_params).dto unless char_params.nil?
