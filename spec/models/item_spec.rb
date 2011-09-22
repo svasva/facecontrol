@@ -13,7 +13,7 @@ describe Item do
 
   context "parse drinks table" do
     before(:all) do
-      Factory.create :drink_type
+      Factory.create :drinks_type
       @table = [
       [nil,"http://pic2.ru", "Шот 'Огненная собака'", "Самбука и красный перец",
         -5, 0, -5, 6, 7, 8, 100],
