@@ -18,10 +18,12 @@ module Models
             record.map_x,
             record.map_y,
             record.video_urls,
+            enter_condition.energy,
+            enter_condition.drive,
             enter_condition.glory,
             enter_condition.real_glory,
             enter_condition.glamour,
-            enter_condition.energy,
+            enter_condition.money,
 
             record.enter_action.delta_energy,
             record.enter_action.delta_glory,

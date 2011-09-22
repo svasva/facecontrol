@@ -16,10 +16,14 @@ describe Place do
 			@bo = Factory.create :blue_oyster
 			@table = [
 			[@bo.id, 'Бар \'Голубая устрица2\'', 'всем известное место2',
-				'http://pic3.ru',33,45,'v_urls', 4, 3, 2, 1, -100,200, 50, 500,
+				'http://pic3.ru',33,45,'v_urls',
+				6, 5, 4, 3, 2, 1,
+				-100,200, 50, 500,
 				16, 15, 14, 13, 12, 11],
 			[nil,'Рюмочная \'Второе дыхание\'', 'спасение изнурённому человеку',
-				'http://pic2.ru',31, 42, 'v_urls2', 5, 6, 7, 8, 100, 100, 100, -500,
+				'http://pic2.ru',31, 42, 'v_urls2',
+				5, 6, 7, 8, 9, 10,
+				100, 100, 100, -500,
 				11, 12, 13, 14, 15, 16]]
 		end
 
@@ -82,10 +86,12 @@ describe Place do
 		it 'writes attributes to conditions of enter_action' do
 			Place.parse_table @table
 			enter_condition = new_place.enter_action.conditions.find_by_name 'enter_condition'
-			enter_condition.glory.should == 5
-			enter_condition.real_glory.should == 6
-			enter_condition.glamour.should == 7
-			enter_condition.energy.should == 8
+			enter_condition.energy.should == 5
+			enter_condition.drive.should == 6
+			enter_condition.glory.should == 7
+			enter_condition.real_glory.should == 8
+			enter_condition.glamour.should == 9
+			enter_condition.money.should == 10
 			enter_condition.operator.should == '>='
 
 			view_condition = new_place.enter_action.conditions.find_by_name 'visible_condition'
