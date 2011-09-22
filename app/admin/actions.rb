@@ -5,7 +5,6 @@ ActiveAdmin.register Action do
     column :id
     column :name
     column :description
-    column :actions
     column :created_at
     column :updated_at
     default_actions

@@ -4,7 +4,15 @@ ActiveAdmin.register Place do
     column :id
     column :name
     column :description
-    column :actions
+    column :actions do |place|
+      div :class => "actions" do
+        o =  place.actions.inject("") do |foo, a|
+          foo << link_to("#{a.name} (#{a.id.to_s})", admin_place_action_path(place, a))
+          foo << "<br>"
+        end
+        raw o
+      end
+    end
     column :created_at
     column :updated_at
     default_actions

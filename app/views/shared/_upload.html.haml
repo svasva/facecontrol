@@ -1,0 +1,5 @@
+= form_for :import, :url => {:action => :import_csv} do |form|
+	= form.file_field :file, :style => 'width: 100%'
+	%br
+	%br
+	= form.submit :style => 'width: 100%'
