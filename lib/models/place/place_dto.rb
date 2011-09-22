@@ -10,7 +10,7 @@ class PlaceDTO
 
 	@id, @name, @description, @visible_properties, @enabled_properties, @rating, @map_x, @map_y = nil
 
-	def initialize(place, char)
+	def initialize(place, char = nil)
 		@id = place.id
 		@name = place.name
 		@description = place.description

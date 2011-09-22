@@ -50,11 +50,11 @@ class AmfgateController < ApplicationController
   end
 
   def put_on
-    render :amf => @character.put_on @misc_params[0]
+    render :amf => @character.put_on(CharacterItem.find(@misc_params[0])).dto
   end
 
   def take_off
-    render :amf => @character.take_off @misc_params[0]
+    render :amf => @character.take_off(CharacterItem.find(@misc_params[0])).dto
   end
 
   def buy_item
@@ -74,6 +74,10 @@ class AmfgateController < ApplicationController
     render :amf => @character.character_items.joins({:item => :item_type}).where(
       {:items => {:item_types => {:wearable => true} }}
     ).map(&:dto)
+  end
+
+  def enter_place
+    render :amf => @character.enter_place(Place.find(@misc_params[0])).club_dto(@character)
   end
 
   protected

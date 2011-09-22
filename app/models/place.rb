@@ -33,6 +33,10 @@ class Place < ActiveRecord::Base
     PlaceDTO.new self, char
   end
 
+  def club_dto(char = nil)
+    ClubDTO.new self, char
+  end
+
   private #studio
 
   def init_default_actions
