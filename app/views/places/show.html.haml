@@ -20,7 +20,28 @@
         %b
           = t("activerecord.attributes.place.picture_url", :default => t("activerecord.labels.picture_url", :default => "Picture url"))
           \:
-        = @place.picture_url
+        = link_to @place.picture_url, @place.picture_url 
+      %p
+        %b
+          = t("activerecord.attributes.place.map_x", :default => t("activerecord.labels.map_x", :default => "Map X"))
+          \: 
+        = @place.map_x
+      %p
+        %b
+          = t("activerecord.attributes.place.map_y", :default => t("activerecord.labels.map_y", :default => "Map Y"))
+          \: 
+        = @place.map_y
+                
+      %p
+        %b
+          = t("activerecord.attributes.place.video_urls", :default => t("activerecord.labels.video_urls", :default => "VIdeo URLs"))
+          \:
+          %br
+        - @place.video_urls.split.each do |url|
+          = link_to url, url
+          %br
+      
+              
       .wat-cf
         = link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_place_path(@place), :class => "button"
         = link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), place_path(@place), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"
