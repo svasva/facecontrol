@@ -1,5 +1,7 @@
 Facecontrol::Application.routes.draw do
-  devise_for :admins
+  ActiveAdmin.routes(self)
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -50,11 +52,10 @@ Facecontrol::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'places#index'
-  resources :characters, :actions, :conditions, :items
+  root :to => 'admin/dashboard#index'
 
-  resources :places do
-    post :import, :on => :collection
+  resources :import do
+    post :places, :on => :collection
   end
    
   match 'amfgate/:action' => 'amfgate'
