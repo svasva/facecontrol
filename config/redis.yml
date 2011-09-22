@@ -12,8 +12,7 @@ staging:
   <<: *defaults
 
 production:
-#redis://redistogo:cf3b651769017564f3c6e57518a79878@angler.redistogo.com:9647
-	host: angler.redistogo.com
-	port: 9647
-	username: redistogo
-	password: cf3b651769017564f3c6e57518a79878
+  host: angler.redistogo.com
+  port: 9647
+  username: redistogo
+  password: cf3b651769017564f3c6e57518a79878
