@@ -21,8 +21,11 @@ class PlaceDTO
 				@enabled_properties << c.dto
 			end
 		}
-		@rating = char.actions.by_place(place.id).sum(:delta_glory)
+		@rating = char.actions.by_place(place.id).sum(:delta_glory) unless char.nil?
 		@x = place.map_x
 		@y = place.map_y
 	end
+end
+
+class Place::PlaceDTO < PlaceDTO
 end
