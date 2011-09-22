@@ -46,7 +46,7 @@ class AmfgateController < ApplicationController
   end
 
   def get_places
-    render :amf => Place.all.map(&:dto)
+    render :amf => (Place.joins({:action => :conditions}).all.map {|p| PlaceDTO.new(p, @character)})
   end
 
   def make_a_gift
