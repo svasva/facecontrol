@@ -1,5 +1,5 @@
 ---
-<%= ENV["RACK_ENV"] %>
+production:
   error_collector:
     capture_source: true
     enabled: true
@@ -7,9 +7,9 @@
   apdex_t: 0.5
   ssl: false
   monitor_mode: true
-  license_key: <%= ENV["NEW_RELIC_LICENSE_KEY"] %>
+  license_key: 34b8f4645ee016b070b470740897cd8a4e8fee78
   developer_mode: false
-  app_name: <%= ENV["NEW_RELIC_APP_NAME"] %>
+  app_name: facecontrol
   transaction_tracer:
     record_sql: obfuscated
     enabled: true

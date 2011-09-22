@@ -5,10 +5,10 @@ class PlaceDTO
 	attr_accessor :visible_properties
 	attr_accessor :enabled_properties
 	attr_accessor :rating
-	attr_accessor :x
-	attr_accessor :y
+	attr_accessor :map_x
+	attr_accessor :map_y
 
-	@id, @name, @description, @visible_properties, @enabled_properties, @rating, @x, @y = nil
+	@id, @name, @description, @visible_properties, @enabled_properties, @rating, @map_x, @map_y = nil
 
 	def initialize(place, char)
 		@id = place.id
@@ -24,8 +24,8 @@ class PlaceDTO
 			end
 		}
 		@rating = char.actions.by_place(place.id).sum(:delta_glory) unless char.nil?
-		@x = place.map_x
-		@y = place.map_y
+		@map_x = place.map_x
+		@map_y = place.map_y
 	end
 end
 
