@@ -49,6 +49,14 @@ class AmfgateController < ApplicationController
     render :amf => (Place.all.map {|p| PlaceDTO.new(p, @character)})
   end
 
+  def put_on
+    render :amf => @character.put_on @misc_params[0]
+  end
+
+  def take_off
+    render :amf => @character.take_off @misc_params[0]
+  end
+
   def buy_item
     item = Item.find @misc_params[0]
     return false if item.nil?
