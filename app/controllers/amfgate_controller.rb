@@ -80,6 +80,10 @@ class AmfgateController < ApplicationController
     render :amf => @character.enter_place(Place.find(@misc_params[0])).club_dto(@character)
   end
 
+  def leave_place
+    render :amf => @character.leave_place
+  end
+
   protected
 
   def load_rumors(offset = 0, limit = 50)

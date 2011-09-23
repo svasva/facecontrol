@@ -76,6 +76,10 @@ class Character < ActiveRecord::Base
 		return place if self.do_action place.enter_action
 	end
 
+	def leave_place
+		return place if self.place and self.do_action place.leave_action
+	end
+
 	def take_off(char_item)
 		logger.info "take off #{char_item.inspect}"
 		#self.do_action character_item.item.take_off_action if character_item.character.id == self.id
