@@ -14,6 +14,25 @@ ActiveAdmin::Dashboards.build do
   #       end
   #     end
   #   end
+
+  section 'Characters activity' do
+    table do
+      tr do
+        th 'Time', :width => '150px'
+        th 'Character', :width => '150px', :style => 'text-align: center'
+        th 'Subject'
+        th 'Action'
+      end
+      CharacterAction.order('created_at DESC').limit(10).collect do |ca|
+        tr do
+          td "#{time_ago_in_words ca.created_at} ago"
+          td "#{ca.character.name}", :style => 'text-align: center'
+          td "#{ca.action.subject.name if ca.action.subject}"
+          td raw "#{ca.action.name}"
+        end
+      end
+    end
+  end
   
   # == Render Partial Section
   # The block is rendered within the context of the view, so you can
