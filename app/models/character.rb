@@ -5,6 +5,7 @@ class Character < ActiveRecord::Base
 	has_many :action_groups, :through => :character_action_groups
 	has_many :character_items, :dependent => :destroy
 	has_many :items, :through => :character_items
+	belongs_to :place
 	has_many :equipped_character_items,
 		:class_name => 'CharacterItem',
 		:conditions => {:equipped => true}

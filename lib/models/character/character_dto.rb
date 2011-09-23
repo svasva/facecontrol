@@ -10,8 +10,9 @@ class CharacterDTO
 	attr_accessor :money
 	attr_accessor :energy
 	attr_accessor :drive
+	attr_accessor :place
 
-	@id, @social_id, @name, @sex, @glory, @real_glory, @liking, @energy, @drive = nil;
+	@id, @social_id, @name, @sex, @glory, @real_glory, @liking, @energy, @drive, @place = nil;
 
 	def initialize(char)
 		@id = char.id
@@ -25,6 +26,7 @@ class CharacterDTO
 		@money = char.money
 		@energy = char.energy
 		@drive = char.drive
+		@place = char.place.club_dto char unless char.place.nil?
 	end
 end
 
