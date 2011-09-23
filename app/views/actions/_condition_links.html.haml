@@ -1,0 +1,5 @@
+= link_to "All conditions", admin_action_conditions_path(action)
+%br
+- action.conditions.each do |c|
+  = link_to c.name, admin_action_condition_path(action, c)
+  %br

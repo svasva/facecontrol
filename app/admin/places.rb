@@ -1,4 +1,6 @@
 ActiveAdmin.register Place do  
+  filter :name
+  filter :description
 
   index do
     column :id
@@ -6,11 +8,7 @@ ActiveAdmin.register Place do
     column :description
     column :actions do |place|
       div :class => "actions" do
-        o =  place.actions.inject("") do |foo, a|
-          foo << link_to("#{a.name} (#{a.id.to_s})", admin_place_action_path(place, a))
-          foo << "<br>"
-        end
-        raw o
+        render "places/action_links", :place => place
       end
     end
     column :created_at
