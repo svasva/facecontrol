@@ -100,8 +100,15 @@ class CharacterAction < ActiveRecord::Base
 
     # do something with action.subject
     logger.info "#{self.action.default_type} subject: #{self.action.subject.inspect}"
-    case self.action.subject.class
-    when Item.class
+    case self.action.subject_type
+    when 'Place'
+      case self.action_id
+      when self.action.subject.enter_action.id, self.action.subject.stay_action.id
+        self.character.update_attributes :place => self.action.subject
+      when self.action.subject.leave_action.id
+        self.character.update_attributes :place => nil
+      end
+    when 'Item'
       case self.action.default_type
       when 'buy'
         logger.info "BUY! adding #{self.action.subject.name} to #{self.character.name}"

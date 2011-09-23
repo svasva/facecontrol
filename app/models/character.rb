@@ -5,6 +5,7 @@ class Character < ActiveRecord::Base
 	has_many :action_groups, :through => :character_action_groups
 	has_many :character_items, :dependent => :destroy
 	has_many :items, :through => :character_items
+	belongs_to :place
 	has_many :equipped_character_items,
 		:class_name => 'CharacterItem',
 		:conditions => {:equipped => true}
@@ -20,6 +21,11 @@ class Character < ActiveRecord::Base
 
 	def dto
 		CharacterDTO.new self
+	end
+
+	def level
+		g = self.glory
+		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.level
 	end
 
 	def glamour
@@ -76,6 +82,10 @@ class Character < ActiveRecord::Base
 		return place if self.do_action place.enter_action
 	end
 
+	def leave_place
+		return place if self.place and self.do_action place.leave_action
+	end
+
 	def take_off(char_item)
 		logger.info "take off #{char_item.inspect}"
 		#self.do_action character_item.item.take_off_action if character_item.character.id == self.id
@@ -123,10 +133,14 @@ class Character < ActiveRecord::Base
 
 	def modify(action)
 	 	new_attributes = {}
+	 	max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
 	 	action.attributes.each {|attrib,value|
 			next unless attrib.match /delta_/ and value != nil and value != 0
 			attrib = attrib.match('delta_(.*)')[1]
 			new_attributes[attrib] = (self.attributes[attrib] != nil) ? self.attributes[attrib] + value : value
+			if attrib == 'energy' and new_attributes[attrib] > max_energy
+				new_attributes[attrib] = max_energy
+			end
 			logger.info "\tmodify '#{attrib}': #{self.attributes[attrib]} += #{value} = #{new_attributes[attrib]}"
 		}
 		self.update_attributes(new_attributes)

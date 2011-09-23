@@ -2,6 +2,7 @@
 
 class Place < ActiveRecord::Base
   has_many :actions, :as => :subject
+  has_many :characters
 
   has_one :enter_action,
 		:as => :subject,
