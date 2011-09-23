@@ -23,6 +23,11 @@ class Character < ActiveRecord::Base
 		CharacterDTO.new self
 	end
 
+	def level
+		g = self.glory
+		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.level
+	end
+
 	def glamour
 		glam = 0
 		self.equipped_character_items.each { |item| glam += item.glamour }
@@ -128,10 +133,14 @@ class Character < ActiveRecord::Base
 
 	def modify(action)
 	 	new_attributes = {}
+	 	max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
 	 	action.attributes.each {|attrib,value|
 			next unless attrib.match /delta_/ and value != nil and value != 0
 			attrib = attrib.match('delta_(.*)')[1]
 			new_attributes[attrib] = (self.attributes[attrib] != nil) ? self.attributes[attrib] + value : value
+			if attrib == 'energy' and new_attributes[attrib] > max_energy
+				new_attributes[attrib] = max_energy
+			end
 			logger.info "\tmodify '#{attrib}': #{self.attributes[attrib]} += #{value} = #{new_attributes[attrib]}"
 		}
 		self.update_attributes(new_attributes)
