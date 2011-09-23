@@ -56,4 +56,7 @@ class Place < ActiveRecord::Base
 
   include Models::Place::CsvExchange
 
+  
+  default_scope includes(:actions) 
+
 end
