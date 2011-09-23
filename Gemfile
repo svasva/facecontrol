@@ -19,6 +19,7 @@ gem 'mysql2'
 
 gem 'newrelic_rpm'
 gem 'pg'
+gem 'squeel'
 
 #our custom gems
 
