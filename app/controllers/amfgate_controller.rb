@@ -67,7 +67,7 @@ class AmfgateController < ApplicationController
     item = Item.find @misc_params[0]
     target_char = Character.find @misc_params[1]
     return false if item.nil? or target_char.nil?
-    render :amf => @character.make_a_gift(item, target_char).gift_dto
+    render :amf => @character.make_a_gift(item, target_char).dto
   end
 
   def get_my_items
@@ -93,7 +93,7 @@ class AmfgateController < ApplicationController
   def load_rumors(offset = 0, limit = 50)
     msgs = []
     source = Character.first
-    target = Character.lasst
+    target = Character.last
     limit.times do
       msgs << Message.new(
         :content => "trololo #{rand(99999)}",
