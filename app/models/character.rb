@@ -43,7 +43,9 @@ class Character < ActiveRecord::Base
 	end
 
 	def make_a_gift(item, target_character)
-		self.do_action item.gift_action, target_character if item.item_type.giftable
+		if item.item_type.giftable
+			return item if self.do_action item.gift_action, target_character 
+		end
 	end
 
 	def post_rumor(content, target_char)
@@ -111,7 +113,7 @@ class Character < ActiveRecord::Base
 	  			when '!='
 	  				return false unless self.attributes[k] != v
 	  			when '='
-	  				return false unless self.attribuunlesstes[k] == v
+	  				return false unless self.attributes[k] == v
 	  		end
 	  	}
 	 	}
