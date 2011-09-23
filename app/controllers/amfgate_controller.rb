@@ -84,15 +84,21 @@ class AmfgateController < ApplicationController
     render :amf => @character.leave_place
   end
 
+  def get_club_info
+    render :amf => Place.find(@misc_params[0]).club_dto
+  end
+
   protected
 
   def load_rumors(offset = 0, limit = 50)
     msgs = []
+    source = Character.first
+    target = Character.lasst
     limit.times do
       msgs << Message.new(
         :content => "trololo #{rand(99999)}",
-        :source => Character.first,
-        :target => Character.last
+        :source => source,
+        :target => target
       ).dto
     end
     return msgs
