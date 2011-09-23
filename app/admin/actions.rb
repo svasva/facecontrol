@@ -39,7 +39,8 @@ ActiveAdmin.register Action do
       f.input :disabler_action
       f.input :children
       f.input :parent
-    end    
+    end 
+    f.buttons   
   end
   
 end
