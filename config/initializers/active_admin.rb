@@ -96,5 +96,5 @@ ActiveAdmin.setup do |config|
   config.register_stylesheet 'chosen.css'
   #
   # To load a javascript file:
-  config.register_javascript 'chosen.jquery'
+  config.register_javascript 'chosen.jquery.js'
 end
