@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<setting>
+	<network id="1" name="vkontakte">
+		<app id="1" appId="2380450" secret="123456" name="политика">
+			<language>ru</language>
+			<ServerBaseURL>http://work.questa.pro</ServerBaseURL>
+			<PollServerHost>srv3.questa.pro</PollServerHost>
+			<PollServerPort>2000</PollServerPort>
+			<serverPath></serverPath>
+			<amfUrl>http://work.questa.pro/rubyamf/gateway</amfUrl> 
+		</app>
+		<app id="1" appId="2380410" secret="123456" name="политика alfa">
+			<language>ru</language>
+			<ServerBaseURL>http://test.tubester.ru</ServerBaseURL>
+			<PollServerHost>test.tubester.ru</PollServerHost>
+			<PollServerPort>2000</PollServerPort>
+			<serverPath></serverPath>
+			<amfUrl>http://test.tubester.ru/rubyamf/gateway</amfUrl>
+		</app>
+		<app id="1" appId="2405705" secret="123456" name="политика multiserver">
+			<language>ru</language>
+			<ServerBaseURL>http://work.questa.pro</ServerBaseURL>
+			<PollServerHost>srv3.questa.pro</PollServerHost>
+			<PollServerPort>2000</PollServerPort>
+			<serverPath></serverPath>
+			<amfUrl>http://work.questa.pro/rubyamf/gateway</amfUrl> 
+		</app>
+		<app id="1" appId="2452518" secret="123456" name="FaceControl test">
+			<language>ru</language>
+			<ServerBaseURL>http://testfc.tubester.ru</ServerBaseURL>
+			<PollServerHost>testfc.tubester.ru</PollServerHost>
+			<PollServerPort>2000</PollServerPort>
+			<serverPath></serverPath>
+			<amfUrl>http://facecontrol.herokuapp.com/amf</amfUrl>
+<!--			<amfUrl>http://192.168.0.176:3000/amf</amfUrl> -->
+		</app>
+	</network>
+</setting>

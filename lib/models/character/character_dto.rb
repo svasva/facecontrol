@@ -26,7 +26,7 @@ class CharacterDTO
 		@money = char.money
 		@energy = char.energy
 		@drive = char.drive
-		@place = char.place.club_dto char unless char.place.nil?
+		@place = char.place_id
 	end
 end
 
