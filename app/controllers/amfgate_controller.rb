@@ -91,6 +91,10 @@ class AmfgateController < ApplicationController
     render :amf => Place.find(@misc_params[0]).club_dto
   end
 
+  def get_init_amf
+    render :amf => InitAmfDTO.new(@character, @misc_params[0])
+  end
+
   protected
 
   def load_rumors(offset = 0, limit = 50)
