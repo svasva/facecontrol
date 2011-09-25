@@ -94,6 +94,7 @@ class CharacterAction < ActiveRecord::Base
     # modify character with corresponding deltas
     begin
       self.character.modify(self.action)
+      self.character.update_attributes(:updated_at => Time.now.utc)
     rescue => e
       logger.error e.inspect
     end
