@@ -81,7 +81,7 @@ class AmfgateController < ApplicationController
   end
 
   def leave_place
-    render :amf => @character.leave_place
+    render :amf => @character.leave_place.dto
   end
 
   def get_club_info
