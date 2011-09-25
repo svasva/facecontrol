@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', :git => 'git://github.com/rails/rails.git', :branch=>'3-1-stable'
+gem 'rails', '3.1.1.rc1'
+#, :git => 'git://github.com/rails/rails.git', :branch=>'3-1-stable'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -30,7 +31,7 @@ gem 'rubyamf', :git => 'git://github.com/rubyamf/rubyamf.git'
 gem 'aasm'
 # background processor
 gem 'resque'
-gem 'resque-scheduler', :git => 'git://github.com/bvandenbos/resque-scheduler.git'
+gem 'resque-scheduler'
 gem 'foreman'
 
 # js compiler
@@ -38,7 +39,7 @@ gem 'therubyracer'
 
 ###
 
-gem 'activeadmin', :git => 'git://github.com/gregbell/active_admin.git'
+gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 
 gem 'sass-rails', "  ~> 3.1.0"
