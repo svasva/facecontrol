@@ -11,9 +11,11 @@ class CharacterDTO
 	attr_accessor :energy
 	attr_accessor :drive
 	attr_accessor :place
+	attr_accessor :max_energy
 
 	def initialize(char, target_char_id = nil)
 		@id = char.id
+		@max_energy = char.max_energy
 		@social_id = char.social_id
 		@name = char.name
 		@sex = char.male
