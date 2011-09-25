@@ -4,6 +4,8 @@ class CharacterAction < ActiveRecord::Base
   belongs_to :target_character, :class_name => 'Character', :foreign_key => 'target_character_id'
   has_one :message
 
+  scope :last_ten, joins(:action).where{action.default_type != 'stay'}.order('created_at desc').limit(10)
+
   after_create :enqueue
   before_create :set_stop_time
 

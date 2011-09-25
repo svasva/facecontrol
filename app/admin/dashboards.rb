@@ -19,19 +19,35 @@ ActiveAdmin::Dashboards.build do
     table do
       tr do
         th 'Time', :width => '150px'
-        th 'Character', :width => '150px', :style => 'text-align: center'
+        th 'Character', :width => '150px'
         th 'Subject'
         th 'Action'
       end
-      CharacterAction.order('created_at DESC').limit(10).collect do |ca|
+      CharacterAction.last_ten.collect do |ca|
         tr do
           td "#{time_ago_in_words ca.created_at} ago"
-          td "#{ca.character.name}", :style => 'text-align: center'
+          td link_to ca.character.name, admin_character_path(ca.character)
           td "#{ca.action.subject.name if ca.action.subject}"
           td raw "#{ca.action.name}"
         end
       end
     end
+  end
+
+  section 'Top 10 characters' do
+    table do
+      tr do
+        th 'Character'
+        th 'Glory'
+      end
+      Character.order('glory DESC').limit(10).collect do |char|
+        tr do
+          td link_to char.name, admin_character_path(char)
+          td char.glory
+        end
+      end
+    end
+
   end
   
   # == Render Partial Section
