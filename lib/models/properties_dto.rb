@@ -17,7 +17,6 @@ class PropertiesDTO
 			@money = obj.delta_money
 			@energy = obj.delta_energy
 			@drive = obj.delta_drive
-			@glamour = obj.subject.glamour
 		when 'Condition'
 			@glory = obj.glory
 			@real_glory = obj.real_glory
