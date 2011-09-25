@@ -128,7 +128,7 @@ class Character < ActiveRecord::Base
 	end
 
 	def enter_place(place)
-		return self if self.do_action place.enter_action
+		return place if self.do_action place.enter_action
 	end
 
 	def leave_place
