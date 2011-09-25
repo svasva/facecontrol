@@ -25,6 +25,20 @@ class Character < ActiveRecord::Base
 		:conditions => { :need_answer => true },
 		:foreign_key => 'target_id'
 
+	has_many :relations, :class_name => 'CharacterRelation'
+
+	has_many :contacts,
+		:through => :relations,
+		:class_name => 'Character',
+		:source => :character,
+		:conditions => { :character_relations => {:friendship => true} }
+
+	has_many :contact_requests,
+		:through => :relations,
+		:class_name => 'Character',
+		:source => :target,
+		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
+
 	def dto
 		CharacterDTO.new self
 	end
@@ -118,6 +132,10 @@ class Character < ActiveRecord::Base
   	obj.conditions.each {|condition|
 	  	condition.attributes.each {|k,v|
 	  		next if k.match /_at$|_?id$|description|name|operator/ or v == nil
+	  		if k == 'relation_index'
+	  			#TODO check relation
+	  			next
+	  		end
 	  		logger.info "\tcondition '#{k}': #{self.attributes[k]} #{condition.operator} #{v}"
 	  		case condition.operator
 	  			when '<'
@@ -156,6 +174,10 @@ class Character < ActiveRecord::Base
 	 	max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
 	 	action.attributes.each {|attrib,value|
 			next unless attrib.match /delta_/ and value != nil and value != 0
+			if attrib == 'delta_relation_index'
+				next
+				#TODO modify relation
+			end
 			attrib = attrib.match('delta_(.*)')[1]
 			new_attributes[attrib] = (self.attributes[attrib] != nil) ? self.attributes[attrib] + value : value
 			if attrib == 'energy' and new_attributes[attrib] > max_energy
