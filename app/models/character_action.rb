@@ -147,8 +147,7 @@ class CharacterAction < ActiveRecord::Base
 
     # repeat
     if self.repeat_active? and ca_repeat = self.character.do_action(self.action)
-      ca_repeat.repeat_index = self.repeat_index + 1
-      ca_repeat.save
+      ca_repeat.update_attributes :repeat_index => self.repeat_index + 1
     end
 
     self.action.children.each {|child|
