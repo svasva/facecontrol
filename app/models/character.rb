@@ -60,6 +60,11 @@ class Character < ActiveRecord::Base
 		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.level
 	end
 
+	def max_energy
+		g = self.glory
+		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.max_energy
+	end
+
 	def glamour
 		glam = 0
 		self.equipped_character_items.each { |item| glam += item.glamour }
