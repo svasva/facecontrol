@@ -3,10 +3,10 @@ class CreateCharacterRelations < ActiveRecord::Migration
     create_table :character_relations do |t|
       t.integer :character_id
       t.integer :target_id
-      t.integer :index
-      t.integer :blocked
-      t.boolean :friendship
-      t.boolean :friendship_request
+      t.integer :index, :default => 0
+      t.integer :blocked, :default => false
+      t.boolean :friendship, :default => false
+      t.boolean :friendship_request, :default => false
 
       t.timestamps
     end
