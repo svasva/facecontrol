@@ -6,15 +6,13 @@ class CharacterDTO
 	attr_accessor :level
 	attr_accessor :glory
 	attr_accessor :real_glory
-	attr_accessor :liking
+	attr_accessor :relation
 	attr_accessor :money
 	attr_accessor :energy
 	attr_accessor :drive
 	attr_accessor :place
 
-	@id, @social_id, @name, @sex, @glory, @real_glory, @liking, @energy, @drive, @place = nil;
-
-	def initialize(char)
+	def initialize(char, target_char_id = nil)
 		@id = char.id
 		@social_id = char.social_id
 		@name = char.name
@@ -22,7 +20,10 @@ class CharacterDTO
 		@level = char.level
 		@glory = char.glory
 		@real_glory = char.real_glory
-		@liking = nil
+		if target_char_id
+			rel = char.relations.where(:target_id => target_char_id).first
+			@relation = rel ? rel.relation_index : nil
+		end
 		@money = char.money
 		@energy = char.energy
 		@drive = char.drive

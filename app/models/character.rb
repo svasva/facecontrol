@@ -39,8 +39,8 @@ class Character < ActiveRecord::Base
 		:source => :target,
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
 
-	def dto
-		CharacterDTO.new self
+	def dto(char_id = nil)
+		CharacterDTO.new self, char_id
 	end
 
 	def gifts
@@ -113,7 +113,7 @@ class Character < ActiveRecord::Base
 	end
 
 	def enter_place(place)
-		return place if self.do_action place.enter_action
+		return self if self.do_action place.enter_action
 	end
 
 	def leave_place
