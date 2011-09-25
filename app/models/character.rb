@@ -40,7 +40,7 @@ class Character < ActiveRecord::Base
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
 
 	def login_hook
-		self.restore_energy
+		# placeholder
 	end
 
 	def restore_energy
