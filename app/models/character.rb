@@ -165,7 +165,10 @@ class Character < ActiveRecord::Base
 	 # if character passes Action`s conditions
 	 # otherwise returns false
 	 def do_action(action, target_char = nil, message = nil)
-	 	return false unless self.pass_conditions? action
+	 	unless self.pass_conditions? action
+	 		self.update_attributes(:place_id => nil) if action.default_type == 'stay'
+	 		return false
+	 	end
 	 	CharacterAction.create(
 	 		:character => self,
 	 		:action => action,
