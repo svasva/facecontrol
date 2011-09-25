@@ -117,7 +117,7 @@ class Character < ActiveRecord::Base
 	end
 
 	def leave_place
-		return place if self.place and self.do_action place.leave_action
+		return self if self.place and self.do_action place.leave_action
 	end
 
 	def take_off(char_item)
