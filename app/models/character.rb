@@ -8,19 +8,37 @@ class Character < ActiveRecord::Base
 	belongs_to :place
 	has_many :equipped_character_items,
 		:class_name => 'CharacterItem',
-		:conditions => {:equipped => true}
+		:conditions => { :equipped => true }
 
 	has_many :equipped_items,
 		:through => :equipped_character_items,
 		:class_name => 'Item',
 		:source => :item
 
-	has_many :gift_items,
-		:class_name => 'CharacterItem',
-		:conditions => {:gift => true}
+	has_many :rumors,
+		:class_name => 'Message',
+		:conditions => { :need_answer => false },
+		:foreign_key => 'target_id'
+
+	has_many :questions,
+		:class_name => 'Message',
+		:conditions => { :need_answer => true },
+		:foreign_key => 'target_id'
 
 	def dto
 		CharacterDTO.new self
+	end
+
+	def gifts
+		CharacterItem.gifts.where(:character_id => self.id)
+	end
+
+	def gift_drinks
+		CharacterItem.gift_drinks.where(:character_id => self.id)
+	end
+
+	def clothes
+		CharacterItem.clothes.where(:character_id => self.id)
 	end
 
 	def level
