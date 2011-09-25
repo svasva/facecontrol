@@ -4,8 +4,29 @@ class CharacterItem < ActiveRecord::Base
   belongs_to :item
   delegate :use_action, :to => :item
 
+  scope :gift_drinks, joins({:item => :item_type}).where(
+    :gift => true,
+    :item => {
+      :item_type => { :giftable => true, :usable => true }
+    }
+  )
+  
+  scope :gifts, joins({:item => :item_type}).where(
+    :gift => true,
+    :item => {
+      :item_type => { :giftable => true, :usable => false }
+    }
+  )
+
+  scope :clothes, joins({:item => :item_type}).where(
+    :gift => false,
+    :item => {
+      :item_type => { :giftable => false, :usable => false, :wearable => true }
+    }
+  )
+
   def glamour
-    self.item.glamour - (self.wear * self.item.wear_factor)
+    self.item.glamour - (self.wear * self.item.wear_factor) if self.item.glamour
   end
 
   def gift_dto
