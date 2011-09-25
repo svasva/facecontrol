@@ -1,6 +1,13 @@
-ActiveAdmin.register Item do  
+ActiveAdmin.register Item do
+	filter :item_type, :collection => ItemType.all.map {|i| ["#{i.name} (#{i.description})", i.id]}
+	filter :name
+	filter :description
+	filter :glamour
+
   index do
     column :name
+    column :description
+    column :glamour
     default_actions
   end
 	collection_action :import_csv, :method => :post do

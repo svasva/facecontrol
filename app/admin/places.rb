@@ -1,9 +1,8 @@
-ActiveAdmin.register Place do  
+ActiveAdmin.register Place, { :sort_order => :name_asc } do  
   filter :name
   filter :description
 
   index do
-    column :id
     column :name
     column :description
     column :actions do |place|
@@ -11,8 +10,6 @@ ActiveAdmin.register Place do
         render "places/action_links", :place => place
       end
     end
-    column :created_at
-    column :updated_at
     default_actions
   end
 
