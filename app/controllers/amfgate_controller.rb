@@ -6,9 +6,7 @@ class AmfgateController < ApplicationController
 
   def authorize
     unless @character.nil?
-      bonus_energy = (Time.now.utc.to_i - Character.first.updated_at.to_i)/60
-      energy = (@character.energy + bonus_energy) > @character.max_energy ? @character.max_energy : (@character.energy + bonus_energy)
-      @character.update_attributes(:energy => energy)
+      @character.login_hook
       render :amf => @character.dto
     else
       render :amf => nil

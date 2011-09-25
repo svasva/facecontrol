@@ -39,6 +39,16 @@ class Character < ActiveRecord::Base
 		:source => :target,
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
 
+	def login_hook
+		self.restore_energy
+	end
+
+	def restore_energy
+    bonus_energy = (Time.now.utc.to_i - self.updated_at.to_i)/60
+    energy = (self.energy + bonus_energy) > self.max_energy ? self.max_energy : (self.energy + bonus_energy)
+    self.update_attributes(:energy => energy)
+	end
+
 	def dto(char_id = nil)
 		CharacterDTO.new self, char_id
 	end
