@@ -147,10 +147,6 @@ class Character < ActiveRecord::Base
   	obj.conditions.each {|condition|
 	  	condition.attributes.each {|k,v|
 	  		next if k.match /_at$|_?id$|description|name|operator/ or v == nil
-	  		if k == 'relation_index'
-	  			#TODO check relation
-	  			next
-	  		end
 	  		logger.info "\tcondition '#{k}': #{self.attributes[k]} #{condition.operator} #{v}"
 	  		case condition.operator
 	  			when '<'
@@ -187,12 +183,15 @@ class Character < ActiveRecord::Base
 	 	)
 	 end
 
-	def modify(action)
+	def modify(action, target_id)
 	 	new_attributes = {}
 	 	max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
 	 	action.attributes.each {|attrib,value|
 			next unless attrib.match /delta_/ and value != nil and value != 0
 			if attrib == 'delta_relation_index'
+				rel = (self.relations.where(:target_id => target_id) or self.relations.create(:target_id => target_id))
+				rel.update_attributes :index => rel.index+value
+				logger.info "\tmodify relation to #{Character.find(target_id).name}: #{value}"
 				next
 				#TODO modify relation
 			end
