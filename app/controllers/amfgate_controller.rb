@@ -72,9 +72,7 @@ class AmfgateController < ApplicationController
   end
 
   def get_my_items
-    render :amf => @character.character_items.joins({:item => :item_type}).where(
-      {:items => {:item_types => {:wearable => true} }}
-    ).map(&:dto)
+    render :amf => @character.character_items.clothes.map(&:dto)
   end
 
   def enter_place
