@@ -8,6 +8,7 @@ class ClubDTO < PlaceDTO
 	@videos, @visitors, @bar_factor = nil
 
 	def initialize(place, char = nil)
+		place = Place.find(place) unless place.kind_of? Place
 		super(place, char)
 		@videos = place.video_urls.split("\n") unless place.video_urls.nil? or place.video_urls.empty?
 		@visitors = CharacterAction.char_uniq.where(:action_id => place.enter_action.id).where{character_id.not_eq char.id unless char.nil?}.order('id DESC').limit(50).map {|ca| ca.character.dto(char.id)}
