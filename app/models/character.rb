@@ -15,15 +15,7 @@ class Character < ActiveRecord::Base
 		:class_name => 'Item',
 		:source => :item
 
-	has_many :rumors,
-		:class_name => 'Message',
-		:conditions => { :need_answer => false },
-		:foreign_key => 'target_id'
-
-	has_many :questions,
-		:class_name => 'Message',
-		:conditions => { :need_answer => true },
-		:foreign_key => 'target_id'
+	has_many :messages
 
 	has_many :relations, :class_name => 'CharacterRelation'
 
