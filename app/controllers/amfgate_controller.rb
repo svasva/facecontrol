@@ -30,6 +30,15 @@ class AmfgateController < ApplicationController
     render :amf => Character.find(@misc_params[0]).messages.questions.map(&:dto)
   end
 
+  def post_message
+    render :amf => Message.create(
+      :character => @character,
+      :need_answer => @misc_params[0],
+      :target_id => @misc_params[1],
+      :content => @misc_params[2]
+    ).dto
+  end
+
   def get_gifts
     render :amf => @character.gift_items.map(&:gift_dto)
   end
