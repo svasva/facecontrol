@@ -25,6 +25,7 @@ class Action < ActiveRecord::Base
   scope :post_rumor, :conditions => {:default_type => 'post_rumor'}
   scope :post_question, :conditions => {:default_type => 'post_question'}
   scope :post_reply, :conditions => {:default_type => 'post_reply'}
+  scope :vote, :conditions => {:default_type => 'vote'}
 
   def dto
     PropertiesDTO.new self

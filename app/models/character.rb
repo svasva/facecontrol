@@ -15,9 +15,9 @@ class Character < ActiveRecord::Base
 		:class_name => 'Item',
 		:source => :item
 
-	has_many :messages, :foreign_key => 'target_id'
+	has_many :messages, :foreign_key => 'target_id', :dependent => :destroy
 
-	has_many :relations, :class_name => 'CharacterRelation'
+	has_many :relations, :class_name => 'CharacterRelation', :dependent => :destroy
 
 	has_many :contacts,
 		:through => :relations,
@@ -105,6 +105,11 @@ class Character < ActiveRecord::Base
 		return msg
 	end
 
+	def vote_for_message(message, plus)
+		msg = Message.find(message)
+		msg.update_attributes(:rating => msg.rating + (plus ? 1 : -1))
+	end
+
 	def post_reply(content, message_id)
 		msg = Message.find(message_id)
 		rpl = Message.create(
@@ -137,7 +142,8 @@ class Character < ActiveRecord::Base
 	end
 
 	def leave_place
-		return self if self.place and self.do_action place.leave_action
+		self.do_action place.leave_action if self.place
+		return self
 	end
 
 	def take_off(char_item)
