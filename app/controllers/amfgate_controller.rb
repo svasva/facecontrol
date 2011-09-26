@@ -31,12 +31,7 @@ class AmfgateController < ApplicationController
   end
 
   def post_message
-    render :amf => Message.create(
-      :character => @character,
-      :need_answer => @misc_params[0],
-      :target_id => @misc_params[1],
-      :content => @misc_params[2]
-    ).dto
+    render :amf => @character.post_message(@misc_params[2], @misc_params[1], @misc_params[0]).dto
   end
 
   def get_gifts
