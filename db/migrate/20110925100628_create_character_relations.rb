@@ -4,9 +4,9 @@ class CreateCharacterRelations < ActiveRecord::Migration
       t.integer :character_id
       t.integer :target_id
       t.integer :index, :default => 0
-      t.integer :blocked, :default => 0
-      t.boolean :friendship, :default => 0
-      t.boolean :friendship_request, :default => 0
+      t.integer :blocked, :default => false
+      t.boolean :friendship, :default => false
+      t.boolean :friendship_request, :default => false
 
       t.timestamps
     end
