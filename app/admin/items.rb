@@ -35,9 +35,24 @@ ActiveAdmin.register Item do
     redirect_to :action => :index, :notice => "CSV with drinks imported successfully!"
   end
 
+  collection_action :import_clothes_csv, :method => :post do
+    Item.parse_clothes_csv params[:import]
+    redirect_to :action => :index, :notice => "CSV with clothes imported successfully!"
+  end
+
+  collection_action :import_gifts_csv, :method => :post do
+    Item.parse_gifts_csv params[:import]
+    redirect_to :action => :index, :notice => "CSV with gifts imported successfully!"
+  end
 
   sidebar 'CSV drinks import' do
     render "shared/upload", :action => :import_drinks_csv
+  end
+  sidebar 'CSV gifts import' do
+    render "shared/upload", :action => :import_gifts_csv
+  end
+  sidebar 'CSV clothes import' do
+    render "shared/upload", :action => :import_clothes_csv
   end
 
 end

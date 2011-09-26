@@ -54,7 +54,7 @@ module Models
             record.buy_action.delta_energy =  row[5]
             record.buy_action.delta_money = row[6]
 
-            record.buy_action.delta_glamour = row[7]
+            record.glamour = row[7]
             record.buy_action.contest_rating = row[8]
             record.set_type_by_name(row[9])
           end
@@ -66,6 +66,18 @@ module Models
 
           data = CSV.read(params[:file].tempfile, {:encoding => "utf-8"})[2..-1]
           self.parse_drinks_table data
+        end
+
+        def parse_gifts_csv(params)
+
+          data = CSV.read(params[:file].tempfile, {:encoding => "utf-8"})[2..-1]
+          self.parse_gifts_table data
+        end
+        
+        def parse_clothes_csv(params)
+
+          data = CSV.read(params[:file].tempfile, {:encoding => "utf-8"})[2..-1]
+          self.parse_clothes_table data
         end
 
       end
