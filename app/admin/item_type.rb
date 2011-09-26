@@ -15,6 +15,10 @@ ActiveAdmin.register ItemType, { :sort_order => :name_asc } do
   		check_box_tag '', 0, it.usable, {:disabled => true}
   	end
   	column :own_limit
+    column :items_count do |it|
+      it.items.count.to_s
+    end
+    default_actions
   end
 
   collection_action :import_csv, :method => :post do
