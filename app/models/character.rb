@@ -88,22 +88,19 @@ class Character < ActiveRecord::Base
 		end
 	end
 
-	def post_rumor(content, target_char)
-		self.do_action Action.post_rumor.last, target_char, Message.create(
+	def post_message(content, target_char_id, need_answer)
+		msg = Message.create(
 			:source => self,
-			:target => target_char,
-			:need_answer => false,
+			:target_id => target_char_id,
+			:need_answer => need_answer,
 			:content => content
 		)
-	end
-
-	def post_question(content, target_char)
-		self.do_action Action.post_question.last, target_char, Message.create(
-			:source => self,
-			:target => target_char,
-			:need_answer => true,
-			:content => content
-		)
+		if need_answer
+			self.do_action Action.post_question.last, Character.find(target_char_id), msg
+		else
+			self.do_action Action.post_rumor.last, Character.find(target_char_id), msg
+		end
+		return msg
 	end
 
 	def can_put_on?(char_item)
