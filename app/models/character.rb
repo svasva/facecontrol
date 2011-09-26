@@ -15,9 +15,9 @@ class Character < ActiveRecord::Base
 		:class_name => 'Item',
 		:source => :item
 
-	has_many :messages, :foreign_key => 'target_id'
+	has_many :messages, :foreign_key => 'target_id', :dependent => :destroy
 
-	has_many :relations, :class_name => 'CharacterRelation'
+	has_many :relations, :class_name => 'CharacterRelation', :dependent => :destroy
 
 	has_many :contacts,
 		:through => :relations,
@@ -30,6 +30,8 @@ class Character < ActiveRecord::Base
 		:class_name => 'Character',
 		:source => :target,
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
+
+  scope :distinct, select('distinct(characters.id), characters.*')
 
 	def login_hook
 		# placeholder
@@ -103,16 +105,22 @@ class Character < ActiveRecord::Base
 		return msg
 	end
 
+	def vote_for_message(message, plus)
+		msg = Message.find(message)
+		msg.update_attributes(:rating => msg.rating + (plus ? 1 : -1))
+	end
+
 	def post_reply(content, message_id)
 		msg = Message.find(message_id)
 		rpl = Message.create(
 			:source_id => self.id,
 			:target_id => msg.source_id,
 			:content => content,
-			:need_reply => false
+			:need_answer => false,
+			:reply_to => message_id
 		)
-		self.do_action Action.post_reply, msg.source, rpl
-		return rpl
+		self.do_action Action.post_reply.last, msg.source, rpl
+		return msg
 	end
 
 	def can_put_on?(char_item)
@@ -134,7 +142,8 @@ class Character < ActiveRecord::Base
 	end
 
 	def leave_place
-		return self if self.place and self.do_action place.leave_action
+		self.do_action place.leave_action if self.place
+		return self
 	end
 
 	def take_off(char_item)

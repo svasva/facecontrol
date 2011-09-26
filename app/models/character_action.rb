@@ -5,6 +5,8 @@ class CharacterAction < ActiveRecord::Base
   has_one :message
 
   scope :last_ten, joins(:action).where{action.default_type != 'stay'}.order('created_at desc').limit(10)
+  scope :votes, joins(:action).where{action.default_type == 'vote'}
+  scope :char_uniq, select('distinct(character_actions.character_id), character_actions.*')
 
   after_create :enqueue
   before_create :set_stop_time
@@ -105,10 +107,10 @@ class CharacterAction < ActiveRecord::Base
     logger.info "#{self.action.default_type} subject: #{self.action.subject.inspect}"
     case self.action.subject_type
     when 'Place'
-      case self.action_id
-      when self.action.subject.enter_action.id, self.action.subject.stay_action.id
+      case self.action.default_type
+      when 'enter', 'stay'
         self.character.update_attributes :place => self.action.subject
-      when self.action.subject.leave_action.id
+      when 'leave'
         self.character.update_attributes :place => nil
       end
     when 'Item'

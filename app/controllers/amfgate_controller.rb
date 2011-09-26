@@ -46,7 +46,30 @@ class AmfgateController < ApplicationController
   # @param: reply.reply_to
   # @param: reply.content
   def post_reply
-    render :amf => @character.post_reply(@misc_params[0], @misc_params[1])
+    render :amf => @character.post_reply(@misc_params[1], @misc_params[0]).dto
+  end
+
+  def get_rumors_to_vote
+    clicks_remaining = 100 - @character.character_actions.votes.count
+
+    first = Message.find(rand(Message.count))
+    #TODO fix this
+    second = first
+    second = Message.find(rand(Message.count)) while second == first
+    render :amf => [first.dto,second.dto, clicks_remaining]
+  end
+
+  # @param: Message.id (+)
+  # @param: Message.id (-)
+  def vote_for_rumors
+    @character.vote_for_message @misc_params[0], true
+    @character.vote_for_message @misc_params[1], false
+    render :amf => true
+  end
+
+  # @param: Message.id
+  def delete_message
+    render :amf => Message.find(@misc_params[0]).destroy.dto
   end
 
   def get_gifts
@@ -130,7 +153,7 @@ class AmfgateController < ApplicationController
 
     raise 'unauthorized!' unless auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
     @character = Character.find(:first, :conditions => {:social_id => @flash_vars['viewer_id']})
-    @character.restore_energy
+    @character.restore_energy if @character
   end
   
   # @param: Character.social_id
