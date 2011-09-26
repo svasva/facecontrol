@@ -15,7 +15,7 @@ class Character < ActiveRecord::Base
 		:class_name => 'Item',
 		:source => :item
 
-	has_many :messages
+	has_many :messages, :foreign_key => 'target_id'
 
 	has_many :relations, :class_name => 'CharacterRelation'
 
