@@ -107,7 +107,8 @@ class Character < ActiveRecord::Base
 
 	def vote_for_message(message, plus)
 		msg = Message.find(message)
-		msg.update_attributes(:rating => msg.rating + (plus ? 1 : -1))
+		rating = (msg.rating ? msg.rating : 0) + (plus ? 1 : -1)
+		msg.update_attributes(:rating => rating)
 	end
 
 	def post_reply(content, message_id)

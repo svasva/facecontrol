@@ -50,13 +50,7 @@ class AmfgateController < ApplicationController
   end
 
   def get_rumors_to_vote
-    clicks_remaining = 100 - @character.character_actions.votes.count
-
-    first = Message.find(rand(Message.count))
-    #TODO fix this
-    second = first
-    second = Message.find(rand(Message.count)) while second == first
-    render :amf => [first.dto,second.dto, clicks_remaining]
+    render :amf => load_rumors_to_vote
   end
 
   # @param: Message.id (+)
@@ -64,7 +58,7 @@ class AmfgateController < ApplicationController
   def vote_for_rumors
     @character.vote_for_message @misc_params[0], true
     @character.vote_for_message @misc_params[1], false
-    render :amf => true
+    render :amf => load_rumors_to_vote
   end
 
   # @param: Message.id
@@ -142,6 +136,14 @@ class AmfgateController < ApplicationController
   end
 
   protected
+
+  def load_rumors_to_vote
+    return false if Message.rumors.where{rating >= 0}.count < 2
+    clicks_remaining = 100 - @character.character_actions.votes.count
+
+    first, second = Message.rumors.order('RAND()').where{rating >= 0}.limit(2)
+    return [first.dto, second.dto, clicks_remaining]
+  end
 
   # @param: array
   # @param[0][0]: @flash_vars
