@@ -106,10 +106,10 @@ class CharacterAction < ActiveRecord::Base
     logger.info "#{self.action.default_type} subject: #{self.action.subject.inspect}"
     case self.action.subject_type
     when 'Place'
-      case self.action_id
-      when self.action.subject.enter_action.id, self.action.subject.stay_action.id
+      case self.action.default_type
+      when 'enter', 'stay'
         self.character.update_attributes :place => self.action.subject
-      when self.action.subject.leave_action.id
+      when 'leave'
         self.character.update_attributes :place => nil
       end
     when 'Item'
