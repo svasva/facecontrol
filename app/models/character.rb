@@ -193,7 +193,11 @@ class Character < ActiveRecord::Base
 				rel.update_attributes :index => rel.index+value
 				logger.info "\tmodify relation to #{Character.find(target_id).name}: #{value}"
 				next
-				#TODO modify relation
+			elsif attrib == 'delta_wear'
+				self.equipped_character_items.each {|item|
+					item.update_attributes(:wear => (item.wear or 0) + value)
+				}
+				next
 			end
 			attrib = attrib.match('delta_(.*)')[1]
 			new_attributes[attrib] = (self.attributes[attrib] != nil) ? self.attributes[attrib] + value : value
