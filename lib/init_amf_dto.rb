@@ -22,8 +22,8 @@ class InitAmfDTO
 		@giftable_items = Item.giftable.map(&:dto)
 		@wearable_items = Item.wearable.map(&:dto)
 		@my_gifts = char.gifts.map(&:gift_dto)
-		@my_rumors = char.rumors.map(&:dto)
-		@my_interviews = char.questions.map(&:dto)
+		@my_rumors = char.messages.rumors.map(&:dto)
+		@my_interviews = char.messages.questions.map(&:dto)
 		@club = char.place.club_dto(char) unless char.place.nil?
 		@new_gifts = char.gifts.where('character_items.created_at > ?', char.updated_at).map(&:gift_cdto)
 		@my_items = char.clothes.map(&:dto)

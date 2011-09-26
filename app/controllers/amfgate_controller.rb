@@ -4,6 +4,7 @@ class AmfgateController < ApplicationController
 
   @character = nil
 
+  # @param: Character
   def authorize
     unless @character.nil?
       @character.login_hook
@@ -13,6 +14,9 @@ class AmfgateController < ApplicationController
     end
   end
 
+  # @param: Character.name
+  # @param: Character.male
+  # @param: Character.social_id
   def register
     char_params = {
       :name => @misc_params[0],
@@ -22,12 +26,27 @@ class AmfgateController < ApplicationController
     render :amf => Character.create(char_params).dto unless char_params.nil?
   end
 
+  # @param: Character.id
   def get_rumors
-    render :amf => load_rumors
+    render :amf => Character.find(@misc_params[0]).messages.rumors.map(&:dto)
   end
   
+  # @param: Character.id
   def get_interviews
-    render :amf => load_rumors
+    render :amf => Character.find(@misc_params[0]).messages.questions.map(&:dto)
+  end
+
+  # @param: msg.content
+  # @param: msg.target_id
+  # @param: msg.need_answer
+  def post_message
+    render :amf => @character.post_message(@misc_params[2], @misc_params[1], @misc_params[0]).dto
+  end
+
+  # @param: reply.reply_to
+  # @param: reply.content
+  def post_reply
+    render :amf => @character.post_reply(@misc_params[0], @misc_params[1])
   end
 
   def get_gifts
@@ -50,20 +69,25 @@ class AmfgateController < ApplicationController
     render :amf => (Place.all.map {|p| PlaceDTO.new(p, @character)})
   end
 
+  # @param: CharacterItem.id
   def put_on
     render :amf => @character.put_on(CharacterItem.find(@misc_params[0])).dto
   end
 
+  # @param: CharacterItem.id
   def take_off
     render :amf => @character.take_off(CharacterItem.find(@misc_params[0])).dto
   end
 
+  # @param: Item.id
   def buy_item
     item = Item.find @misc_params[0]
     return false if item.nil?
     render :amf => @character.buy_item(item).action.subject.dto
   end
 
+  # @param: Item.id
+  # @param: Action.target_character_id
   def make_a_gift
     item = Item.find @misc_params[0]
     target_char = Character.find @misc_params[1]
@@ -75,6 +99,7 @@ class AmfgateController < ApplicationController
     render :amf => @character.character_items.clothes.map(&:dto)
   end
 
+  # @param: Place.id
   def enter_place
     render :amf => @character.enter_place(Place.find(@misc_params[0])).club_dto(@character)
   end
@@ -83,30 +108,21 @@ class AmfgateController < ApplicationController
     render :amf => @character.leave_place.dto
   end
 
+  # @param: Place.id
   def get_club_info
     render :amf => Place.find(@misc_params[0]).club_dto
   end
 
+  # @param: array of Character.id
   def get_init_amf
     render :amf => InitAmfDTO.new(@character, @misc_params[0])
   end
 
   protected
 
-  def load_rumors(offset = 0, limit = 50)
-    msgs = []
-    source = Character.first
-    target = Character.last
-    limit.times do
-      msgs << Message.new(
-        :content => "trololo #{rand(99999)}",
-        :source => source,
-        :target => target
-      ).dto
-    end
-    return msgs
-  end
-
+  # @param: array
+  # @param[0][0]: @flash_vars
+  # @param[0][1..-1]: @misc_params
   def amf_init
     @flash_vars = params[0][0]
     @misc_params = []
@@ -117,6 +133,8 @@ class AmfgateController < ApplicationController
     @character.restore_energy
   end
   
+  # @param: Character.social_id
+  # @param: @flash_vars['auth_key']
   def auth_vk?(social_id, session_key)
     app_id = '2452518'
     app_secret = 'c3j9y9BmHPcNo7JmkvRL'

@@ -15,15 +15,7 @@ class Character < ActiveRecord::Base
 		:class_name => 'Item',
 		:source => :item
 
-	has_many :rumors,
-		:class_name => 'Message',
-		:conditions => { :need_answer => false },
-		:foreign_key => 'target_id'
-
-	has_many :questions,
-		:class_name => 'Message',
-		:conditions => { :need_answer => true },
-		:foreign_key => 'target_id'
+	has_many :messages, :foreign_key => 'target_id'
 
 	has_many :relations, :class_name => 'CharacterRelation'
 
@@ -96,22 +88,31 @@ class Character < ActiveRecord::Base
 		end
 	end
 
-	def post_rumor(content, target_char)
-		self.do_action Action.post_rumor.last, target_char, Message.create(
+	def post_message(content, target_char_id, need_answer)
+		msg = Message.create(
 			:source => self,
-			:target => target_char,
-			:need_answer => false,
+			:target_id => target_char_id,
+			:need_answer => need_answer,
 			:content => content
 		)
+		if need_answer
+			self.do_action Action.post_question.last, Character.find(target_char_id), msg
+		else
+			self.do_action Action.post_rumor.last, Character.find(target_char_id), msg
+		end
+		return msg
 	end
 
-	def post_question(content, target_char)
-		self.do_action Action.post_question.last, target_char, Message.create(
-			:source => self,
-			:target => target_char,
-			:need_answer => true,
-			:content => content
+	def post_reply(content, message_id)
+		msg = Message.find(message_id)
+		rpl = Message.create(
+			:source_id => self.id,
+			:target_id => msg.source_id,
+			:content => content,
+			:need_reply => false
 		)
+		self.do_action Action.post_reply, msg.source, rpl
+		return rpl
 	end
 
 	def can_put_on?(char_item)
