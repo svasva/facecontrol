@@ -5,6 +5,7 @@ class CharacterAction < ActiveRecord::Base
   has_one :message
 
   scope :last_ten, joins(:action).where{action.default_type != 'stay'}.order('created_at desc').limit(10)
+  scope :char_uniq, select('distinct(character_actions.character_id), character_actions.*')
 
   after_create :enqueue
   before_create :set_stop_time
