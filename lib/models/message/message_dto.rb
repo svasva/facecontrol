@@ -5,6 +5,7 @@ class MessageDTO
 	attr_accessor :content
 	attr_accessor :rating
 	attr_accessor :answer
+	attr_accessor :has_reply
 
 	def initialize(msg)
 		@id = msg.id
@@ -13,6 +14,7 @@ class MessageDTO
 		@rating = msg.rating
 		@content = msg.content
 		@answer = (msg.need_answer and msg.replies.count > 0) ? msg.replies.first : nil
+		@has_reply = (msg.replies.count > 0)
 	end
 end
 
