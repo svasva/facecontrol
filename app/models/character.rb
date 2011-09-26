@@ -44,9 +44,10 @@ class Character < ActiveRecord::Base
 	end
 
 	def restore_energy
-    bonus_energy = (Time.now.utc.to_i - self.updated_at.to_i)/60
-    energy = (self.energy + bonus_energy) > self.max_energy ? self.max_energy : (self.energy + bonus_energy)
-    self.update_attributes(:energy => energy)
+		return false unless self.updated_at
+		bonus_energy = (Time.now.utc.to_i - self.updated_at.to_i)/60
+		energy = (self.energy + bonus_energy) > self.max_energy ? self.max_energy : (self.energy + bonus_energy)
+		self.update_attributes(:energy => energy)
 	end
 
 	def dto(char_id = nil)
@@ -142,51 +143,51 @@ class Character < ActiveRecord::Base
 		return char_item
 	end
 
-  def pass_conditions?(obj)
-  	logger.info "= #{obj.class}(#{obj.id}) conditions check ="
-  	obj.conditions.each {|condition|
-	  	condition.attributes.each {|k,v|
-	  		next if k.match /_at$|_?id$|description|name|operator/ or v == nil
-	  		logger.info "\tcondition '#{k}': #{self.attributes[k]} #{condition.operator} #{v}"
-	  		case condition.operator
-	  			when '<'
-	  				return false unless self.attributes[k] < v
-	  			when '<='
-	  				return false unless self.attributes[k] <= v
-	  			when '>='
-	  				return false unless self.attributes[k] >= v
-	  			when '>'
-	  				return false unless self.attributes[k] > v
-	  			when '!='
-	  				return false unless self.attributes[k] != v
-	  			when '='
-	  				return false unless self.attributes[k] == v
-	  		end
-	  	}
-	 	}
-	 	return true
+	def pass_conditions?(obj)
+		logger.info "= #{obj.class}(#{obj.id}) conditions check ="
+		obj.conditions.each {|condition|
+			condition.attributes.each {|k,v|
+				next if k.match /_at$|_?id$|description|name|operator/ or v == nil
+				logger.info "\tcondition '#{k}': #{self.attributes[k]} #{condition.operator} #{v}"
+				case condition.operator
+					when '<'
+						return false unless self.attributes[k] < v
+					when '<='
+						return false unless self.attributes[k] <= v
+					when '>='
+						return false unless self.attributes[k] >= v
+					when '>'
+						return false unless self.attributes[k] > v
+					when '!='
+						return false unless self.attributes[k] != v
+					when '='
+						return false unless self.attributes[k] == v
+				end
+			}
+		}
+		return true
 	 end
 
 	 # creates CharacterAction for corresponding Action
 	 # if character passes Action`s conditions
 	 # otherwise returns false
 	 def do_action(action, target_char = nil, message = nil)
-	 	unless self.pass_conditions? action
-	 		self.update_attributes(:place_id => nil) if action.default_type == 'stay'
-	 		return false
-	 	end
-	 	CharacterAction.create(
-	 		:character => self,
-	 		:action => action,
-	 		:target_character => target_char,
-	 		:message => message
-	 	)
+		unless self.pass_conditions? action
+			self.update_attributes(:place_id => nil) if action.default_type == 'stay'
+			return false
+		end
+		CharacterAction.create(
+			:character => self,
+			:action => action,
+			:target_character => target_char,
+			:message => message
+		)
 	 end
 
 	def modify(action, target_id)
-	 	new_attributes = {}
-	 	max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
-	 	action.attributes.each {|attrib,value|
+		new_attributes = {}
+		max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
+		action.attributes.each {|attrib,value|
 			next unless attrib.match /delta_/ and value != nil and value != 0
 			if attrib == 'delta_relation_index'
 				rel = (self.relations.where(:target_id => target_id) or self.relations.create(:target_id => target_id))
