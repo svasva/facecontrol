@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 FactoryGirl.define do 
-  factory :drinks_type, :class => ItemType do
-    name "drinks"
+  factory :drink_type, :class => ItemType do
+    name "drink"
     description "Коктейли"
     wearable false
     giftable true

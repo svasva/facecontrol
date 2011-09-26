@@ -29,4 +29,15 @@ ActiveAdmin.register Item do
 	  end
     f.buttons
   end
+
+  collection_action :import_drinks_csv, :method => :post do
+    Item.parse_drinks_csv params[:import]
+    redirect_to :action => :index, :notice => "CSV with drinks imported successfully!"
+  end
+
+
+  sidebar 'CSV drinks import' do
+    render "shared/upload", :action => :import_drinks_csv
+  end
+
 end

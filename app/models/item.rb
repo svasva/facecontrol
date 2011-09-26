@@ -36,6 +36,11 @@ class Item < ActiveRecord::Base
     ItemDTO.new self
   end
 
+
+  def set_type_by_name(name)
+    self.item_type = ItemType.find_by_name(name)
+  end
+
   private #studio
 
   def init_default_actions
@@ -54,6 +59,7 @@ class Item < ActiveRecord::Base
     use_action.name = "Использовать #{name}"
   end
   
+
   include Models::Item::CsvExchange
 
 end

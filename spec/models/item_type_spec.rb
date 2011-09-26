@@ -10,9 +10,10 @@ describe ItemType do
     end
 
     it "changes ItemTypes count" do
+      puts ItemType.all.inspect
       expect do
       ItemType.parse_types_table @table
-        end.to change {ItemType.count}.from(0).to(1)
+        end.to change {ItemType.count}.from(1).to(2)
     end
     
     let(:new_type) {ItemType.last} 

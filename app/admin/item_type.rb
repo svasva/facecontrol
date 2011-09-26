@@ -27,6 +27,6 @@ ActiveAdmin.register ItemType, { :sort_order => :name_asc } do
   end
 
   sidebar 'CSV import' do
-    render "shared/upload"
+    render "shared/upload", :action => :import_csv
   end
 end

@@ -13,12 +13,12 @@ describe Item do
 
   context "parse drinks table" do
     before(:all) do
-      Factory.create :drinks_type
+      Factory.create :drink_type
       @table = [
       [nil,"http://pic2.ru", "Шот 'Огненная собака'", "Самбука и красный перец",
-        -5, 0, -5, 6, 7, 8, 100],
+        -5, 0, -5, 6, 7, 8, 100, "drink"],
       [nil,"http://pic3.ru", "Jim Beam", "односолодовый и фкусный",
-        0, -20, -5, 7, 8, 9, 200]]
+        0, -20, -5, 7, 8, 9, 200, "drink"]]
     end
 
     it "changes Items count" do

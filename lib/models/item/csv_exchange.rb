@@ -11,7 +11,6 @@ module Models
        
         def parse_drinks_table(table)
           parse_generic_table(table) do |record, row|
-            record.item_type_id = ItemType.find_by_name("drinks")
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
@@ -21,32 +20,32 @@ module Models
             record.gift_action.delta_money = row[5]
             record.gift_action.delta_drive = row[6]
 
-            record.buy_action.delta_energy = record.buy_action.delta_energy + row[7]
+            record.buy_action.delta_energy = record.buy_action.delta_energy.to_i + row[7].to_i
             record.use_action.delta_energy = row[7]
-            record.buy_action.delta_drive = record.buy_action.delta_drive + row[8]
+            record.buy_action.delta_drive = record.buy_action.delta_drive.to_i + row[8].to_i
             record.use_action.delta_drive = row[8]
             record.buy_action.delta_glory = row[9]
             record.gift_action.delta_glory = row[9]
             record.buy_action.contest_rating = row[10]
             record.gift_action.contest_rating = row[10]
+            record.set_type_by_name(row[11])
           end
         end
 
         def parse_gifts_table(table)
           parse_generic_table(table) do |record, row|
-            record.item_type_id = ItemType.find_by_name("gifts")
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
             record.gift_action.delta_energy = row[4]
             record.gift_action.delta_money = row[5]
             record.gift_action.contest_rating = row[6]
+            record.set_type_by_name(row[7])
           end
         end
 
         def parse_clothes_table(table)
           parse_generic_table(table) do |record, row|
-            record.item_type_id = ItemType.find_by_name("clothes")
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
@@ -57,6 +56,7 @@ module Models
 
             record.buy_action.delta_glamour = row[7]
             record.buy_action.contest_rating = row[8]
+            record.set_type_by_name(row[9])
           end
         end
 
