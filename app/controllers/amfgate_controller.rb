@@ -49,6 +49,24 @@ class AmfgateController < ApplicationController
     render :amf => @character.post_reply(@misc_params[1], @misc_params[0]).dto
   end
 
+  def get_rumors_to_vote
+    clicks_remaining = 100 - @character.character_actions.votes.count
+
+    first = Message.find(rand(Message.count))
+    #TODO fix this
+    second = first
+    second = Message.find(rand(Message.count)) while second == first
+    render :amf => [first.dto,second.dto, clicks_remaining]
+  end
+
+  # @param: Message.id (+)
+  # @param: Message.id (-)
+  def vote_for_rumors
+    @character.vote_for_message @misc_params[0], true
+    @character.vote_for_message @misc_params[1], false
+    render :amf => true
+  end
+
   # @param: Message.id
   def delete_message
     render :amf => Message.find(@misc_params[0]).destroy.dto
