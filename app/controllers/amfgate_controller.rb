@@ -135,7 +135,7 @@ class AmfgateController < ApplicationController
 
     raise 'unauthorized!' unless auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
     @character = Character.find(:first, :conditions => {:social_id => @flash_vars['viewer_id']})
-    @character.restore_energy
+    @character.restore_energy if @character
   end
   
   # @param: Character.social_id
