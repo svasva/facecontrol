@@ -1,5 +1,5 @@
 ActiveAdmin.register Character, { :sort_order => :glory_desc } do  
-	filter :place
+	filter :place, :collection => Place.order('name asc')
 	filter :name
 	filter :glory
 	filter :energy
