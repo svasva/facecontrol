@@ -5,9 +5,15 @@ ActiveAdmin.register ItemType, { :sort_order => :name_asc } do
   index do
   	column :name
   	column :description
-  	column :wearable
-  	column :giftable
-  	column :usable
+  	column :wearable do |it|
+  		check_box_tag '', 0, it.wearable, {:disabled => true}
+  	end
+  	column :giftable do |it|
+  		check_box_tag '', 0, it.giftable, {:disabled => true}
+  	end
+  	column :usable do |it|
+  		check_box_tag '', 0, it.usable, {:disabled => true}
+  	end
   	column :own_limit
   end
 
