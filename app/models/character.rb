@@ -103,6 +103,18 @@ class Character < ActiveRecord::Base
 		return msg
 	end
 
+	def post_reply(content, message_id)
+		msg = Message.find(message_id)
+		rpl = Message.create(
+			:source_id => self.id,
+			:target_id => msg.source_id,
+			:content => content,
+			:need_reply => false
+		)
+		self.do_action Action.post_reply, msg.source, rpl
+		return rpl
+	end
+
 	def can_put_on?(char_item)
 		return false unless char_item.character_id == self.id
 		return false unless char_item.wearable?
