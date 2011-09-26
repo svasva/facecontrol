@@ -1,5 +1,15 @@
-ActiveAdmin.register ItemType do
+ActiveAdmin.register ItemType, { :sort_order => :name_asc } do
   filter :name
+  filter :description
+
+  index do
+  	column :name
+  	column :description
+  	column :wearable
+  	column :giftable
+  	column :usable
+  	column :own_limit
+  end
 
   collection_action :import_csv, :method => :post do
     ItemType.parse_csv params[:import]
