@@ -49,6 +49,11 @@ class AmfgateController < ApplicationController
     render :amf => @character.post_reply(@misc_params[1], @misc_params[0]).dto
   end
 
+  # @param: Message.id
+  def delete_message
+    render :amf => Message.find(@misc_params[0]).destroy.dto
+  end
+
   def get_gifts
     render :amf => @character.gift_items.map(&:gift_dto)
   end
