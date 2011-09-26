@@ -23,11 +23,11 @@ class AmfgateController < ApplicationController
   end
 
   def get_rumors
-    render :amf => load_rumors
+    render :amf => Character.find(@misc_params[0]).messages.rumors.map(&:dto)
   end
   
   def get_interviews
-    render :amf => load_rumors
+    render :amf => Character.find(@misc_params[0]).messages.questions.map(&:dto)
   end
 
   def get_gifts
@@ -92,20 +92,6 @@ class AmfgateController < ApplicationController
   end
 
   protected
-
-  def load_rumors(offset = 0, limit = 50)
-    msgs = []
-    source = Character.first
-    target = Character.last
-    limit.times do
-      msgs << Message.new(
-        :content => "trololo #{rand(99999)}",
-        :source => source,
-        :target => target
-      ).dto
-    end
-    return msgs
-  end
 
   def amf_init
     @flash_vars = params[0][0]
