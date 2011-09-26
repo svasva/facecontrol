@@ -55,8 +55,8 @@ gem 'haml'
 gem 'haml-rails'
 
 
-# Use unicorn as the web server
-gem 'unicorn'
+# Use thin as the web server
+gem 'thin'
 
 # Deploy with Capistrano
 # gem 'capistrano'
