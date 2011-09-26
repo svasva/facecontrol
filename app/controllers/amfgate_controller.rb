@@ -46,7 +46,7 @@ class AmfgateController < ApplicationController
   # @param: reply.reply_to
   # @param: reply.content
   def post_reply
-    render :amf => @character.post_reply(@misc_params[0], @misc_params[1])
+    render :amf => @character.post_reply(@misc_params[1], @misc_params[0]).dto
   end
 
   def get_gifts

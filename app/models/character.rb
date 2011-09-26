@@ -109,10 +109,11 @@ class Character < ActiveRecord::Base
 			:source_id => self.id,
 			:target_id => msg.source_id,
 			:content => content,
-			:need_reply => false
+			:need_answer => false,
+			:reply_to => message_id
 		)
-		self.do_action Action.post_reply, msg.source, rpl
-		return rpl
+		self.do_action Action.post_reply.last, msg.source, rpl
+		return msg
 	end
 
 	def can_put_on?(char_item)

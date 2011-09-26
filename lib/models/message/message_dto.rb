@@ -12,7 +12,7 @@ class MessageDTO
 		@target = msg.target.dto
 		@rating = msg.rating
 		@content = msg.content
-		@answer = (msg.need_answer and msg.replies.count > 0) ? msg.replies.first : nil
+		@answer = (msg.need_answer and msg.replies.count > 0) ? msg.replies.first.content : nil
 	end
 end
 
