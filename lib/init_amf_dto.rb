@@ -15,8 +15,10 @@ class InitAmfDTO
 	attr_accessor :free_bar
 	attr_accessor :new_gifts
 	attr_accessor :relations
+	attr_accessor :contest
 
 	def initialize(char, friends)
+		@contest = ActionGroup.last.dto(char) if ActionGroup.count > 0
 		@places = Place.all.map(&:dto)
 		@usable_items = Item.usable.map(&:dto)
 		@giftable_items = Item.giftable.map(&:dto)
@@ -30,7 +32,7 @@ class InitAmfDTO
 		@free_bar = char.gift_drinks.map(&:dto)
 
 		@friends = Character.where(:social_id => friends).map(&:dto)
-		@tops = Character.order('glory DESC').limit(10).map(&:dto)
+		@tops = Character.top10.map(&:dto)
 
 		@contacts = char.contacts.map(&:dto)
 		@new_contacts = char.contact_requests.map(&:dto)

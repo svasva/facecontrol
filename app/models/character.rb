@@ -30,6 +30,8 @@ class Character < ActiveRecord::Base
 		:class_name => 'Character',
 		:source => :target,
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
+	
+	scope :top10, order('glory DESC').limit(10)
 
 	def login_hook
 		# placeholder
@@ -82,6 +84,17 @@ class Character < ActiveRecord::Base
 		self.do_action item.use_action
 	end
 
+	def enter_contest(ag_id)
+		ag = ActionGroup.find(ag)
+		return false unless ag
+
+		self.character_action_groups << CharacterActionGroup.create(
+			:action_group_id => ag_id,
+			:action_group_rating => 0
+		) if self.do_action ag.enter_action
+		return self
+	end
+
 	def make_a_gift(item, target_character)
 		if item.item_type.giftable
 			return item if self.do_action item.gift_action, target_character 
@@ -93,7 +106,8 @@ class Character < ActiveRecord::Base
 			:source => self,
 			:target_id => target_char_id,
 			:need_answer => need_answer,
-			:content => content
+			:content => content,
+			:rating => 100
 		)
 		if need_answer
 			self.do_action Action.post_question.last, Character.find(target_char_id), msg

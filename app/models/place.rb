@@ -38,6 +38,14 @@ class Place < ActiveRecord::Base
     ClubDTO.new self, char
   end
 
+  def last_visitors_dto(limit = 50, char_exclude_id = nil)
+    CharacterAction.char_uniq.where(:action_id => self.enter_action.id)
+      .where{character_id.not_eq char_exclude_id unless char_exclude_id.nil?}
+      .order('id DESC')
+      .limit(limit)
+      .map {|ca| ca.character.dto(char_exclude_id)}
+  end
+
   private #studio
 
   def init_default_actions

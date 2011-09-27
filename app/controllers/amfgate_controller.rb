@@ -21,7 +21,9 @@ class AmfgateController < ApplicationController
     char_params = {
       :name => @misc_params[0],
       :male => @misc_params[1],
-      :social_id => @flash_vars['viewer_id']
+      :social_id => @flash_vars['viewer_id'],
+      :energy => GloryLevel.where(:level => 1).first.max_energy,
+      :money => 1
     }
     render :amf => Character.create(char_params).dto unless char_params.nil?
   end
@@ -128,6 +130,15 @@ class AmfgateController < ApplicationController
   # @param: Place.id
   def get_club_info
     render :amf => Place.find(@misc_params[0]).club_dto
+  end
+
+  def get_action_groups
+    render :amf => ActionGroup.last.dto(@character) if ActionGroup.count > 0
+  end
+
+  # @param: ActionGroup.id
+  def enter_contest
+    render :amf => @character.enter_contest(@misc_params[0]).dto
   end
 
   # @param: array of Character.id
