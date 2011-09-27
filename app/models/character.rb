@@ -84,6 +84,17 @@ class Character < ActiveRecord::Base
 		self.do_action item.use_action
 	end
 
+	def enter_contest(ag_id)
+		ag = ActionGroup.find(ag)
+		return false unless ag
+
+		self.character_action_groups << CharacterActionGroup.create(
+			:action_group_id => ag_id,
+			:action_group_rating => 0
+		) if self.do_action ag.enter_action
+		return self
+	end
+
 	def make_a_gift(item, target_character)
 		if item.item_type.giftable
 			return item if self.do_action item.gift_action, target_character 

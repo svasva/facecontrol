@@ -130,6 +130,11 @@ class AmfgateController < ApplicationController
     render :amf => Place.find(@misc_params[0]).club_dto
   end
 
+  # @param: ActionGroup.id
+  def enter_contest
+    render :amf => @character.enter_contest(@misc_params[0]).dto
+  end
+
   # @param: array of Character.id
   def get_init_amf
     render :amf => InitAmfDTO.new(@character, @misc_params[0])
