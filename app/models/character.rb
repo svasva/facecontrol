@@ -30,6 +30,8 @@ class Character < ActiveRecord::Base
 		:class_name => 'Character',
 		:source => :target,
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
+	
+	scope :top10, order('glory DESC').limit(10)
 
 	def login_hook
 		# placeholder

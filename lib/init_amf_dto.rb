@@ -30,7 +30,7 @@ class InitAmfDTO
 		@free_bar = char.gift_drinks.map(&:dto)
 
 		@friends = Character.where(:social_id => friends).map(&:dto)
-		@tops = Character.order('glory DESC').limit(10).map(&:dto)
+		@tops = Character.top10.map(&:dto)
 
 		@contacts = char.contacts.map(&:dto)
 		@new_contacts = char.contact_requests.map(&:dto)
