@@ -27,11 +27,11 @@
 		</app>
 		<app id="1" appId="2452518" secret="123456" name="FaceControl test">
 			<language>ru</language>
-			<ServerBaseURL>http://testfc.tubester.ru</ServerBaseURL>
+			<ServerBaseURL>http://facecontrol.erundook.net/flash_assets</ServerBaseURL>
 			<PollServerHost>testfc.tubester.ru</PollServerHost>
 			<PollServerPort>2000</PollServerPort>
 			<serverPath></serverPath>
-			<amfUrl>http://facecontrol.herokuapp.com/amf</amfUrl>
+			<amfUrl>http://facecontrol.erundook.net/amf</amfUrl>
 <!--			<amfUrl>http://192.168.0.176:3000/amf</amfUrl> -->
 		</app>
 	</network>
