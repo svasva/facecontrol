@@ -106,7 +106,8 @@ class Character < ActiveRecord::Base
 			:source => self,
 			:target_id => target_char_id,
 			:need_answer => need_answer,
-			:content => content
+			:content => content,
+			:rating => 100
 		)
 		if need_answer
 			self.do_action Action.post_question.last, Character.find(target_char_id), msg
