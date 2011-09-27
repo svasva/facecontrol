@@ -132,6 +132,10 @@ class AmfgateController < ApplicationController
     render :amf => Place.find(@misc_params[0]).club_dto
   end
 
+  def get_action_groups
+    render :amf => ActionGroup.last.dto(@character) if ActionGroup.count > 0
+  end
+
   # @param: ActionGroup.id
   def enter_contest
     render :amf => @character.enter_contest(@misc_params[0]).dto
