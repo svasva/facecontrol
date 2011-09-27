@@ -267,6 +267,7 @@ DEPENDENCIES
   mysql2
   newrelic_rpm
   pg
+  rack-cache
   rails (= 3.1.1.rc1)
   resque
   resque-scheduler!
