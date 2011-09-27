@@ -6,7 +6,7 @@ class CharacterAction < ActiveRecord::Base
 
   scope :last_ten, joins(:action).where{action.default_type != 'stay'}.order('created_at desc').limit(10)
   scope :votes, joins(:action).where{action.default_type == 'vote'}
-  scope :char_uniq, select('distinct(character_actions.character_id), character_actions.*')
+  scope :char_uniq, select('distinct(character_actions.character_id)')
 
   after_create :enqueue
   before_create :set_stop_time

@@ -31,8 +31,6 @@ class Character < ActiveRecord::Base
 		:source => :target,
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
 
-  scope :distinct, select('distinct(characters.id), characters.*')
-
 	def login_hook
 		# placeholder
 	end
