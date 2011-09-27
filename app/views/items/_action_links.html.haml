@@ -1,0 +1,5 @@
+= link_to "All actions", admin_item_actions_path(item)
+%br
+- item.actions.each do |a|
+  = link_to a.name, admin_item_action_path(item, a)
+  %br

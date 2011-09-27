@@ -57,6 +57,16 @@ Facecontrol::Application.routes.draw do
   resources :import do
     post :places, :on => :collection
   end
+  
+ #FIXME! workaround https://github.com/gregbell/active_admin/issues/221 
+  namespace :admin do
+    resources :places do
+      resources :actions
+    end
+    resources :items do
+      resources :actions
+    end
+  end 
    
   match 'amfgate/:action' => 'amfgate'
 

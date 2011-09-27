@@ -8,6 +8,11 @@ ActiveAdmin.register Item do
     column :name
     column :description
     column :glamour
+    column :actions do |item|
+      div :class => "actions" do
+        render "items/action_links", :item => item
+      end
+    end
     default_actions
   end
 	collection_action :import_csv, :method => :post do
