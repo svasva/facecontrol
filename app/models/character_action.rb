@@ -130,7 +130,7 @@ class CharacterAction < ActiveRecord::Base
           :equipped => false,
           :gift => true,
           :wear => 0,
-          :source_character_id => self.id
+          :source_character_id => self.character_id
         )
       end
     end
