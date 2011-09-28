@@ -1,30 +1,27 @@
 # encoding: utf-8
 
 class Place < ActiveRecord::Base
-  has_many :actions, :as => :subject
+  has_many :actions, :as => :subject, :dependent => :destroy
   has_many :characters
 
   has_one :enter_action,
 		:as => :subject,
 		:class_name => 'Action',
 		:conditions => {:default_type => "enter"},
-	  :autosave => true,
-	  :dependent => :destroy
+	  :autosave => true
 
   has_one :stay_action,
   	:as => :subject,
   	:class_name => 'Action',
 		:conditions => {:default_type => "stay"},
-		:autosave => true,
-		:dependent => :destroy
+		:autosave => true
 
   has_one :leave_action,
   	:as => :subject,
   	:class_name => 'Action',
   	:conditions => {:default_type => "leave"},
-  	:autosave => true,
-  	:dependent => :destroy
-
+  	:autosave => true
+    
   accepts_nested_attributes_for :enter_action, :stay_action, :leave_action, :actions
 
   after_initialize :init_default_actions
