@@ -6,6 +6,7 @@ class ItemDTO
 	attr_accessor :ttl
 	attr_accessor :properties
 	attr_accessor :glamour
+	attr_accessor :wear_factor
 	attr_accessor :type
 
 	@id, @source, @description, @image, @ttl, @properties, @type = nil;
@@ -16,6 +17,7 @@ class ItemDTO
 		@description = item.description
 		@image = item.picture_url
 		@ttl = item.ttl
+		@wear_factor = item.wear_factor
 		@glamour = item.glamour
 		@properties = item.buy_action.dto
 		@type = item.item_type.description
