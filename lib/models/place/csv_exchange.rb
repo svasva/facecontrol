@@ -18,6 +18,7 @@ module Models
             record.map_x,
             record.map_y,
             record.video_urls,
+            enter_condition.level ,
             enter_condition.energy,
             enter_condition.drive,
             enter_condition.glory,
@@ -30,6 +31,7 @@ module Models
             record.enter_action.delta_drive,
             record.enter_action.delta_wear,
 
+            view_condition.level,
             view_condition.energy,
             view_condition.drive,
             view_condition.glory,
