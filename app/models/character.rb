@@ -100,6 +100,12 @@ class Character < ActiveRecord::Base
 		msg.update_attributes(:rating => rating)
 	end
 
+	def vote_for_char(char_id, plus)
+		char = Character.find(char_id)
+		rating = char.photo_rating + (plus ? 1 : -1)
+		char.update_attributes(:photo_rating => rating)
+	end
+
 	def post_reply(content, message_id)
 		msg = Message.find(message_id)
 		rpl = Message.create(

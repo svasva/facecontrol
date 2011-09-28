@@ -59,9 +59,25 @@ class AmfgateController < ApplicationController
   # @param: Message.id (+)
   # @param: Message.id (-)
   def vote_for_rumors
+    #TODO investigate condition checks
     @character.vote_for_message @misc_params[0], true
     @character.vote_for_message @misc_params[1], false
+    @character.do_action Action.vote
     render :amf => load_rumors_to_vote
+  end
+
+  def get_chars_to_vote
+    render :amf => load_chars_to_vote
+  end
+
+  # @param: Character.id (+)
+  # @param: Character.id (-)
+  def vote_for_chars
+    #TODO investigate condition checks
+    @character.vote_for_char @misc_params[0], true
+    @character.vote_for_char @misc_params[1], false
+    @character.do_action Action.vote.first
+    render :amf => load_chars_to_vote
   end
 
   # @param: Message.id
@@ -155,6 +171,13 @@ class AmfgateController < ApplicationController
     clicks_remaining = 100 - @character.character_actions.votes.count
 
     first, second = Message.rumors.order('RAND()').where{rating >= 0}.limit(2)
+    return [first.dto, second.dto, clicks_remaining]
+  end
+
+  def load_chars_to_vote
+    clicks_remaining = 100 - @character.character_actions.votes.count
+
+    first, second = Character.order('RAND()').limit(2)
     return [first.dto, second.dto, clicks_remaining]
   end
 

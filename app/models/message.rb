@@ -5,6 +5,7 @@ class Message < ActiveRecord::Base
 
   scope :questions, where(:need_answer => true, :reply_to => nil)
   scope :rumors, where(:need_answer => false, :reply_to => nil)
+  scope :top10, rumors.order('rating DESC').limit(10)
 
 	def dto
 		MessageDTO.new self
