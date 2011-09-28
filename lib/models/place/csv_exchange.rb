@@ -11,6 +11,7 @@ module Models
           parse_generic_table(table) do |record, row|
             enter_condition = Condition.new({:name => :enter_condition})
             view_condition = Condition.new({:name => :visible_condition})
+            stay_condition = Condition.new({:name => :stay_condition})
 
             record.name,  
             record.description, 
@@ -39,7 +40,16 @@ module Models
             view_condition.glamour,
             view_condition.money = row[1..-1]
 
+            stay_condition.level,
+            stay_condition.energy,
+            stay_condition.drive,
+            stay_condition.glory,
+            stay_condition.real_glory,
+            stay_condition.glamour,
+            stay_condition.money = [0,0,0,0,0,0,0]
+
             record.enter_action.conditions = [enter_condition, view_condition]
+            record.stay_action.conditions = [stay_condition]
             record.stay_action.parent = record.enter_action
 
           end

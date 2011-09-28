@@ -110,5 +110,19 @@ describe Place do
 			view_condition.money.should == 16
 			view_condition.operator.should == '>='
 		end
+
+		it 'writes attributes to conditions of stay_action' do
+			Place.parse_table @table
+			stay_condition = new_place.stay_action.conditions.find_by_name 'stay_condition'
+			stay_condition.level.should == 0
+			stay_condition.energy.should == 0
+			stay_condition.drive.should == 0
+			stay_condition.glory.should == 0
+			stay_condition.real_glory.should == 0
+			stay_condition.glamour.should == 0
+			stay_condition.money.should == 0
+			stay_condition.operator.should == '>='
+
+		end
 	end
 end
