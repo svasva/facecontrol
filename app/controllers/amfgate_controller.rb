@@ -102,7 +102,7 @@ class AmfgateController < ApplicationController
   def buy_item
     item = Item.find @misc_params[0]
     return false if item.nil?
-    render :amf => @character.buy_item(item).action.subject.dto
+    render :amf => @character.buy_item(item)
   end
 
   # @param: Item.id
