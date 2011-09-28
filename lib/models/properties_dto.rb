@@ -30,6 +30,7 @@ class PropertiesDTO
 			@glamour = obj.glamour
 			@money = obj.money
 			@operator = obj.operator
+			@level = obj.level
 		end
 	end
 end
