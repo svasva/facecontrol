@@ -25,6 +25,8 @@ class CharacterItem < ActiveRecord::Base
     }
   )
 
+  scope :equipped, where(:equipped => true)
+
   def glamour
     self.item.glamour - (self.wear * self.item.wear_factor) if self.item.glamour
   end

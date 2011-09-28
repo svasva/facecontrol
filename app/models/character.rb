@@ -3,21 +3,10 @@ class Character < ActiveRecord::Base
 	has_many :actions, :through => :character_actions
 	has_many :character_action_groups, :dependent => :destroy
 	has_many :action_groups, :through => :character_action_groups
-	has_many :character_items, :dependent => :destroy
-	has_many :items, :through => :character_items
-	belongs_to :place
-	has_many :equipped_character_items,
-		:class_name => 'CharacterItem',
-		:conditions => { :equipped => true }
-
-	has_many :equipped_items,
-		:through => :equipped_character_items,
-		:class_name => 'Item',
-		:source => :item
-
+	has_many :items, :class_name => 'CharacterItem', :dependent => :destroy
 	has_many :messages, :foreign_key => 'target_id', :dependent => :destroy
-
 	has_many :relations, :class_name => 'CharacterRelation', :dependent => :destroy
+	belongs_to :place
 
 	has_many :contacts,
 		:through => :relations,
@@ -48,18 +37,6 @@ class Character < ActiveRecord::Base
 		CharacterDTO.new self, char_id
 	end
 
-	def gifts
-		CharacterItem.gifts.where(:character_id => self.id)
-	end
-
-	def gift_drinks
-		CharacterItem.gift_drinks.where(:character_id => self.id)
-	end
-
-	def clothes
-		CharacterItem.clothes.where(:character_id => self.id)
-	end
-
 	def level
 		g = self.glory
 		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.level
@@ -72,7 +49,7 @@ class Character < ActiveRecord::Base
 
 	def glamour
 		glam = 0
-		self.equipped_character_items.each { |item| glam += item.glamour }
+		self.items.clothes.equipped.each { |item| glam += item.glamour }
 		return glam
 	end
 
@@ -225,7 +202,7 @@ class Character < ActiveRecord::Base
 				logger.info "\tmodify relation to #{Character.find(target_id).name}: #{value}"
 				next
 			when 'delta_wear'
-				self.equipped_character_items.each {|item|
+				self.items.clothes.equipped.each {|item|
 					item.update_attributes(:wear => (item.wear or 0) + value)
 				}
 				next
