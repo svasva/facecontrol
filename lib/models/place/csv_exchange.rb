@@ -38,6 +38,7 @@ module Models
             view_condition.money = row[1..-1]
 
             record.enter_action.conditions = [enter_condition, view_condition]
+            record.stay_action.parent = record.enter_action
 
           end
         end
