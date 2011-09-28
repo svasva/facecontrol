@@ -23,7 +23,8 @@ class AmfgateController < ApplicationController
       :male => @misc_params[1],
       :social_id => @flash_vars['viewer_id'],
       :energy => GloryLevel.where(:level => 1).first.max_energy,
-      :money => 1
+      :money => 1,
+      :real_glory => 1
     }
     render :amf => Character.create(char_params).dto unless char_params.nil?
   end
