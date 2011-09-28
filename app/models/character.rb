@@ -148,20 +148,20 @@ class Character < ActiveRecord::Base
 		obj.conditions.each {|condition|
 			condition.attributes.each {|k,v|
 				next if k.match /_at$|_?id$|description|name|operator/ or v == nil
-				logger.info "\tcondition '#{k}': #{self.attributes[k]} #{condition.operator} #{v}"
+				logger.info "\tcondition '#{k}': #{self.send(k.to_sym)} #{condition.operator} #{v}"
 				case condition.operator
 					when '<'
-						return false unless self.attributes[k] < v
+						return false unless self.send(k.to_sym) < v
 					when '<='
-						return false unless self.attributes[k] <= v
+						return false unless self.send(k.to_sym) <= v
 					when '>='
-						return false unless self.attributes[k] >= v
+						return false unless self.send(k.to_sym) >= v
 					when '>'
-						return false unless self.attributes[k] > v
+						return false unless self.send(k.to_sym) > v
 					when '!='
-						return false unless self.attributes[k] != v
+						return false unless self.send(k.to_sym) != v
 					when '='
-						return false unless self.attributes[k] == v
+						return false unless self.send(k.to_sym) == v
 				end
 			}
 		}
