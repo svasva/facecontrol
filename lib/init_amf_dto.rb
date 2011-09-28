@@ -16,6 +16,8 @@ class InitAmfDTO
 	attr_accessor :new_gifts
 	attr_accessor :relations
 	attr_accessor :contest
+	attr_accessor :top_rumor
+	attr_accessor :top_avatar
 
 	def initialize(char, friends)
 		@contest = ActionGroup.last.dto(char) if ActionGroup.count > 0
@@ -37,5 +39,7 @@ class InitAmfDTO
 		@contacts = char.contacts.map(&:dto)
 		@new_contacts = char.contact_requests.map(&:dto)
 		@relations = RelationsDTO.new(RelationLevel.order('relation_index DESC'))
+		@top_rumor = Message.top10.first.dto
+		@top_avatar = Character.order('photo_rating DESC').first.dto
 	end
 end
