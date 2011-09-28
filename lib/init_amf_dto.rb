@@ -23,13 +23,13 @@ class InitAmfDTO
 		@usable_items = Item.usable.map(&:dto)
 		@giftable_items = Item.giftable.map(&:dto)
 		@wearable_items = Item.wearable.map(&:dto)
-		@my_gifts = char.gifts.map(&:gift_dto)
+		@my_gifts = char.items.gifts.map(&:gift_dto)
 		@my_rumors = char.messages.rumors.map(&:dto)
 		@my_interviews = char.messages.questions.map(&:dto)
 		@club = char.place.club_dto(char) unless char.place.nil?
-		@new_gifts = char.gifts.where('character_items.created_at > ?', char.updated_at).map(&:gift_cdto)
-		@my_items = char.clothes.map(&:dto)
-		@free_bar = char.gift_drinks.map(&:dto)
+		@new_gifts = char.items.gifts.where('character_items.created_at > ?', char.updated_at).map(&:gift_cdto)
+		@my_items = char.items.clothes.map(&:dto)
+		@free_bar = char.items.gift_drinks.map(&:dto)
 
 		@friends = Character.where(:social_id => friends).map(&:dto)
 		@tops = Character.top10.map(&:dto)
