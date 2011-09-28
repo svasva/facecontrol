@@ -85,7 +85,7 @@ class Character < ActiveRecord::Base
 	end
 
 	def enter_contest(ag_id)
-		ag = ActionGroup.find(ag)
+		ag = ActionGroup.find(ag_id)
 		return false unless ag
 
 		self.character_action_groups << CharacterActionGroup.create(
@@ -211,18 +211,27 @@ class Character < ActiveRecord::Base
 		new_attributes = {}
 		max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
 		action.attributes.each {|attrib,value|
-			next unless attrib.match /delta_/ and value != nil and value != 0
-			if attrib == 'delta_relation_index'
+			next unless value != nil and value != 0
+			# special attributes
+			case attrib
+			when 'contest_rating'
+				if (cag = self.character_action_groups.last) and cag
+					cag.update_attributes :action_group_rating => (cag.action_group_rating + contest_rating)
+				end
+				next
+			when 'delta_relation_index'
 				rel = (self.relations.where(:target_id => target_id) or self.relations.create(:target_id => target_id))
 				rel.update_attributes :index => rel.index+value
 				logger.info "\tmodify relation to #{Character.find(target_id).name}: #{value}"
 				next
-			elsif attrib == 'delta_wear'
+			when 'delta_wear'
 				self.equipped_character_items.each {|item|
 					item.update_attributes(:wear => (item.wear or 0) + value)
 				}
 				next
 			end
+
+			next unless attrib.match /delta_/
 			attrib = attrib.match('delta_(.*)')[1]
 			new_attributes[attrib] = (self.attributes[attrib] != nil) ? self.attributes[attrib] + value : value
 			if attrib == 'energy' and new_attributes[attrib] > max_energy
