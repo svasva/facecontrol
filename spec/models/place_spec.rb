@@ -19,12 +19,12 @@ describe Place do
 				'http://pic3.ru',33,45,'v_urls',
 				6, 5, 4, 3, 2, 1,
 				-100,200, 50, 500,
-				16, 15, 14, 13, 12, 11],
+				16, 17, 16, 15, 14, 13, 12, 11],
 			[nil,'Рюмочная \'Второе дыхание\'', 'спасение изнурённому человеку',
 				'http://pic2.ru',31, 42, 'v_urls2',
-				5, 6, 7, 8, 9, 10,
+				4, 5, 6, 7, 8, 9, 10,
 				100, 100, 100, -500,
-				11, 12, 13, 14, 15, 16]]
+				10, 11, 12, 13, 14, 15, 16]]
 		end
 
 		it 'changes Place count' do
@@ -91,6 +91,7 @@ describe Place do
 		it 'writes attributes to conditions of enter_action' do
 			Place.parse_table @table
 			enter_condition = new_place.enter_action.conditions.find_by_name 'enter_condition'
+			enter_condition.level.should == 4
 			enter_condition.energy.should == 5
 			enter_condition.drive.should == 6
 			enter_condition.glory.should == 7
@@ -100,6 +101,7 @@ describe Place do
 			enter_condition.operator.should == '>='
 
 			view_condition = new_place.enter_action.conditions.find_by_name 'visible_condition'
+			view_condition.level.should == 10
 			view_condition.energy.should == 11
 			view_condition.drive.should == 12
 			view_condition.glory.should == 13
@@ -107,6 +109,20 @@ describe Place do
 			view_condition.glamour.should == 15
 			view_condition.money.should == 16
 			view_condition.operator.should == '>='
+		end
+
+		it 'writes attributes to conditions of stay_action' do
+			Place.parse_table @table
+			stay_condition = new_place.stay_action.conditions.find_by_name 'stay_condition'
+			stay_condition.level.should == 0
+			stay_condition.energy.should == 0
+			stay_condition.drive.should == 0
+			stay_condition.glory.should == 0
+			stay_condition.real_glory.should == 0
+			stay_condition.glamour.should == 0
+			stay_condition.money.should == 0
+			stay_condition.operator.should == '>='
+
 		end
 	end
 end
