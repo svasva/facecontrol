@@ -66,6 +66,11 @@ describe Place do
 			new_place.stay_action.should_not == nil
 		end
 
+		it 'stay action os child of enter action' do
+			Place.parse_table @table
+			new_place.stay_action.parent.should == new_place.enter_action
+		end
+
 		it 'writes attributes to new places' do
 			Place.parse_table @table		
 			new_place.name.should == 'Рюмочная \'Второе дыхание\''
