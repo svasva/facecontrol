@@ -7,8 +7,8 @@ class PropertiesDTO
 	attr_accessor :money
 	attr_accessor :operator
 	attr_accessor :contest_rating
-
-	@energy, @glory, @real_glory, @drive, @glamour, @money, @operator = nil
+	attr_accessor :glamour
+	attr_accessor :level
 
 	def initialize(obj)
 		case obj.class.name
