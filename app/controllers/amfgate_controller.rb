@@ -121,7 +121,8 @@ class AmfgateController < ApplicationController
 
   # @param: Place.id
   def enter_place
-    render :amf => @character.enter_place(Place.find(@misc_params[0])).club_dto(@character)
+    club = @character.enter_place(Place.find(@misc_params[0]))
+    render :amf => club ? club.club_dto(@character) : false
   end
 
   def leave_place
