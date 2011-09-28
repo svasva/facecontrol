@@ -5,6 +5,7 @@ class CharacterDTO
 	attr_accessor :sex
 	attr_accessor :level
 	attr_accessor :glory
+	attr_accessor :glamour
 	attr_accessor :real_glory
 	attr_accessor :relation
 	attr_accessor :money
@@ -18,6 +19,7 @@ class CharacterDTO
 		@max_energy = char.max_energy
 		@social_id = char.social_id
 		@name = char.name
+		@glamour = char.glamour
 		@sex = char.male
 		@level = char.level
 		@glory = char.glory

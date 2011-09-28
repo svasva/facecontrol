@@ -1,6 +1,7 @@
 ActiveAdmin.register ItemType, { :sort_order => :name_asc } do
 	filter :name
 	filter :description
+	menu :parent => 'Items'
 
 	index do
 		column :name
