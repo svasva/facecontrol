@@ -6,7 +6,6 @@ FactoryGirl.define do
     description "Коктейли"
     wearable false
     giftable true
-    unique false
     own_limit 0
     exclusive false
   end
@@ -16,7 +15,6 @@ FactoryGirl.define do
     description "Подарки"
     wearable false
     giftable true
-    unique false
     own_limit 0
     exclusive false
   end
@@ -26,7 +24,6 @@ FactoryGirl.define do
     description "Гламур"
     wearable true
     giftable false
-    unique false
     own_limit 0
     exclusive false
   end
