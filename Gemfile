@@ -19,7 +19,6 @@ gem 'mysql2'
 # heroku
 
 gem 'newrelic_rpm'
-gem 'pg'
 gem 'squeel'
 
 #our custom gems
