@@ -35,7 +35,7 @@ class Place < ActiveRecord::Base
     ClubDTO.new self, char
   end
 
-  def last_visitors_dto(limit = 50, my_char_id = nil)
+  def last_visitors_dto(my_char_id = nil, limit = 50)
     CharacterAction.char_uniq.where(:action_id => self.enter_action.id)
       .where{character_id != my_char_id}
       .order('id DESC')
