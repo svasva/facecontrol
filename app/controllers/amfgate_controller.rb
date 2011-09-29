@@ -66,7 +66,7 @@ class AmfgateController < ApplicationController
     #TODO investigate condition checks
     @character.vote_for_message @misc_params[0], true
     @character.vote_for_message @misc_params[1], false
-    @character.do_action Action.vote
+    @character.do_action Action.vote.first
     render :amf => load_rumors_to_vote
   end
 
