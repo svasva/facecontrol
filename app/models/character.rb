@@ -38,7 +38,7 @@ class Character < ActiveRecord::Base
 	end
 
 	def level
-		g = self.glory
+		g = (self.glory or 0)
 		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.level
 	end
 
