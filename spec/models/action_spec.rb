@@ -26,5 +26,10 @@ describe Action do
        :delta_real_glory => 5})
       a.conditions.should == []
     end
+
+     it 'should not raise' do
+      a = Action.create
+      a.conditions.should == []
+    end
   end
 end

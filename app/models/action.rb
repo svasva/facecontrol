@@ -36,11 +36,11 @@ class Action < ActiveRecord::Base
 
   def add_default_condition
     attrs = %w'energy money drive glory real_glory'
-    if attrs.any? { |attr| self["delta_#{attr}"] < 0 }
+    if attrs.any? { |attr| self["delta_#{attr}"].to_i < 0 }
       default_condition = Condition.new({:name => "default_condition"})
       attrs.each do |attr|
         #FIXME Refactor
-        if self["delta_#{attr}"] < 0
+        if self["delta_#{attr}"].to_i < 0
           default_condition[attr] = -self["delta_#{attr}"]
         end
       end
