@@ -38,8 +38,8 @@ class Character < ActiveRecord::Base
 	end
 
 	def level
-		g = (self.glory or 0)
-		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.level
+		return 0 unless self.glory >= 0
+		GloryLevel.where{(glory.lteq self.glory)}.order('glory asc').last.level
 	end
 
 	def max_energy
