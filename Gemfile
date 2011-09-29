@@ -33,7 +33,7 @@ gem 'resque'
 gem 'resque-scheduler', :git => 'git://github.com/bvandenbos/resque-scheduler.git'
 gem 'foreman'
 gem 'rack-cache'
-
+gem 'vk_api'
 # js compiler
 gem 'therubyracer'
 
