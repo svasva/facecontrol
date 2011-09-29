@@ -6,6 +6,10 @@ class ExchangeRate < ActiveRecord::Base
 	  :autosave => true,
 	  :dependent => :destroy
 
+	 def name
+	 	self.game_string
+	 end
+
   def init_default_actions
 		if new_record?
 			build_buy_action
