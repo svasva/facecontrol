@@ -5,6 +5,8 @@ class Action < ActiveRecord::Base
   has_many :conditions, :dependent => :destroy
   has_many :character_actions, :dependent => :destroy
 
+  accepts_nested_attributes_for :conditions
+
   has_many :children,
   	:class_name => 'Action',
   	:foreign_key => 'parent_id'
@@ -28,6 +30,23 @@ class Action < ActiveRecord::Base
     PropertiesDTO.new self
   end
  
+  before_save :add_default_condition
+
+  protected
+
+  def add_default_condition
+    attrs = %w'energy money drive glory real_glory'
+    if attrs.any? { |attr| self["delta_#{attr}"] < 0 }
+      default_condition = Condition.new({:name => "default_condition"})
+      attrs.each do |attr|
+        #FIXME Refactor
+        if self["delta_#{attr}"] < 0
+          default_condition[attr] = -self["delta_#{attr}"]
+        end
+      end
+      self.conditions = [default_condition]
+    end
+  end
   # validates :default_type,
   #   :uniqueness => {:scope => [:subject_type, :subject_id]}
 end
