@@ -43,10 +43,8 @@ class Character < ActiveRecord::Base
 	end
 
 	def max_energy
-		g = self.glory
-		logger.error "#{self.to_yaml}; #{GloryLevel.where{(glory.lteq g)}.order('glory asc').to_yaml}"
-
-		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.max_energy
+		return 0 unless self.glory >= 0
+		GloryLevel.where{(glory.lteq self.glory)}.order('glory asc').last.max_energy
 	end
 
 	def glamour
