@@ -49,7 +49,7 @@ class CharacterAction < ActiveRecord::Base
   # check ttl and set CharacterAction stop_time
   def set_stop_time
     logger.info 'set stop_time'
-    self.stop_time = Time.now.utc + self.action.ttl.seconds if self.action.ttl
+    self.stop_time = Time.now.utc + self.action.ttl.seconds if self.action.ttl and self.action.ttl > 0
     logger.info "stop_time = #{self.stop_time.to_s(:short)}" if self.stop_time
   end
 
