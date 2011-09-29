@@ -11,15 +11,14 @@ module Models
        
         def parse_types_table(table)
           parse_generic_table(table) do |record, row|
-            record.name =         row[1]
-            record.description =  row[2]
-            record.wearable =     row[3]
-            record.giftable =     row[4]
-            record.unique =       row[5]
-            record.wear_limit =   row[6]
-            record.own_limit =    row[7]
-            record.exclusive =    row[8]
-            record.usable =       row[9]
+            record.name,
+            record.description,
+            record.wearable,
+            record.giftable,
+            record.wear_limit,
+            record.own_limit,
+            record.exclusive,
+            record.usable = row[1..-1]
           end
         end
 
