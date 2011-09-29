@@ -128,9 +128,8 @@ class Character < ActiveRecord::Base
 		return true
 	end
 
-	def put_on(char_item) #TODO can_put_on? method
+	def put_on(char_item)
 		return false if char_item.equipped
-		char_item.find_same_type_eq.each { |ci| self.take_off ci } if char_item.unique?
 		char_item.update_attributes :equipped => true if self.can_put_on? char_item
 		return char_item
 	end
