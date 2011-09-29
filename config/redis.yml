@@ -1,17 +1,17 @@
 defaults: &defaults
-	host: localhost
-	port: 6379
+  host: localhost
+  port: 6379
 
 development:
-	<<: *defaults
+  <<: *defaults
 
 test:
-	<<: *defaults
+  <<: *defaults
 
 staging:
-	<<: *defaults
+  <<: *defaults
 
 production:
-	host: fcdb1.questa.pro
-	port: 6379
-	password: ii2Eshey
+  host: fcdb1.questa.pro
+  port: 6379
+  password: ii2Eshey
