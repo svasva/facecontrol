@@ -4,7 +4,7 @@ ActiveAdmin.register ExchangeRate, { :sort_order => :game_value_asc } do
   filter :game_string
 
   index do
-    column :social_pice
+    column :social_price
     column :game_value
     column :game_string
     default_actions
