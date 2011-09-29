@@ -229,7 +229,7 @@ class Character < ActiveRecord::Base
 
 	def withraw_vk(exchange_rate, app_id, app_secret)
 		session = ::VkApi::Session.new app_id, app_secret
-		if session.secure.withdrawVotes :timestamp => Time.now.utc.to_i, :uid => self.social_id
+		if session.secure.withdrawVotes :timestamp => Time.now.utc.to_i, :uid => self.social_id, :votes => er.social_price
 			self.do_action exchange_rate.buy_action
 			return true
 		else
