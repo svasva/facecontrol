@@ -43,6 +43,7 @@ class Character < ActiveRecord::Base
 	end
 
 	def max_energy
+		logger.error "#{self.to_yaml}; #{GloryLevel.where{(glory.lteq g)}.order('glory asc').to_yaml}"
 		g = self.glory
 		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.max_energy
 	end
