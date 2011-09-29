@@ -117,7 +117,7 @@ class CharacterAction < ActiveRecord::Base
       case self.action.default_type
       when 'buy'
         logger.info "BUY! adding #{self.action.subject.name} to #{self.character.name}"
-        self.character.character_items << CharacterItem.create(
+        self.character.items << CharacterItem.create(
           :item => self.action.subject,
           :equipped => false,
           :gift => false,
@@ -125,7 +125,7 @@ class CharacterAction < ActiveRecord::Base
         )
       when 'gift'
         logger.info "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
-        self.target_character.character_items << CharacterItem.create(
+        self.target_character.items << CharacterItem.create(
           :item => self.action.subject,
           :equipped => false,
           :gift => true,
