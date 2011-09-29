@@ -227,4 +227,14 @@ class Character < ActiveRecord::Base
 		self.update_attributes(new_attributes)
 	end
 
+	def withraw_vk(amount, app_id, app_secret)
+		require 'vkapi.rb'
+		n=VkApiNode.new(app_id, app_secret)
+		req=n.withdrawVotes(self.social_id,amount.to_s)
+		res=VkApiNode.get(req)
+		if res =~ /\<transferred\>#{amount.to_s}\<\/transferred\>/
+			return true
+		end
+		return false
+	end
 end

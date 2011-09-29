@@ -18,6 +18,7 @@ class InitAmfDTO
 	attr_accessor :contest
 	attr_accessor :top_rumor
 	attr_accessor :top_avatar
+	attr_accessor :exchange_rates
 
 	def initialize(char, friends)
 		@contest = ActionGroup.last.dto(char) if ActionGroup.count > 0
@@ -41,5 +42,8 @@ class InitAmfDTO
 		@relations = RelationsDTO.new(RelationLevel.order('relation_index DESC'))
 		@top_rumor = Message.top10.first.dto if Message.top10.count > 0
 		@top_avatar = Character.order('photo_rating DESC').first.dto
+		@exchange_rates = ExchangeRate.order('game_value ASC').map {|er|
+			[er.id, er.social_price, er.game_value, er.game_string]
+		}
 	end
 end

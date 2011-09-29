@@ -1,4 +1,7 @@
 class AmfgateController < ApplicationController
+  @@app_id = '2452518'
+  @@app_secret = 'c3j9y9BmHPcNo7JmkvRL'
+
   respond_to :amf, :html
   before_filter :amf_init
 
@@ -65,6 +68,12 @@ class AmfgateController < ApplicationController
     @character.vote_for_message @misc_params[1], false
     @character.do_action Action.vote
     render :amf => load_rumors_to_vote
+  end
+
+  # @param: ExchangeRate.id
+  def request_funds
+    return false unless (er = ExchangeRate.find(@misc_params[0]))
+    render :amf => @character.withraw_vk(er.social_price, @@app_id, @@app_secret)
   end
 
   def get_chars_to_vote
@@ -198,9 +207,7 @@ class AmfgateController < ApplicationController
   # @param: Character.social_id
   # @param: @flash_vars['auth_key']
   def auth_vk?(social_id, session_key)
-    app_id = '2452518'
-    app_secret = 'c3j9y9BmHPcNo7JmkvRL'
-    auth_key = Digest::MD5.hexdigest "#{app_id}_#{social_id}_#{app_secret}"
+    auth_key = Digest::MD5.hexdigest "#{@@app_id}_#{social_id}_#{@@app_secret}"
     return auth_key == session_key
   end
 end
