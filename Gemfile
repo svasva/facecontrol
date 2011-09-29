@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 
+gem 'psych'
 gem 'rails', '3.1.1.rc1'
 #, :git => 'git://github.com/rails/rails.git', :branch=>'3-1-stable'
 
