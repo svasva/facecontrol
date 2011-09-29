@@ -73,7 +73,7 @@ class AmfgateController < ApplicationController
   # @param: ExchangeRate.id
   def request_funds
     return false unless (er = ExchangeRate.find(@misc_params[0]))
-    render :amf => @character.withraw_vk(er.social_price, @@app_id, @@app_secret)
+    render :amf => @character.withraw_vk(er, @@app_id, @@app_secret)
   end
 
   def get_chars_to_vote

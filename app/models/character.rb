@@ -227,14 +227,13 @@ class Character < ActiveRecord::Base
 		self.update_attributes(new_attributes)
 	end
 
-	def withraw_vk(amount, app_id, app_secret)
-		require 'vkapi.rb'
-		n=VkApiNode.new(app_id, app_secret)
-		req=n.withdrawVotes(self.social_id,amount.to_s)
-		res=VkApiNode.get(req)
-		if res =~ /\<transferred\>#{amount.to_s}\<\/transferred\>/
+	def withraw_vk(exchange_rate, app_id, app_secret)
+		session = ::VkApi::Session.new app_id, app_secret
+		if session.secure.withdrawVotes :timestamp => Time.now.utc.to_i, :uid => self.social_id
+			self.do_action exchange_rate.buy_action
 			return true
+		else
+			return false
 		end
-		return false
 	end
 end
