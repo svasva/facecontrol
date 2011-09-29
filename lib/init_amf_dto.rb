@@ -39,7 +39,7 @@ class InitAmfDTO
 		@contacts = char.contacts.map(&:dto)
 		@new_contacts = char.contact_requests.map(&:dto)
 		@relations = RelationsDTO.new(RelationLevel.order('relation_index DESC'))
-		@top_rumor = Message.top10.first.dto
+		@top_rumor = Message.top10.first.dto if Message.top10.count > 0
 		@top_avatar = Character.order('photo_rating DESC').first.dto
 	end
 end
