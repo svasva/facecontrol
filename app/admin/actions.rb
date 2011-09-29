@@ -2,22 +2,7 @@
 ActiveAdmin.register Action do  
  #belongs_to :item 
  #FIXME! workaround https://github.com/gregbell/active_admin/issues/221 
-
-  controller do
-    belongs_to :place, :item, :polymorphic => true, :optional => true
-    # strange workaround
-    before_filter :add_lost_params, :only => :update
-
-    def update
-      puts params.inspect
-      raise
-    end
-    def add_lost_params
-      extra = env["rack.request.form_hash"]
-      both = params.merge(extra.to_options)
-      params = both
-    end
-  end
+  controller.belongs_to :place, :item, :polymorphic => true
 
   filter :name
 
@@ -31,7 +16,7 @@ ActiveAdmin.register Action do
       end
     end
     column :created_at
-    default_actions 
+    default_actions
   end
 
   form do |f|
