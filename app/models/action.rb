@@ -11,11 +11,14 @@ class Action < ActiveRecord::Base
   	:class_name => 'Action',
   	:foreign_key => 'parent_id'
     
-  has_one :disabler_action,
+  has_many :disabling_actions,
   	:class_name => 'Action',
   	:foreign_key => 'disabler_action_id'
   	
   belongs_to :action_group
+  belongs_to :disabler_action,
+  	:class_name => 'Action',
+  	:foreign_key => 'disabler_action_id'
 
   scope :by_place, lambda {|place_id|
     where :subject_id => place_id, :subject_type => 'Place'
