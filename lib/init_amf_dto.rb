@@ -25,7 +25,7 @@ class InitAmfDTO
 		@places = Place.all.map(&:dto)
 		@usable_items = Item.usable.map(&:dto)
 		@giftable_items = Item.giftable.map(&:dto)
-		@wearable_items = Item.wearable.map(&:dto)
+		@wearable_items = Item.wearable.order('glamour ASC').where(:sex => char.sex).map(&:dto)
 		@my_gifts = char.items.gifts.map(&:gift_dto)
 		@my_rumors = char.messages.rumors.map(&:dto)
 		@my_interviews = char.messages.questions.map(&:dto)
