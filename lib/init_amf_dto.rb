@@ -32,7 +32,7 @@ class InitAmfDTO
 		@club = char.place.club_dto(char) unless char.place.nil?
 		@new_gifts = char.items.gifts.where('character_items.created_at > ?', char.updated_at).map(&:gift_cdto)
 		@my_items = char.items.clothes.map(&:dto)
-		@free_bar = char.items.gift_drinks.map(&:dto)
+		@free_bar = char.items.gift_drinks.map(&:gift_dto)
 
 		@friends = Character.where(:social_id => friends).map(&:dto)
 		@tops = Character.top10.map(&:dto)
