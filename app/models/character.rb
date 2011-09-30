@@ -230,7 +230,7 @@ class Character < ActiveRecord::Base
 			# special attributes
 			case attrib
 			when 'contest_rating'
-				if (cag = self.character_action_groups.last) and cag
+				if (cag = self.character_action_groups.last)
 					cag.update_attributes :action_group_rating => (cag.action_group_rating + contest_rating)
 				end
 				next
