@@ -138,7 +138,7 @@ class AmfgateController < ApplicationController
     item = Item.find @misc_params[0]
     target_char = Character.find @misc_params[1]
     return false if item.nil? or target_char.nil?
-    render :amf => (ret = @character.make_a_gift(item, target_char) ? ret.dto : false
+    render :amf => (ret = @character.make_a_gift(item, target_char)) ? ret.dto : false
   end
 
   def get_my_items
