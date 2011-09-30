@@ -11,6 +11,8 @@ module Models
        
         def parse_drinks_table(table)
           parse_generic_table(table) do |record, row|
+            record.set_type_by_name(row[11])
+            
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
@@ -28,24 +30,29 @@ module Models
             record.gift_action.delta_glory = row[9]
             record.buy_action.contest_rating = row[10]
             record.gift_action.contest_rating = row[10]
-            record.set_type_by_name(row[11])
+            record.gift_action.need_target = true
           end
         end
 
         def parse_gifts_table(table)
           parse_generic_table(table) do |record, row|
+            record.set_type_by_name(row[8])
+
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
             record.gift_action.delta_energy = -(row[4].to_i)
             record.gift_action.delta_money = -(row[5].to_i)
             record.gift_action.contest_rating = row[6]
-            record.set_type_by_name(row[7])
+            record.gift_action.need_target = true
+            record.ttl = row[7]
           end
         end
 
         def parse_clothes_table(table)
           parse_generic_table(table) do |record, row|
+            record.set_type_by_name(row[9])
+
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
@@ -56,7 +63,6 @@ module Models
 
             record.glamour = row[7]
             record.buy_action.contest_rating = row[8]
-            record.set_type_by_name(row[9])
           end
         end
 

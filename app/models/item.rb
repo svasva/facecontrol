@@ -27,9 +27,6 @@ class Item < ActiveRecord::Base
 
   accepts_nested_attributes_for :buy_action, :gift_action, :actions, :use_action 
 
-  after_initialize :init_default_actions
-  before_create :add_names_to_default_actions
-
   belongs_to :item_type
 
   def dto
@@ -37,28 +34,14 @@ class Item < ActiveRecord::Base
   end
 
 
-  def set_type_by_name(name)
-    self.item_type = ItemType.find_by_name(name)
+  def set_type_by_name(type_name)
+    self.item_type = ItemType.find_by_name(type_name)
+    build_buy_action(:name => "Купить #{name}") unless type_name == 'gift'
+    #FIXME It musn't be harcoded type
+    build_gift_action(:name => "Подарить #{name}") if item_type.giftable 
+    build_use_action(:name => "Использовать #{name}") if item_type.usable
   end
-
-  private #studio
-
-  def init_default_actions
-    if new_record?
-      build_buy_action
-      build_gift_action
-      build_use_action
-      buy_action.conditions.build
-    end
-  end
-
-
-  def add_names_to_default_actions
-    buy_action.name = "Купить #{name}"
-    gift_action.name = "Подарить #{name}"
-    use_action.name = "Использовать #{name}"
-  end
-  
+ 
 
   include Models::Item::CsvExchange
 

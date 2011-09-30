@@ -6,14 +6,16 @@ FactoryGirl.define do
     description "Коктейли"
     wearable false
     giftable true
+    usable   true
     own_limit 0
     exclusive false
   end
 
-  factory :gifts_type, :class => ItemType do
-    name "drinks"
+  factory :gift_type, :class => ItemType do
+    name "gift"
     description "Подарки"
     wearable false
+    usable false
     giftable true
     own_limit 0
     exclusive false
@@ -23,6 +25,7 @@ FactoryGirl.define do
     name "clothes"
     description "Гламур"
     wearable true
+    usable true
     giftable false
     own_limit 0
     exclusive false
