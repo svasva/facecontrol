@@ -40,6 +40,9 @@ module Models
             view_condition.glamour,
             view_condition.money = row[1..-1]
 
+            record.stay_action.repeat = true
+            record.stay_action.delay = 60
+
             stay_condition.level,
             stay_condition.energy,
             stay_condition.drive,

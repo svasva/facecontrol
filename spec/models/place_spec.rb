@@ -86,6 +86,8 @@ describe Place do
 			new_place.stay_action.delta_glory.should == 100
 			new_place.stay_action.delta_drive.should == 100
 			new_place.stay_action.delta_wear.should == -500
+			new_place.stay_action.repeat.should == true
+			new_place.stay_action.delay.should == 60
 		end
 
 		it 'writes attributes to conditions of enter_action' do
