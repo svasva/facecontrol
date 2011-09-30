@@ -17,8 +17,8 @@ class ActionGroupDTO
 		@name = ag.name
 		@prise_name = ag.prise_name
 		@description = ag.description
-		@minutes_to_start = (ag.start_time.utc.to_i - Time.now.utc.to_i)/60
-		@minutes_to_end = (ag.end_time.utc.to_i - Time.now.utc.to_i)/60
+		@minutes_to_start = (ag.start_time.utc.to_i - Time.now.utc.to_i)/60 if ag.start_time
+		@minutes_to_end = (ag.end_time.utc.to_i - Time.now.utc.to_i)/60 if ag.end_time
 		@count = (char and cag) ? cag.action_group_rating : 0
 		@image = ag.image_url
 		@price = ag.price

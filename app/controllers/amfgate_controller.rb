@@ -163,7 +163,7 @@ class AmfgateController < ApplicationController
 
   # @param: Place.id
   def get_club_info
-    render :amf => Place.find(@misc_params[0]).club_dto
+    render :amf => Place.find(@misc_params[0]).club_dto(@character)
   end
 
   def get_action_groups

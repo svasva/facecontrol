@@ -9,8 +9,8 @@ class CharacterActionWorker
 		plong "= performing action #{ca.action.name}(#{ca.action.id}) \
 					for #{ca.character.id} ="
   	begin
-			unless ca.status == 'canceled'
-				ca.process_action ? (ca.done! unless ca.status == 'canceled') : ca.failed!
+			if ca.status != 'canceled'
+				ca.process_action ? ca.done! : ca.failed!
 			else
 				puts "#{ca.action.name}(#{ca.action.id}) was canceled"
 			end
