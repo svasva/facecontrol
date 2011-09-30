@@ -126,6 +126,7 @@ class CharacterAction < ActiveRecord::Base
         puts "STAY PLACE! PROCESS_ACTION"
 	unless self.character.place
           self.cancel!
+          return false;
           puts "PLACE is NIL! CANCEL STAY!"
         end
       end

@@ -201,6 +201,7 @@ class Character < ActiveRecord::Base
 					when '='
 						return false unless self.send(k.to_sym) == v
 				end
+				logger.info "\t^ OK ^"
 			}
 		}
 		return true
