@@ -127,6 +127,11 @@ class AmfgateController < ApplicationController
   end
 
   # @param: CharacterItem.id
+  def drink
+    render :amf => @character.do_action(CharacterItem.find(@misc_params[0]).item.use_action)
+  end
+
+  # @param: CharacterItem.id
   def take_off
     render :amf => @character.take_off(CharacterItem.find(@misc_params[0])).dto
   end

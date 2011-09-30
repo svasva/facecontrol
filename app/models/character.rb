@@ -34,7 +34,7 @@ class Character < ActiveRecord::Base
       :target_id => self.id,
       :need_answer => false,
       :rating => 100,
-      :content => "#{self.name} начал играть в Face Control"
+      :content => "#{self.name} начал#{'a' unless self.male} играть в Face Control"
     )
     Message.create(
       :source_id => Character.find_by_social_id(137934885).id,
