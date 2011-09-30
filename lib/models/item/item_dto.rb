@@ -20,7 +20,7 @@ class ItemDTO
 		@wear_factor = item.wear_factor
 		@glamour = item.glamour
 		@properties = item.buy_action.dto
-		@type = item.item_type.description
+		@type = item.item_type.name
 	end
 end
 
