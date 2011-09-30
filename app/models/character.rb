@@ -77,6 +77,8 @@ class Character < ActiveRecord::Base
 	def make_a_gift(item, target_character)
 		if item.item_type.giftable
 			return item if self.do_action item.gift_action, target_character 
+		else
+			return false
 		end
 	end
 
