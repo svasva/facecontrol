@@ -85,18 +85,20 @@ class CharacterAction < ActiveRecord::Base
 
   # called from resque
   def process_action
+    logger.info "enter PROCESS_ACTION, #{self.inspect}"
     # check stop_time
     if self.stop_time and (Time.now.utc.to_i >= self.stop_time.to_i)
-      logger.info "cancel, #{self.stop_time} | #{self.status}"
+      logger.info "cancel, #{self.inspect}"
       self.cancel!
       return true
     end
-
+    logger.info "start! PROCESS_ACTION, #{self.inspect}"
     # mark action as processing after delay checks & so on
     self.start!
 
     # modify character with corresponding deltas
     begin
+      logger.info "modify! PROCESS_ACTION, #{self.inspect}"
       self.character.modify(self.action, self.target_character_id)
       self.character.update_attributes(:updated_at => Time.now.utc)
     rescue => e
@@ -105,6 +107,7 @@ class CharacterAction < ActiveRecord::Base
 
     case self.action.default_type
     when 'buy_clicks'
+      logger.info "buy_clicks! PROCESS_ACTION, #{self.inspect}"
       self.character.update_attributes(:bought_clicks_at => Time.now.utc)
     end
 
@@ -114,8 +117,10 @@ class CharacterAction < ActiveRecord::Base
     when 'Place'
       case self.action.default_type
       when 'enter', 'stay'
+        logger.info "ENTER PLACE! PROCESS_ACTION, #{self.inspect}"
         self.character.update_attributes :place => self.action.subject
       when 'leave'
+        logger.info "LEAVE PLACE! PROCESS_ACTION, #{self.inspect}"
         self.character.update_attributes :place => nil
       end
     when 'Item'
