@@ -148,7 +148,7 @@ class Character < ActiveRecord::Base
 
 	def clicks_remaining
 		count_from = Time.now.utc - 1.day
-		count_from = self.bought_clicks_at if self.bought_clicks_at > count_from
+		count_from = self.bought_clicks_at if self.bought_clicks_at and self.bought_clicks_at > count_from
 		100 - @character.character_actions.votes.where{created_at.gteq count_from}.count
 	end
 
