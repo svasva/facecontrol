@@ -39,7 +39,8 @@ class AmfgateController < ApplicationController
   def get_rumors
     render :amf => Character.find(@misc_params[0]).messages.rumors.map(&:dto)
   end
-  
+
+  # NON-ASYNC  
   def buy_clicks
     render :amf => @character.buy_clicks
   end
@@ -76,6 +77,7 @@ class AmfgateController < ApplicationController
     render :amf => load_rumors_to_vote
   end
 
+  # NON-ASYNC
   # @param: ExchangeRate.id
   def request_funds
     return false unless (er = ExchangeRate.find(@misc_params[0]))

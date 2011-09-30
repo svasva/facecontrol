@@ -154,6 +154,9 @@ class CharacterAction < ActiveRecord::Base
           :wear => 0,
           :source_character_id => self.character_id
         )
+      when 'use'
+        puts "USED! used #{self.action.subject.name} for #{self.character.name} - removing"
+        self.character.items.gift_drinks.where(:item_id => self.action.subject_id).last.destroy
       end
     end
 
