@@ -41,7 +41,7 @@ class AmfgateController < ApplicationController
   end
   
   def buy_clicks
-    render :amf => @character.buy_clicks(@@app_id, @@app_secret)
+    render :amf => @character.buy_clicks
   end
 
   # @param: Character.id
