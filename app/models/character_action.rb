@@ -116,23 +116,34 @@ class CharacterAction < ActiveRecord::Base
     case self.action.subject_type
     when 'Place'
       case self.action.default_type
-      when 'enter', 'stay'
+      when 'enter'
         puts "ENTER PLACE! PROCESS_ACTION"
         self.character.update_attributes :place => self.action.subject
       when 'leave'
         puts "LEAVE PLACE! PROCESS_ACTION"
         self.character.update_attributes :place => nil
+      when 'stay'
+        puts "STAY PLACE! PROCESS_ACTION"
+	unless self.character.place
+          self.cancel!
+          puts "PLACE is NIL! CANCEL STAY!"
+        end
       end
     when 'Item'
       case self.action.default_type
       when 'buy'
-        puts "BUY! adding #{self.action.subject.name} to #{self.character.name}"
-        self.character.items << CharacterItem.create(
-          :item => self.action.subject,
-          :equipped => false,
-          :gift => false,
-          :wear => 0
-        )
+        unless self.action.subject.item_type.name == 'drink'
+          puts "BUY! adding #{self.action.subject.name} to #{self.character.name}"
+          self.character.items.clothes.where(:item_id => self.action.subject.id).map(&:destroy)
+          ci = CharacterItem.create(
+            :item => self.action.subject,
+            :equipped => false,
+            :gift => false,
+            :wear => 0
+          )
+          self.character.items << ci
+          self.character.put_on(ci)
+        end
       when 'gift'
         puts "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
         self.target_character.items << CharacterItem.create(
