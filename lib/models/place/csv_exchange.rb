@@ -27,10 +27,10 @@ module Models
             enter_condition.glamour,
             enter_condition.money,
 
-            record.enter_action.delta_energy,
-            record.enter_action.delta_glory,
-            record.enter_action.delta_drive,
-            record.enter_action.delta_wear,
+            record.stay_action.delta_energy,
+            record.stay_action.delta_glory,
+            record.stay_action.delta_drive,
+            record.stay_action.delta_wear,
 
             view_condition.level,
             view_condition.energy,
