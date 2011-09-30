@@ -19,7 +19,7 @@ class ItemDTO
 		@ttl = item.ttl
 		@wear_factor = item.wear_factor
 		@glamour = item.glamour
-		@properties = item.buy_action.dto
+		@properties = (item.item_type.name == 'gift') ? item.gift_action.dto : item.buy_action.dto
 		@type = item.item_type.name
 	end
 end
