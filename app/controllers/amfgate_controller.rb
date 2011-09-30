@@ -40,6 +40,10 @@ class AmfgateController < ApplicationController
     render :amf => Character.find(@misc_params[0]).messages.rumors.map(&:dto)
   end
   
+  def buy_clicks
+    render :amf => @character.buy_clicks(@@app_id, @@app_secret)
+  end
+
   # @param: Character.id
   def get_interviews
     render :amf => Character.find(@misc_params[0]).messages.questions.map(&:dto)
@@ -180,17 +184,14 @@ class AmfgateController < ApplicationController
 
   def load_rumors_to_vote
     return false if Message.rumors.where{rating >= 0}.count < 2
-    clicks_remaining = 100 - @character.character_actions.votes.where{created_at.gteq (Time.now.utc - 1.day)}.count
 
     first, second = Message.rumors.order('RAND()').where{rating >= 0}.limit(2)
-    return [first.dto, second.dto, clicks_remaining]
+    return [first.dto, second.dto, @character.clicks_remaining]
   end
 
   def load_chars_to_vote
-    clicks_remaining = 100 - @character.character_actions.votes.where{created_at.gteq (Time.now.utc - 1.day)}.count
-
     first, second = Character.order('RAND()').limit(2)
-    return [first.dto, second.dto, clicks_remaining]
+    return [first.dto, second.dto, @character.clicks_remaining]
   end
 
   # @param: array

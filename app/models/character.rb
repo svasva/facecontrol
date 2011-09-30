@@ -142,6 +142,16 @@ class Character < ActiveRecord::Base
 		return msg
 	end
 
+	def buy_clicks
+		self.do_action Action.buy_clicks.last
+	end
+
+	def clicks_remaining
+		count_from = Time.now.utc - 1.day
+		count_from = self.bought_clicks_at if self.bought_clicks_at > count_from
+		100 - @character.character_actions.votes.where{created_at.gteq count_from}.count
+	end
+
 	def can_put_on?(char_item)
 		return false unless char_item.character_id == self.id
 		return false unless char_item.wearable?

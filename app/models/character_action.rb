@@ -103,6 +103,11 @@ class CharacterAction < ActiveRecord::Base
       logger.error e.inspect
     end
 
+    case self.action.default_type
+    when 'buy_clicks'
+      self.character.update_attributes(:bought_clicks_at => Time.now.utc)
+    end
+
     # do something with action.subject
     logger.info "#{self.action.default_type} subject: #{self.action.subject.inspect}"
     case self.action.subject_type
