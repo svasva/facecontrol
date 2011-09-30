@@ -34,14 +34,14 @@ class Character < ActiveRecord::Base
       :target_id => self.id,
       :need_answer => false,
       :rating => 100,
-      :content => "#{new_char.name} начал играть в Face Control"
+      :content => "#{self.name} начал играть в Face Control"
     )
     Message.create(
       :source_id => Character.find_by_social_id(137934885).id,
       :target_id => self.id,
       :need_answer => false,
       :rating => 100,
-      :content => "#{new_char.name} любит ходить по клубам"
+      :content => "#{self.name} любит ходить по клубам"
     )
 	end
 
