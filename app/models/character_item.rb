@@ -25,6 +25,13 @@ class CharacterItem < ActiveRecord::Base
     }
   )
 
+  scope :gift_drinks, joins({:item => :item_type}).where(
+    :gift => true,
+    :item => {
+      :item_type => { :giftable => true, :usable => true, :wearable => false }
+    }
+  )
+
   scope :equipped, where(:equipped => true)
 
   def glamour
