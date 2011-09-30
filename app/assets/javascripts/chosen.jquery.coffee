@@ -661,5 +661,5 @@ SelectParser.select_to_array = (select) ->
 this.SelectParser = SelectParser
 
 $(document).ready ->
-  $('select').each (i,e) ->
-    $(e).chosen() if $(e).attr('id') != ''
+  $('select:not(.disable-chosen)').each (i,e) ->
+    $(e).chosen() if $(e).attr('id') != '' 

@@ -4,6 +4,7 @@ ActiveAdmin.register ActionGroup do
   filter :description
   filter :start_time
   filter :end_time
+
   index do
     column :name
     column :price
@@ -13,4 +14,20 @@ ActiveAdmin.register ActionGroup do
     column :end_time
     default_actions
   end
+
+   form do |f|
+    f.inputs "Details" do
+      f.input :name
+      f.input :description
+      f.input :prise_name
+      f.input :price
+      f.input :image_url
+    end
+    f.inputs "Timings" do
+      f.input :start_time, :input_html => { :class => 'disable-chosen'}
+      f.input :end_time, :input_html => {:class => 'disable-chosen' }
+    end
+    f.buttons   
+  end
+  
 end
