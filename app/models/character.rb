@@ -223,6 +223,7 @@ class Character < ActiveRecord::Base
 	 end
 
 	def modify(action, target_id)
+		puts "modify #{self.name}"
 		new_attributes = {}
 		max_energy = GloryLevel.find(:first, :conditions => {:level => self.level}).max_energy
 		action.attributes.each {|attrib,value|
@@ -231,17 +232,19 @@ class Character < ActiveRecord::Base
 			case attrib
 			when 'contest_rating'
 				if (cag = self.character_action_groups.last)
-					cag.update_attributes :action_group_rating => (cag.action_group_rating + contest_rating)
+					puts "\tmodify contest_rating : #{cag.action_group_rating} + #{value}"
+					cag.update_attributes :action_group_rating => (cag.action_group_rating + value)
 				end
 				next
 			when 'delta_relation_index'
+				puts "\tmodify relation to #{Character.find(target_id).name}: #{value}"
 				rel = (self.relations.where(:target_id => target_id) or self.relations.create(:target_id => target_id))
 				rel.update_attributes :index => rel.index+value
-				logger.info "\tmodify relation to #{Character.find(target_id).name}: #{value}"
 				next
 			when 'delta_wear'
 				self.items.clothes.equipped.each {|item|
-					item.update_attributes(:wear => (item.wear or 0) + value)
+					puts "\twear item #{item.item.name} : #{value}"
+					CharacterItem.find(item.id).update_attributes(:wear => (item.wear or 0) + value)
 				}
 				next
 			end
@@ -252,7 +255,7 @@ class Character < ActiveRecord::Base
 			if attrib == 'energy' and new_attributes[attrib] > max_energy
 				new_attributes[attrib] = max_energy
 			end
-			logger.info "\tmodify '#{attrib}': #{self.attributes[attrib]} += #{value} = #{new_attributes[attrib]}"
+			puts "\tmodify '#{attrib}': #{self.attributes[attrib]} += #{value} = #{new_attributes[attrib]}"
 		}
 		self.update_attributes(new_attributes)
 	end

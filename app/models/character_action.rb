@@ -85,48 +85,48 @@ class CharacterAction < ActiveRecord::Base
 
   # called from resque
   def process_action
-    logger.info "enter PROCESS_ACTION, #{self.inspect}"
+    puts "enter PROCESS_ACTION, #{self.inspect}"
     # check stop_time
     if self.stop_time and (Time.now.utc.to_i >= self.stop_time.to_i)
-      logger.info "cancel, #{self.inspect}"
+      puts "cancel"
       self.cancel!
       return true
     end
-    logger.info "start! PROCESS_ACTION, #{self.inspect}"
+    puts "start! PROCESS_ACTION"
     # mark action as processing after delay checks & so on
     self.start!
 
     # modify character with corresponding deltas
     begin
-      logger.info "modify! PROCESS_ACTION, #{self.inspect}"
+      puts "modify! PROCESS_ACTION"
       self.character.modify(self.action, self.target_character_id)
       self.character.update_attributes(:updated_at => Time.now.utc)
     rescue => e
-      logger.error e.inspect
+      puts "ACHTUNG #{e.inspect}"
     end
 
     case self.action.default_type
     when 'buy_clicks'
-      logger.info "buy_clicks! PROCESS_ACTION, #{self.inspect}"
+      puts "buy_clicks! PROCESS_ACTION"
       self.character.update_attributes(:bought_clicks_at => Time.now.utc)
     end
 
     # do something with action.subject
-    logger.info "#{self.action.default_type} subject: #{self.action.subject.inspect}"
+    puts "#{self.action.default_type} subject: #{self.action.subject.inspect}"
     case self.action.subject_type
     when 'Place'
       case self.action.default_type
       when 'enter', 'stay'
-        logger.info "ENTER PLACE! PROCESS_ACTION, #{self.inspect}"
+        puts "ENTER PLACE! PROCESS_ACTION"
         self.character.update_attributes :place => self.action.subject
       when 'leave'
-        logger.info "LEAVE PLACE! PROCESS_ACTION, #{self.inspect}"
+        puts "LEAVE PLACE! PROCESS_ACTION"
         self.character.update_attributes :place => nil
       end
     when 'Item'
       case self.action.default_type
       when 'buy'
-        logger.info "BUY! adding #{self.action.subject.name} to #{self.character.name}"
+        puts "BUY! adding #{self.action.subject.name} to #{self.character.name}"
         self.character.items << CharacterItem.create(
           :item => self.action.subject,
           :equipped => false,
@@ -134,7 +134,7 @@ class CharacterAction < ActiveRecord::Base
           :wear => 0
         )
       when 'gift'
-        logger.info "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
+        puts "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
         self.target_character.items << CharacterItem.create(
           :item => self.action.subject,
           :equipped => false,
@@ -148,7 +148,7 @@ class CharacterAction < ActiveRecord::Base
     # check if we have to disable some actions
     # Action.where(:disabler_action_id => self.action.id).each
     self.action.disabling_actions.each {|action|
-      logger.info "have to cancel action #{action.name}(#{action.id})"
+      puts "have to cancel action #{action.name}(#{action.id})"
       CharacterAction.where(
         :character_id => self.character_id,
         :action_id => action.id,

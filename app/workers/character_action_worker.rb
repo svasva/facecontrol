@@ -6,10 +6,10 @@ class CharacterActionWorker
 
 	def self.perform(ca_id)
 		ca = CharacterAction.find(ca_id)
-		plong "= performing action #{ca.action.name}(#{ca.action.id}) \
-					for #{ca.character.id} ="
+		plong "= performing action #{ca.to_yaml} "
   	begin
 			if ca.status != 'canceled'
+				puts "PROCESSING! #{ca.action.name}"
 				ca.process_action ? ca.done! : ca.failed!
 			else
 				puts "#{ca.action.name}(#{ca.action.id}) was canceled"
