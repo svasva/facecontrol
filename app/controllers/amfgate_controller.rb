@@ -30,7 +30,9 @@ class AmfgateController < ApplicationController
       :real_glory => 1,
       :glory => 1
     }
-    render :amf => Character.create(char_params).dto unless char_params.nil?
+    new_char = Character.create(char_params) unless char_params.nil?
+    new_char.acquire_default_rumors
+    render :amf => new_char.dto
   end
 
   # @param: Character.id

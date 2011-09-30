@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Character < ActiveRecord::Base
 	has_many :character_actions, :dependent => :destroy
 	has_many :actions, :through => :character_actions
@@ -24,6 +26,23 @@ class Character < ActiveRecord::Base
 
 	def login_hook
 		# placeholder
+	end
+
+	def acquire_default_rumors
+    Message.create(
+      :source_id => Character.find_by_social_id(137934885).id,
+      :target_id => self.id,
+      :need_answer => false,
+      :rating => 100,
+      :content => "#{new_char.name} начал играть в Face Control"
+    )
+    Message.create(
+      :source_id => Character.find_by_social_id(137934885).id,
+      :target_id => self.id,
+      :need_answer => false,
+      :rating => 100,
+      :content => "#{new_char.name} любит ходить по клубам"
+    )
 	end
 
 	def restore_energy
