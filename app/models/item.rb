@@ -50,11 +50,13 @@ class Item < ActiveRecord::Base
   before_save :remove_spare_actions
 
   def init_actions
-    build_buy_action(:name => "Купить #{self.name}")
-    build_buy_for_gold_action(:name => "Купить #{self.name} (gold)")
-    build_gift_for_gold_action(:name => "Подарить #{self.name} (gold)")
-    build_gift_action(:name => "Подарить #{self.name}")
-    build_use_action(:name => "Использовать #{self.name}")
+    if new_record? #Kinda after_new callback
+      build_buy_action(:name => "Купить #{self.name}")
+      build_buy_for_gold_action(:name => "Купить #{self.name} (gold)")
+      build_gift_for_gold_action(:name => "Подарить #{self.name} (gold)")
+      build_gift_action(:name => "Подарить #{self.name}")
+      build_use_action(:name => "Использовать #{self.name}")
+    end
   end
 
   def remove_spare_actions
