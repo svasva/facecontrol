@@ -18,6 +18,7 @@ class ExchangeRate < ActiveRecord::Base
   end
 
   def add_names_to_default_actions
+  	buy_action.delta_money = self.game_value
 		buy_action.name = self.game_string
   end
 end
