@@ -37,20 +37,33 @@ class Character < ActiveRecord::Base
 	end
 
 	def acquire_default_rumors
-    Message.create(
-      :source_id => Character.find_by_social_id(137934885).id,
-      :target_id => self.id,
-      :need_answer => false,
-      :rating => 100,
-      :content => "#{self.name} начал#{'a' unless self.male} играть в Face Control"
-    )
-    Message.create(
-      :source_id => Character.find_by_social_id(137934885).id,
-      :target_id => self.id,
-      :need_answer => false,
-      :rating => 100,
-      :content => "#{self.name} любит ходить по клубам"
-    )
+		begin
+			src = Character.find_by_social_id(137934885).id
+	    Message.create(
+	      :source_id => src,
+	      :target_id => self.id,
+	      :need_answer => false,
+	      :rating => 100,
+	      :content => "#{self.name} начал#{'a' unless self.male} играть в Face Control"
+	    )
+	    Message.create(
+	      :source_id => src,
+	      :target_id => self.id,
+	      :need_answer => false,
+	      :rating => 100,
+	      :content => "#{self.name} любит ходить по клубам"
+	    )
+	    Message.create(
+	      :source_id => src,
+	      :target_id => self.id,
+	      :need_answer => false,
+	      :rating => 100,
+	      :content => "#{self.name} нравится играть в игры"
+	    )
+	  rescue => e
+	  	logger.error e.inspect
+	  end
+	end
 	end
 
 	def ignore_char(char_id)
