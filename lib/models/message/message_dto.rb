@@ -5,9 +5,11 @@ class MessageDTO
 	attr_accessor :content
 	attr_accessor :rating
 	attr_accessor :answer
+	attr_accessor :anonymous
 
 	def initialize(msg)
 		@id = msg.id
+		@anonymous = msg.anonymous
 		@source = msg.source.dto
 		@target = msg.target.dto
 		@rating = msg.rating
