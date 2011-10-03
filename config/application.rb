@@ -52,6 +52,7 @@ module Facecontrol
       social_config = YAML.load_file(File.join(Rails.root, "config", "social.yml"))
       FCconfig.app_id = social_config[Rails.env]['vkontakte']['app_id']
       FCconfig.app_secret = social_config[Rails.env]['vkontakte']['app_secret']
+      FCconfig.energy_gold_ratio = (social_config[Rails.env]['vkontakte']['energy_gold_ratio'] or 10)
       FCconfig.vk_session = ::VkApi::Session.new FCconfig.app_id, FCconfig.app_secret
     end
   end
