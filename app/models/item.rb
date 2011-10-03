@@ -47,16 +47,19 @@ class Item < ActiveRecord::Base
                                 :actions
 
   after_initialize :init_actions
-  before_save :remove_spare_actions
+  before_save :before_save_hook
 
   def init_actions
     if new_record? #Kinda after_new callback
       build_buy_action(:name => "Купить #{self.name}")
-      build_buy_for_gold_action(:name => "Купить #{self.name} (gold)")
-      build_gift_for_gold_action(:name => "Подарить #{self.name} (gold)")
       build_gift_action(:name => "Подарить #{self.name}")
       build_use_action(:name => "Использовать #{self.name}")
     end
+  end
+
+  def before_save_hook
+    remove_spare_actions
+    set_gold_actions
   end
 
   def remove_spare_actions
@@ -73,6 +76,19 @@ class Item < ActiveRecord::Base
       # remove gift action
       self.gift_action = nil
       self.gift_for_gold_action = nil
+    end
+  end
+
+  def set_gold_actions
+    if self.buy_action and self.buy_action.delta_money == 0
+      build_buy_for_gold_action(self.buy_action.dup.attributes)
+      buy_for_gold_action.name = "Купить #{self.name} (gold)"
+      buy_for_gold_action.delta_money = self.buy_action.delta_energy / FCconfig.energy_gold_ratio
+    end
+    if self.gift_action and self.gift_action.delta_money == 0
+      build_gift_for_gold_action(self.gift_action.dup.attributes)
+      gift_for_gold_action.name = "Подарить #{self.name} (gold)"
+      gift_for_gold_action.delta_money = self.gift_action.delta_energy / FCconfig.energy_gold_ratio
     end
   end
 
