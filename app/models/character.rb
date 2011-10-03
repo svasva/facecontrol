@@ -51,6 +51,16 @@ class Character < ActiveRecord::Base
     )
 	end
 
+	def ignore_char(char_id)
+		rel = (self.relations.where(:target_id => char_id) or self.relations.create(:target_id => char_id))
+		rel.update_attributes :ignore => true
+	end
+
+	def ignore_msg(msg_id)
+		return false unless (msg = Message.find(msg_id)) and msg.target_id == self.id
+		msg.update_attributes :ignore => true
+	end
+
 	def restore_energy
 		return false unless self.updated_at
 		bonus_energy = (Time.now.utc.to_i - self.updated_at.to_i)/60

@@ -177,6 +177,16 @@ class AmfgateController < ApplicationController
     render :amf => ActionGroup.last.dto(@character) if ActionGroup.count > 0
   end
 
+  # @param: Character.id
+  def ignore_char
+    render :amf => @character.ignore_char(@misc_params[0])
+  end
+
+  # @param: Message.id
+  def ignore_msg
+    render :amf => @character.ignore_msg(@misc_params[0])
+  end
+
   # @param: ActionGroup.id
   def enter_contest
     render :amf => @character.enter_contest(@misc_params[0]).dto
