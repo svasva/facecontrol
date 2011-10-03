@@ -202,7 +202,7 @@ class Character < ActiveRecord::Base
 	def put_on(char_item)
 		return false if char_item.equipped
 		# monkeypatch to take off all equipped clothes
-		self.items.equipped.each {|i| self.put_off i}
+		self.items.equipped.each {|i| self.take_off i}
 		char_item.update_attributes :equipped => true if self.can_put_on? char_item
 		return char_item
 	end
