@@ -23,6 +23,12 @@ class Character < ActiveRecord::Base
 		:conditions => { :character_relations => {:friendship => false, :friendship_request => true} }
 	
 	scope :top10, order('glory DESC').limit(10)
+	scope :ag_leaders, lambda {|ag_id|
+		joins(:character_action_groups)
+		.where(:character_action_groups => {:action_group_id => ag_id})
+		.order('character_action_groups.action_group_rating DESC')
+		.limit(10)
+	}
 
 	def login_hook
 		# placeholder

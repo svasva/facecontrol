@@ -16,6 +16,10 @@ class ActionGroup < ActiveRecord::Base
 		ActionGroupDTO.new self, char
 	end
 
+	def leaders
+		Character.ag_leaders(self.id)
+	end
+	
 	protected
 
   def init_default_actions
