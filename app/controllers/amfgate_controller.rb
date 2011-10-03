@@ -154,19 +154,21 @@ class AmfgateController < ApplicationController
   end
 
   # @param: Item.id
+  # @param: for_gold:boolean
   def buy_item
     item = Item.find @misc_params[0]
     return false if item.nil?
-    render :amf => @character.buy_item(item)
+    render :amf => @character.buy_item(item, @misc_params[1])
   end
 
   # @param: Item.id
   # @param: Action.target_character_id
+  # @param: for_gold:boolean
   def make_a_gift
     item = Item.find @misc_params[0]
     target_char = Character.find @misc_params[1]
     return false if item.nil? or target_char.nil?
-    render :amf => (ret = @character.make_a_gift(item, target_char)) ? ret.dto : false
+    render :amf => (ret = @character.make_a_gift(item, target_char, @misc_params[2])) ? ret.dto : false
   end
 
   def get_my_items
