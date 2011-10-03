@@ -29,6 +29,7 @@ class Action < ActiveRecord::Base
   scope :post_reply, :conditions => {:default_type => 'post_reply'}
   scope :vote, :conditions => {:default_type => 'vote'}
   scope :buy_clicks, :conditions => {:default_type => 'buy_clicks'}
+  scope :post_anon_question, :conditions => {:default_type => 'post_anon_question'}
 
   def dto
     PropertiesDTO.new self

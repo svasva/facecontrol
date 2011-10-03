@@ -53,8 +53,22 @@ class AmfgateController < ApplicationController
   # @param: msg.content
   # @param: msg.target_id
   # @param: msg.need_answer
+  # @param: msg.anonymous
   def post_message
-    render :amf => @character.post_message(@misc_params[2], @misc_params[1], @misc_params[0]).dto
+    if @misc_params[3]
+      render :amf => @character.post_message(
+        @misc_params[2], # content
+        @misc_params[1], # target_id
+        @misc_params[0], # need_answer
+        @misc_params[3]  # anonymous
+      ).dto
+    else
+      render :amf => @character.post_message(
+        @misc_params[2],
+        @misc_params[1],
+        @misc_params[0]
+      ).dto
+    end
   end
 
   # @param: reply.reply_to

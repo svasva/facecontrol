@@ -117,13 +117,14 @@ class Character < ActiveRecord::Base
 		end
 	end
 
-	def post_message(content, target_char_id, need_answer)
+	def post_message(content, target_char_id, need_answer, anonymous = false)
 		msg = Message.create(
 			:source => self,
 			:target_id => target_char_id,
 			:need_answer => need_answer,
 			:content => content,
-			:rating => 100
+			:rating => 100,
+			:anonymous => anonymous
 		)
 		if need_answer
 			self.do_action Action.post_question.last, Character.find(target_char_id), msg
