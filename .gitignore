@@ -6,3 +6,4 @@ config/database.yml
 .sass-cache/
 /db/schema.rb
 public/assets/
+/config/social.yml

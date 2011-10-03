@@ -7,8 +7,8 @@ class Character < ActiveRecord::Base
 	has_many :action_groups, :through => :character_action_groups
 	has_many :items, :class_name => 'CharacterItem', :dependent => :destroy
 	has_many :messages, :foreign_key => 'target_id', :dependent => :destroy
-	has_many :source_items, :foreign_key => 'source_character_id', :dependent => :destroy
-	has_many :source_messages, :foreign_key => 'source_id', :dependent => :destroy
+	has_many :source_items, :class_name => 'CharacterItem', :foreign_key => 'source_character_id', :dependent => :destroy
+	has_many :source_messages, :class_name => 'Message', :foreign_key => 'source_id', :dependent => :destroy
 	has_many :relations, :class_name => 'CharacterRelation', :dependent => :destroy
 	belongs_to :place
 
