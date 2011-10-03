@@ -64,6 +64,14 @@ class Character < ActiveRecord::Base
 	  	logger.error e.inspect
 	  end
 	end
+
+	def social_friends
+		friends = FCconfig.vk_session.friends.get(:uid => self.social_id).map {|f| f['uid']}
+		Character.where(:social_id => friends)
+	end
+
+	def social_friends_count
+		self.social_friends.count
 	end
 
 	def ignore_char(char_id)
