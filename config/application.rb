@@ -48,7 +48,12 @@ module Facecontrol
     config.rubyamf.gateway_path = "/amf"
 
     config.autoload_paths += Dir["#{config.root}/lib/**/"] # include all subdirectories
-    
+    config.after_initialize do
+      social_config = YAML.load_file(File.join(Rails.root, "config", "social.yml"))
+      FCconfig.app_id = social_config[Rails.env]['vkontakte']['app_id']
+      FCconfig.app_secret = social_config[Rails.env]['vkontakte']['app_secret']
+      FCconfig.vk_session = ::VkApi::Session.new FCconfig.app_id, FCconfig.app_secret
+    end
   end
 
 end
