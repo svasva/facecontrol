@@ -38,27 +38,50 @@ class Item < ActiveRecord::Base
   scope :usable, joins(:item_type).where(:item_types => {:usable => true, :giftable => true})
   scope :by_type_names, lambda {|names| joins(:item_type).where(:item_types => {:name => names})}
 
-  accepts_nested_attributes_for :buy_action, :gift_action, :actions, :use_action 
+  accepts_nested_attributes_for
+    :use_action,
+    :buy_action,
+    :buy_for_gold_action,
+    :gift_action,
+    :gift_for_gold_action,
+    :actions
 
-  belongs_to :item_type
+  after_initialize :init_actions
+  before_save :remove_spare_actions
+
+  def init_actions
+    build_buy_action(:name => "Купить #{self.name}")
+    build_buy_for_gold_action(:name => "Купить #{self.name} (gold)")
+    build_gift_for_gold_action(:name => "Подарить #{self.name} (gold)")
+    build_gift_action(:name => "Подарить #{self.name}")
+    build_use_action(:name => "Использовать #{self.name}")
+  end
+
+  def remove_spare_actions
+    unless self.item_type.name == 'gift'
+      # remove buy action
+      self.buy_action = nil
+      self.buy_for_gold_action = nil
+    end
+    unless self.usable
+      # remove use action
+      self.use_action = nil
+    end
+    unless self.giftable
+      # remove gift action
+      self.gift_action = nil
+      self.gift_for_gold_action = nil
+    end
+  end
 
   def dto
     ItemDTO.new self
   end
 
-
   def set_type_by_name(type_name)
     self.item_type = ItemType.find_by_name(type_name)
-
-    build_buy_action(:name => "Купить #{self.name}") unless type_name == 'gift'
-    #FIXME It shouldn't be harcoded type
-    build_buy_for_gold_action(:name => "Купить #{self.name} (gold)") unless type_name == 'gift'
-    build_gift_action(:name => "Подарить #{self.name}") if item_type.giftable
-    build_gift_for_gold_action(:name => "Подарить #{self.name} (gold)") if item_type.giftable
-    build_use_action(:name => "Использовать #{self.name}") if item_type.usable
   end
  
-
   include Models::Item::CsvExchange
 
 end
