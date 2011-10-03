@@ -2,9 +2,11 @@
 ActiveAdmin.register Action do  
  #belongs_to :item 
  #FIXME! workaround https://github.com/gregbell/active_admin/issues/221 
-  controller.belongs_to :place, :item, :polymorphic => true
+  controller.belongs_to :place, :item, :polymorphic => true, :optional => true
 
   filter :name
+
+  scope :without_subject
 
   index do
     column :id
