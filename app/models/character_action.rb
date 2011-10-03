@@ -108,7 +108,16 @@ class CharacterAction < ActiveRecord::Base
     case self.action.default_type
     when 'buy_clicks'
       puts "buy_clicks! PROCESS_ACTION"
-      self.character.update_attributes(:bought_clicks_at => Time.now.utc)
+      self.character.update_attributes(
+        :bought_clicks_at => Time.now.utc,
+        :paid_clicks => (self.character.paid_clicks + 100)
+      )
+    when 'vote'
+      puts 'vote! PROCESS_ACTION'
+      if self.character.paid_clicks > 0
+        puts "got paid clicks (#{self.character.paid_clicks}), taking one"
+        self.character.update_attributes(:paid_clicks => (self.character.paid_clicks - 1))
+      end
     end
 
     # do something with action.subject

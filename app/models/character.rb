@@ -188,8 +188,8 @@ class Character < ActiveRecord::Base
 
 	def clicks_remaining
 		count_from = Time.now.utc - 1.day
-		count_from = self.bought_clicks_at if self.bought_clicks_at and self.bought_clicks_at > count_from
-		100 - self.character_actions.votes.where{created_at.gteq count_from}.count
+		#count_from = self.bought_clicks_at if self.bought_clicks_at and self.bought_clicks_at > count_from
+		(100 + self.paid_clicks) - self.character_actions.votes.where{created_at.gteq count_from}.count
 	end
 
 	def can_put_on?(char_item)
