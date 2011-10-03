@@ -9,7 +9,7 @@ class ActionGroupDTO
 	attr_accessor :image
 	attr_accessor :prise_name
 	attr_accessor :price
-	#attr_accessor :leaders
+	attr_accessor :winner
 
 	def initialize(ag, char = nil)
 		cag = char.character_action_groups.where(:action_group_id => ag.id).first if char
@@ -23,7 +23,7 @@ class ActionGroupDTO
 		@count = (char and cag) ? cag.action_group_rating : 0
 		@image = ag.image_url
 		@price = ag.price
-		#@leaders = ag.leaders.map(&:dto)
+		@winner = ag.leaders.first.dto if ag.leaders.count > 0
 	end
 end
 
