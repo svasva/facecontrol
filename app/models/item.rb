@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class Item < ActiveRecord::Base
+  belongs_to :item_type
   has_many :actions, :as => :subject, :dependent => :destroy
   has_many :character_items, :dependent => :destroy
   has_one :buy_action,
@@ -38,13 +39,12 @@ class Item < ActiveRecord::Base
   scope :usable, joins(:item_type).where(:item_types => {:usable => true, :giftable => true})
   scope :by_type_names, lambda {|names| joins(:item_type).where(:item_types => {:name => names})}
 
-  accepts_nested_attributes_for
-    :use_action,
-    :buy_action,
-    :buy_for_gold_action,
-    :gift_action,
-    :gift_for_gold_action,
-    :actions
+  accepts_nested_attributes_for :use_action,
+                                :buy_action,
+                                :buy_for_gold_action,
+                                :gift_action,
+                                :gift_for_gold_action,
+                                :actions
 
   after_initialize :init_actions
   before_save :remove_spare_actions
@@ -58,16 +58,16 @@ class Item < ActiveRecord::Base
   end
 
   def remove_spare_actions
-    unless self.item_type.name == 'gift'
+    if self.item_type.name == 'gift'
       # remove buy action
       self.buy_action = nil
       self.buy_for_gold_action = nil
     end
-    unless self.usable
+    unless self.item_type.usable
       # remove use action
       self.use_action = nil
     end
-    unless self.giftable
+    unless self.item_type.giftable
       # remove gift action
       self.gift_action = nil
       self.gift_for_gold_action = nil

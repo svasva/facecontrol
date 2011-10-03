@@ -1,5 +1,5 @@
 ActiveAdmin.register Item do
-	filter :item_type, :collection => ItemType.all.map {|i| ["#{i.name} (#{i.description})", i.id]}
+	filter :item_type
 	filter :name
 	filter :description
 	filter :glamour

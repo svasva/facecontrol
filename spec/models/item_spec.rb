@@ -32,7 +32,7 @@ describe Item do
     end
     
 
-    it "writes actions to new enteries" do
+    it "writes actions to new entries" do
       Item.parse_drinks_table @table
 
       new_drink.actions.count.should == 3
@@ -50,7 +50,7 @@ describe Item do
 
     end
 
-    it "writes attributes to buy_action of new enteries" do
+    it "writes attributes to buy_action of new entries" do
       Item.parse_drinks_table @table
       new_drink.buy_action.delta_energy.should == 7
       new_drink.buy_action.delta_money.should == -20
@@ -59,7 +59,7 @@ describe Item do
       new_drink.buy_action.contest_rating.should == 200
     end
 
-    it "writes attributes to use_action of new enteries" do
+    it "writes attributes to use_action of new entries" do
       Item.parse_drinks_table @table
       new_drink.use_action.delta_energy.should == 7
       new_drink.use_action.delta_money.should == 0
@@ -98,7 +98,7 @@ describe Item do
     
     let(:new_gift) {Item.last}
 
-    it "writes actions to new enteries" do
+    it "writes actions to new entries" do
       Item.parse_gifts_table @table
       new_gift.actions.count.should == 1
       new_gift.buy_action.should == nil
@@ -116,7 +116,7 @@ describe Item do
 
     end
 
-    it "writes attributes to gift_action of new enteries" do
+    it "writes attributes to gift_action of new entries" do
       Item.parse_gifts_table @table
       new_gift.gift_action.delta_energy.should == 0
       new_gift.gift_action.delta_money.should == -100
