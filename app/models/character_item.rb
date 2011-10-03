@@ -4,13 +4,6 @@ class CharacterItem < ActiveRecord::Base
   belongs_to :item
   delegate :use_action, :to => :item
 
-  scope :gift_drinks, joins({:item => :item_type}).where(
-    :gift => true,
-    :item => {
-      :item_type => { :giftable => true, :usable => true }
-    }
-  )
-  
   scope :gifts, joins({:item => :item_type}).where(
     :gift => true,
     :item => {
