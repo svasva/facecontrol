@@ -9,10 +9,22 @@ class Item < ActiveRecord::Base
     :conditions => {:default_type => "buy"},
     :autosave => true
 
+  has_one :buy_for_gold_action,
+    :as => :subject,
+    :class_name => 'Action',
+    :conditions => {:default_type => "buy_for_gold"},
+    :autosave => true
+
   has_one :gift_action,
     :as => :subject,
     :class_name => 'Action',
     :conditions => {:default_type => "gift"},
+    :autosave => true
+
+  has_one :gift_for_gold_action,
+    :as => :subject,
+    :class_name => 'Action',
+    :conditions => {:default_type => "gift_for_gold"},
     :autosave => true
 
   has_one :use_action,
@@ -37,8 +49,9 @@ class Item < ActiveRecord::Base
   def set_type_by_name(type_name)
     self.item_type = ItemType.find_by_name(type_name)
     build_buy_action(:name => "Купить #{name}") unless type_name == 'gift'
-    #FIXME It musn't be harcoded type
-    build_gift_action(:name => "Подарить #{name}") if item_type.giftable 
+    build_buy_for_gold_action(:name => "Купить #{name} (gold)") unless type_name == 'gift'
+    build_gift_action(:name => "Подарить #{name}") if item_type.giftable
+    build_gift_for_gold_action(:name => "Подарить #{name} (gold)") if item_type.giftable
     build_use_action(:name => "Использовать #{name}") if item_type.usable
   end
  
