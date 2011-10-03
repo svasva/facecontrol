@@ -21,9 +21,10 @@ class Item < ActiveRecord::Base
     :conditions => {:default_type => "use"},
     :autosave => true
 
-  scope :giftable, lambda { joins(:item_type).where(:item_types => {:giftable => true, :usable => false}) }
-  scope :wearable, lambda { joins(:item_type).where(:item_types => {:wearable => true, :usable => false}) }
-  scope :usable,   lambda { joins(:item_type).where(:item_types => {:usable => true, :giftable => true}) }
+  scope :giftable, joins(:item_type).where(:item_types => {:giftable => true, :usable => false})
+  scope :wearable, joins(:item_type).where(:item_types => {:wearable => true, :usable => false})
+  scope :usable, joins(:item_type).where(:item_types => {:usable => true, :giftable => true})
+  scope :by_type_names, lambda {|names| joins(:item_type).where(:item_types => {:name => names})}
 
   accepts_nested_attributes_for :buy_action, :gift_action, :actions, :use_action 
 
@@ -36,10 +37,10 @@ class Item < ActiveRecord::Base
 
   def set_type_by_name(type_name)
     self.item_type = ItemType.find_by_name(type_name)
-    build_buy_action(:name => "Купить #{name}") unless type_name == 'gift'
+    build_buy_action(:name => "Купить #{self.name}") unless type_name == 'gift'
     #FIXME It musn't be harcoded type
-    build_gift_action(:name => "Подарить #{name}") if item_type.giftable 
-    build_use_action(:name => "Использовать #{name}") if item_type.usable
+    build_gift_action(:name => "Подарить #{self.name}") if item_type.giftable 
+    build_use_action(:name => "Использовать #{self.name}") if item_type.usable
   end
  
 
