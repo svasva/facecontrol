@@ -113,8 +113,8 @@ class Character < ActiveRecord::Base
 		return glam
 	end
 
-	def buy_item(item)
-		self.do_action item.buy_action
+	def buy_item(item, for_gold = false)
+		self.do_action (for_gold ? item.buy_for_gold_action : item.buy_action)
 	end
 
 	def use_item(item)
@@ -132,9 +132,9 @@ class Character < ActiveRecord::Base
 		return self
 	end
 
-	def make_a_gift(item, target_character)
+	def make_a_gift(item, target_character, for_gold = false)
 		if item.item_type.giftable
-			return item if self.do_action item.gift_action, target_character 
+			return item if self.do_action (for_gold ? item.gift_for_gold_action : item.gift_action), target_character 
 		else
 			return false
 		end
