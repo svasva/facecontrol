@@ -26,7 +26,8 @@ class AmfgateController < ApplicationController
       :male => @misc_params[1],
       :social_id => @flash_vars['viewer_id'],
       :energy => GloryLevel.where(:level => 1).first.max_energy,
-      :money => 1,
+      :drive => 100,
+      :money => 5,
       :real_glory => 1,
       :glory => 1
     }
