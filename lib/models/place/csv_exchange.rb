@@ -26,6 +26,7 @@ module Models
             enter_condition.real_glory,
             enter_condition.glamour,
             enter_condition.money,
+            enter_condition.social_friends_count,
 
             record.stay_action.delta_energy,
             record.stay_action.delta_glory,
@@ -38,7 +39,8 @@ module Models
             view_condition.glory,
             view_condition.real_glory,
             view_condition.glamour,
-            view_condition.money = row[1..-1]
+            view_condition.money,
+            view_condition.social_friends_count = row[1..-1]
 
             record.stay_action.repeat = true
             record.stay_action.delay = 60
@@ -58,30 +60,58 @@ module Models
           end
         end
 
-        def generate_table
-          self.all.map do |p|
-            [ p.id,
-              p.name,
-              p.description,
-              p.map_x,
-              p.map_y,
-              p.video_urls,
-              p.enter_action.conditions.first.glory,
-              p.enter_action.conditions.first.real_glory,
-              p.enter_action.conditions.first.glamour,
-              p.enter_action.conditions.first.energy,
-              p.enter_action.delta_energy,
-              p.enter_action.delta_glory,
-              p.enter_action.delta_drive,
-              p.enter_action.delta_wear] 
-          end
-        end
 
         require "csv"
         def parse_csv(params)
 
           data = CSV.read(params[:file].tempfile, {:encoding => "utf-8"})[2..-1]
           self.parse_table data
+        end
+
+        def generate_csv
+          CSV.generate do |c|
+            self.all.each do |p|
+              c << p.table_row 
+            end
+          end
+        end
+
+      end
+
+      module InstanceMethods
+        def table_row
+          enter_condition = self.enter_action.conditions.find_by_name "enter_condition"
+          view_condition = self.enter_action.conditions.find_by_name "visible_condition"
+          [ self.id,
+            self.name,  
+            self.description, 
+            self.picture_url,
+            self.map_x,
+            self.map_y,
+            self.video_urls,
+            enter_condition.level ,
+            enter_condition.energy,
+            enter_condition.drive,
+            enter_condition.glory,
+            enter_condition.real_glory,
+            enter_condition.glamour,
+            enter_condition.money,
+            enter_condition.social_friends_count,
+
+            self.stay_action.delta_energy,
+            self.stay_action.delta_glory,
+            self.stay_action.delta_drive,
+            self.stay_action.delta_wear,
+            self.stay_action.social_friends_count,
+
+            view_condition.level,
+            view_condition.energy,
+            view_condition.drive,
+            view_condition.glory,
+            view_condition.real_glory,
+            view_condition.glamour,
+            view_condition.money,
+            view_condition.social_friends_count ] 
         end
       end
     end

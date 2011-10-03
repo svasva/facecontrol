@@ -17,14 +17,14 @@ describe Place do
 			@table = [
 			[@bo.id, 'Бар \'Голубая устрица2\'', 'всем известное место2',
 				'http://pic3.ru',33,45,'v_urls',
-				6, 5, 4, 3, 2, 1,
+				8, 7, 6, 5, 4, 3, 2, 1,
 				-100,200, 50, 500,
-				16, 17, 16, 15, 14, 13, 12, 11],
+				19 ,18, 17, 16, 15, 14, 13, 12, 11],
 			[nil,'Рюмочная \'Второе дыхание\'', 'спасение изнурённому человеку',
 				'http://pic2.ru',31, 42, 'v_urls2',
-				4, 5, 6, 7, 8, 9, 10,
+				4, 5, 6, 7, 8, 9, 10,11,
 				100, 100, 100, -500,
-				10, 11, 12, 13, 14, 15, 16]]
+				10, 11, 12, 13, 14, 15, 16, 17]]
 		end
 
 		it 'changes Place count' do
@@ -100,6 +100,7 @@ describe Place do
 			enter_condition.real_glory.should == 8
 			enter_condition.glamour.should == 9
 			enter_condition.money.should == 10
+			enter_condition.social_friends_count.should == 11
 			enter_condition.operator.should == '>='
 
 			view_condition = new_place.enter_action.conditions.find_by_name 'visible_condition'
@@ -110,6 +111,7 @@ describe Place do
 			view_condition.real_glory.should == 14
 			view_condition.glamour.should == 15
 			view_condition.money.should == 16
+			view_condition.social_friends_count.should == 17
 			view_condition.operator.should == '>='
 		end
 
