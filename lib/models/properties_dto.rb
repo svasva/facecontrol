@@ -9,6 +9,8 @@ class PropertiesDTO
 	attr_accessor :contest_rating
 	attr_accessor :glamour
 	attr_accessor :level
+	attr_accessor :description
+	attr_accessor :friends
 
 	def initialize(obj)
 		case obj.class.name
@@ -31,6 +33,8 @@ class PropertiesDTO
 			@money = obj.money
 			@operator = obj.operator
 			@level = obj.level
+			@friends = obj.social_friends_count
 		end
+		@description = obj.description
 	end
 end
