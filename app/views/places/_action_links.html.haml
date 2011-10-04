@@ -1,5 +1,5 @@
-= link_to "All actions", admin_place_actions_path(place)
+= link_to "All actions", admin_place_game_actions_path(place)
 %br
-- place.actions.each do |a|
-  = link_to a.name, admin_place_action_path(place, a)
+- place.game_actions.each do |a|
+  = link_to a.name, admin_place_game_action_path(place, a)
   %br
