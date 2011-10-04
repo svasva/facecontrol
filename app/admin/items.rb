@@ -30,6 +30,8 @@ ActiveAdmin.register Item do
 	    f.input :glamour
 	    f.input :item_type,
 	    	:collection => ItemType.all.map {|i| ["#{i.name} (#{i.description})", i.id]}
+      f.input :actions,
+        :collection => Action.all.map {|a| ["#{a.name} (#{a.description})", a.id]}
 	    f.input :sex
 	  end
     f.buttons
@@ -60,4 +62,33 @@ ActiveAdmin.register Item do
     render "shared/upload", :action => :import_clothes_csv
   end
 
+  collection_action :drinks, :method => :get do
+    respond_to do |f| 
+      f.csv {
+         send_data Item.generate_drink_csv, 
+            :type => 'text/csv; charset=utf-8; header=present', 
+            :disposition => "attachment; filename=drinks.csv"  
+          }
+    end
+  end
+
+  collection_action :gifts, :method => :get do
+    respond_to do |f| 
+      f.csv {
+         send_data Item.generate_gift_csv, 
+            :type => 'text/csv; charset=utf-8; header=present', 
+            :disposition => "attachment; filename=gifts.csv"  
+          }
+    end
+  end
+
+  collection_action :clothes, :method => :get do
+    respond_to do |f| 
+      f.csv {
+         send_data Item.generate_cloth_csv, 
+            :type => 'text/csv; charset=utf-8; header=present', 
+            :disposition => "attachment; filename=clothes.csv"  
+          }
+    end
+  end
 end

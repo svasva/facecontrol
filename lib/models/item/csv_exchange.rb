@@ -12,7 +12,7 @@ module Models
         def parse_drinks_table(table)
           parse_generic_table(table) do |record, row|
             record.set_type_by_name(row[11])
-            
+
             record.picture_url = row[1]
             record.name = row[2]
             record.description = row[3]
@@ -86,7 +86,69 @@ module Models
           self.parse_clothes_table data
         end
 
+
+
+        def generate_csv(type_names, row_method)
+          CSV.generate do |c|
+            self.by_type_names(type_names) do |p|
+              c << p.method(row_method).call
+            end
+          end
+        end
+
+        def generate_drink_csv
+          generate_csv(["cocktail", "drink", "energy"], :drink_row)
+        end
+
+        def generate_gift_csv
+          generate_csv("gift", :gift_row)
+        end
+
+        def generate_cloth_csv
+          generate_csv("clothes", :cloth_row)
+        end        
       end
+
+      module InstanceMethods
+        def drink_row
+          [ self.id,
+            self.picture_url,
+            self.name,
+            self.description,
+            -self.gift_action.delta_energy,
+            -self.gift_action.delta_money,
+            -self.gift_action.delta_drive,
+
+            self.use_action.delta_energy,
+            self.use_action.delta_drive,
+            self.gift_action.delta_glory,
+            self.gift_action.contest_rating,
+            self.item_type.name ] 
+        end
+        def gift_row
+          [ self.picture_url,
+            self.name,
+            self.description,
+            -self.gift_action.delta_energy,
+            -self.gift_action.delta_money,
+            self.gift_action.contest_rating,
+            self.gift_action.need_target,
+            self.ttl,
+            self.item_type.name]
+        end
+        def cloth_row
+          [ self.picture_url,
+            self.name,
+            self.description,
+            (self.sex ? 'М' : 'Ж'),
+            -self.buy_action.delta_energy,
+            -self.buy_action.delta_money,
+            self.glamour,
+            self.buy_action.contest_rating,
+            self.item_type.name]
+        end
+      end
+
     end
   end
 end
