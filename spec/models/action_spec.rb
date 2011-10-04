@@ -17,7 +17,7 @@ describe GameAction do
       default_condition.glory.should == 4
       default_condition.real_glory.should == 5 
     end
-    it 'doen\'t crreates condition, not needed' do
+    it 'doesn\'t creates condition, that not needed' do
       a = GameAction.create({
        :delta_energy => 1,
        :delta_money => 2,

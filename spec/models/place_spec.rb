@@ -48,7 +48,7 @@ describe Place do
 		it 'creates all actions for updated enteries' do
 			Place.parse_table @table
 			@bo.reload
-			@bo.actions.count.should == 3
+			@bo.game_actions.count.should == 3
 			
 			@bo.enter_action.should_not == nil
 			@bo.stay_action.should_not == nil
@@ -60,7 +60,7 @@ describe Place do
 		it 'writes actions to new enteries' do
 			Place.parse_table @table
 
-			new_place.actions.count.should == 3
+			new_place.game_actions.count.should == 3
 			new_place.enter_action.should_not == nil
 			new_place.leave_action.should_not == nil
 			new_place.stay_action.should_not == nil
