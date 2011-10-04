@@ -66,12 +66,6 @@ class CharacterAction < ActiveRecord::Base
     end
   end
 
-
-  def reload_status
-    self.status = CharacterAction.find(self.id).status
-    self.status
-  end
-
   def repeat_active?
     if self.game_action.repeat
       logger.info "REPEAT CHECK CharacterAction #{self.id}"
@@ -163,6 +157,7 @@ class CharacterAction < ActiveRecord::Base
           :wear => 0,
           :source_character_id => self.character_id
         )
+        
       when 'use'
         puts "USED! used #{self.game_action.subject.name} for #{self.character.name} - removing"
         self.character.items.gift_drinks.where(:item_id => self.game_action.subject_id).last.destroy
