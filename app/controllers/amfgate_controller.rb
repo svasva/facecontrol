@@ -4,6 +4,7 @@ class AmfgateController < ApplicationController
 
   respond_to :amf
   before_filter :amf_init
+  after_filter :cookie_hook
 
   @character = nil
 
@@ -232,9 +233,6 @@ class AmfgateController < ApplicationController
   # @param[0][0]: @flash_vars
   # @param[0][1..-1]: @misc_params
   def amf_init
-    # use different session key so we don`t break activeadmin session
-    request.session_options[:session_key] = '_amf'
-
     @flash_vars = params[0][0]
     @misc_params = []
     params[0].each {|p| @misc_params << p unless p == @flash_vars }
@@ -249,5 +247,12 @@ class AmfgateController < ApplicationController
   def auth_vk?(social_id, session_key)
     auth_key = Digest::MD5.hexdigest "#{@@app_id}_#{social_id}_#{@@app_secret}"
     return auth_key == session_key
+  end
+
+  def cookie_hook
+    # use different session key so we don`t break activeadmin session
+    request.session_options[:session_key] = '_amf'
+    # try to remove cookie
+    # headers.delete('Set-Cookie')
   end
 end
