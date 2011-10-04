@@ -1,7 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1.rc2'
-#, :git => 'git://github.com/rails/rails.git', :branch=>'3-1-stable'
+gem 'rails', :git => 'git://github.com/rails/rails.git', :branch=>'3-1-stable'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -32,7 +31,6 @@ gem 'aasm'
 gem 'resque'
 gem 'resque-scheduler', :git => 'git://github.com/bvandenbos/resque-scheduler.git'
 gem 'foreman'
-gem 'rack-cache'
 gem 'vk_api'
 # js compiler
 gem 'therubyracer'
@@ -49,9 +47,9 @@ gem 'haml'
 gem 'haml-rails'
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails'
+gem 'sass-rails', :git => 'git://github.com/rails/sass-rails.git', :branch=>'3-1-stable'
 group :assets do
-  gem 'coffee-rails'
+  gem 'coffee-rails', '~> 3.1.0'
   gem 'uglifier'
 end
 
