@@ -66,9 +66,7 @@ Facecontrol::Application.routes.draw do
     resources :items do
       resources :game_actions
     end
-  end 
-   
-  match 'amfgate/:action' => 'amfgate'
+  end
 
   # See how all your routes lay out with "rake routes"
 

@@ -4,7 +4,6 @@ class AmfgateController < ApplicationController
 
   respond_to :amf
   before_filter :amf_init
-  after_filter :cookie_hook
 
   @character = nil
 
@@ -247,10 +246,5 @@ class AmfgateController < ApplicationController
   def auth_vk?(social_id, session_key)
     auth_key = Digest::MD5.hexdigest "#{@@app_id}_#{social_id}_#{@@app_secret}"
     return auth_key == session_key
-  end
-
-  def cookie_hook
-    # try to remove cookie
-    headers.delete('Set-Cookie')
   end
 end
