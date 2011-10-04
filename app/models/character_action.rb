@@ -93,7 +93,7 @@ class CharacterAction < ActiveRecord::Base
     # modify character with corresponding deltas
     begin
       puts "modify! PROCESS_ACTION"
-      self.character.modify(self.action, self.target_character_id)
+      self.character.modify(self.game_action, self.target_character_id)
       self.character.update_attributes(:updated_at => Time.now.utc)
     rescue => e
       puts "ACHTUNG #{e.inspect}"
@@ -157,7 +157,7 @@ class CharacterAction < ActiveRecord::Base
           :wear => 0,
           :source_character_id => self.character_id
         )
-        
+
       when 'use'
         puts "USED! used #{self.game_action.subject.name} for #{self.character.name} - removing"
         self.character.items.gift_drinks.where(:item_id => self.game_action.subject_id).last.destroy
@@ -180,7 +180,7 @@ class CharacterAction < ActiveRecord::Base
     }
 
     # repeat
-    if self.repeat_active? and ca_repeat = self.character.do_action(self.action)
+    if self.repeat_active? and ca_repeat = self.character.do_action(self.game_action)
       ca_repeat.update_attributes :repeat_index => self.repeat_index + 1
     end
 
