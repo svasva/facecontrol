@@ -263,7 +263,7 @@ class Character < ActiveRecord::Base
 		end
 		CharacterAction.create(
 			:character => self,
-			:action => action,
+			:game_action => action,
 			:target_character => target_char,
 			:message => message
 		)
