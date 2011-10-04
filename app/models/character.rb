@@ -2,7 +2,7 @@
 
 class Character < ActiveRecord::Base
 	has_many :character_actions, :dependent => :destroy
-	has_many :actions, :through => :character_actions
+	has_many :actions, :through => :character_actions, :class_name => 'GameAction'
 	has_many :character_action_groups, :dependent => :destroy
 	has_many :action_groups, :through => :character_action_groups
 	has_many :items, :class_name => 'CharacterItem', :dependent => :destroy
@@ -150,9 +150,9 @@ class Character < ActiveRecord::Base
 			:anonymous => anonymous
 		)
 		if need_answer
-			self.do_action Action.post_question.last, Character.find(target_char_id), msg
+			self.do_action GameAction.post_question.last, Character.find(target_char_id), msg
 		else
-			self.do_action Action.post_rumor.last, Character.find(target_char_id), msg
+			self.do_action GameAction.post_rumor.last, Character.find(target_char_id), msg
 		end
 		return msg
 	end
@@ -178,12 +178,12 @@ class Character < ActiveRecord::Base
 			:need_answer => false,
 			:reply_to => message_id
 		)
-		self.do_action Action.post_reply.last, msg.source, rpl
+		self.do_action GameAction.post_reply.last, msg.source, rpl
 		return msg
 	end
 
 	def buy_clicks
-		self.do_action Action.buy_clicks.last
+		self.do_action GameAction.buy_clicks.last
 	end
 
 	def clicks_remaining
@@ -249,8 +249,8 @@ class Character < ActiveRecord::Base
 		return true
 	 end
 
-	 # creates CharacterAction for corresponding Action
-	 # if character passes Action`s conditions
+	 # creates CharacterAction for corresponding GameAction
+	 # if character passes GameAction`s conditions
 	 # otherwise returns false
 	 def do_action(action, target_char = nil, message = nil)
 		unless self.pass_conditions? action

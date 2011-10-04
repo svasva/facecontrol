@@ -61,10 +61,10 @@ Facecontrol::Application.routes.draw do
  #FIXME! workaround https://github.com/gregbell/active_admin/issues/221 
   namespace :admin do
     resources :places do
-      resources :actions
+      resources :game_actions
     end
     resources :items do
-      resources :actions
+      resources :game_actions
     end
   end 
    

@@ -2,14 +2,14 @@
 
 FactoryGirl.define do 
 
-  factory :enter, :class => Action do
+  factory :enter, :class => GameAction do
   	name "Зайти"
   	need_target false
   	repeat false
     default_type "enter"
   end
 
-  factory :stay, :class => Action do
+  factory :stay, :class => GameAction do
     name "Тусить"
   	need_target false
   	repeat true
@@ -17,7 +17,7 @@ FactoryGirl.define do
     default_type "stay"
   end
 
-	factory :leave, :class => Action do
+	factory :leave, :class => GameAction do
     name "Выйти"
   	need_target false
   	repeat false

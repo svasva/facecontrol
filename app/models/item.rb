@@ -2,35 +2,35 @@
 
 class Item < ActiveRecord::Base
   belongs_to :item_type
-  has_many :actions, :as => :subject, :dependent => :destroy
+  has_many :game_actions, :as => :subject, :dependent => :destroy
   has_many :character_items, :dependent => :destroy
   has_one :buy_action,
     :as => :subject,
-    :class_name => 'Action',
+    :class_name => 'GameAction',
     :conditions => {:default_type => "buy"},
     :autosave => true
 
   has_one :buy_for_gold_action,
     :as => :subject,
-    :class_name => 'Action',
+    :class_name => 'GameAction',
     :conditions => {:default_type => "buy_for_gold"},
     :autosave => true
 
   has_one :gift_action,
     :as => :subject,
-    :class_name => 'Action',
+    :class_name => 'GameAction',
     :conditions => {:default_type => "gift"},
     :autosave => true
 
   has_one :gift_for_gold_action,
     :as => :subject,
-    :class_name => 'Action',
+    :class_name => 'GameAction',
     :conditions => {:default_type => "gift_for_gold"},
     :autosave => true
 
   has_one :use_action,
     :as => :subject,
-    :class_name => 'Action',
+    :class_name => 'GameAction',
     :conditions => {:default_type => "use"},
     :autosave => true
 
@@ -44,7 +44,7 @@ class Item < ActiveRecord::Base
                                 :buy_for_gold_action,
                                 :gift_action,
                                 :gift_for_gold_action,
-                                :actions
+                                :game_actions
 
   after_initialize :init_actions
   before_save :before_save_hook

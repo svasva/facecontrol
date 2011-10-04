@@ -1,13 +1,13 @@
 # encoding: utf-8
 
 class ActionGroup < ActiveRecord::Base
-	has_many :actions
+	has_many :game_actions
   after_initialize :init_default_actions
   before_create :add_names_to_default_actions
 
   has_one :enter_action,
 		:as => :subject,
-		:class_name => 'Action',
+		:class_name => 'GameAction',
 		:conditions => {:default_type => "enter_action_group"},
 	  :autosave => true,
 	  :dependent => :destroy

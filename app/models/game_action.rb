@@ -1,6 +1,6 @@
-class Action < ActiveRecord::Base
+class GameAction < ActiveRecord::Base
 
-  belongs_to :parent, :class_name => 'Action'
+  belongs_to :parent, :class_name => 'GameAction'
   belongs_to :subject, :polymorphic => true
   has_many :conditions, :dependent => :destroy
   has_many :character_actions, :dependent => :destroy
@@ -8,16 +8,16 @@ class Action < ActiveRecord::Base
   accepts_nested_attributes_for :conditions
 
   has_many :children,
-  	:class_name => 'Action',
+  	:class_name => 'GameAction',
   	:foreign_key => 'parent_id'
     
   has_many :disabling_actions,
-  	:class_name => 'Action',
+  	:class_name => 'GameAction',
   	:foreign_key => 'disabler_action_id'
   	
   belongs_to :action_group
   belongs_to :disabler_action,
-  	:class_name => 'Action',
+  	:class_name => 'GameAction',
   	:foreign_key => 'disabler_action_id'
 
   scope :by_place, lambda {|place_id|

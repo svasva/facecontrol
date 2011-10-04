@@ -1,28 +1,28 @@
 # encoding: utf-8
 
 class Place < ActiveRecord::Base
-  has_many :actions, :as => :subject, :dependent => :destroy
+  has_many :game_actions, :as => :subject, :dependent => :destroy
   has_many :characters
 
   has_one :enter_action,
 		:as => :subject,
-		:class_name => 'Action',
+		:class_name => 'GameAction',
 		:conditions => {:default_type => "enter"},
 	  :autosave => true
 
   has_one :stay_action,
   	:as => :subject,
-  	:class_name => 'Action',
+  	:class_name => 'GameAction',
 		:conditions => {:default_type => "stay"},
 		:autosave => true
 
   has_one :leave_action,
   	:as => :subject,
-  	:class_name => 'Action',
+  	:class_name => 'GameAction',
   	:conditions => {:default_type => "leave"},
   	:autosave => true
     
-  accepts_nested_attributes_for :enter_action, :stay_action, :leave_action, :actions
+  accepts_nested_attributes_for :enter_action, :stay_action, :leave_action, :game_actions
 
   after_initialize :init_default_actions
   before_create :add_names_to_default_actions
@@ -36,7 +36,7 @@ class Place < ActiveRecord::Base
   end
 
   def last_visitors_dto(my_char_id = nil, limit = 50)
-    CharacterAction.char_uniq.where(:action_id => self.enter_action.id)
+    CharacterAction.char_uniq.where(:game_action_id => self.enter_action.id)
       .where{character_id != my_char_id}
       .order('id DESC')
       .limit(limit)
@@ -63,6 +63,6 @@ class Place < ActiveRecord::Base
   include Models::Place::CsvExchange
 
   
-  default_scope includes(:actions) 
+  default_scope includes(:game_actions) 
 
 end

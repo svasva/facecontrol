@@ -1,5 +1,5 @@
 ActiveAdmin.register Condition do  
-  belongs_to :action
+  belongs_to :game_action
   filter :name
 
   index do

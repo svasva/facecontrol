@@ -21,14 +21,14 @@ ActiveAdmin::Dashboards.build do
         th 'Time', :width => '150px'
         th 'Character', :width => '150px'
         th 'Subject'
-        th 'Action'
+        th 'GameAction'
       end
       CharacterAction.last_ten.collect do |ca|
         tr do
           td "#{time_ago_in_words ca.created_at} ago"
           td link_to ca.character.name, admin_character_path(ca.character)
-          td "#{ca.action.subject.name if ca.action.subject}"
-          td raw "#{ca.action.name}"
+          td "#{ca.game_action.subject.name if ca.game_action.subject}"
+          td raw "#{ca.game_action.name}"
         end
       end
     end

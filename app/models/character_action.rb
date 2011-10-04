@@ -1,11 +1,11 @@
 class CharacterAction < ActiveRecord::Base
   belongs_to :character
-  belongs_to :action
+  belongs_to :game_action
   belongs_to :target_character, :class_name => 'Character', :foreign_key => 'target_character_id'
   has_one :message
 
-  scope :last_ten, joins(:action).where{action.default_type != 'stay'}.order('created_at desc').limit(10)
-  scope :votes, joins(:action).where{action.default_type == 'vote'}
+  scope :last_ten, joins(:game_action).where{game_action.default_type != 'stay'}.order('created_at desc').limit(10)
+  scope :votes, joins(:game_action).where{game_action.default_type == 'vote'}
   scope :char_uniq, select('distinct(character_actions.character_id)')
 
   after_create :enqueue
@@ -49,7 +49,7 @@ class CharacterAction < ActiveRecord::Base
   # check ttl and set CharacterAction stop_time
   def set_stop_time
     logger.info 'set stop_time'
-    self.stop_time = Time.now.utc + self.action.ttl.seconds if self.action.ttl and self.action.ttl > 0
+    self.stop_time = Time.now.utc + self.game_action.ttl.seconds if self.game_action.ttl and self.game_action.ttl > 0
     logger.info "stop_time = #{self.stop_time.to_s(:short)}" if self.stop_time
   end
 
@@ -57,7 +57,7 @@ class CharacterAction < ActiveRecord::Base
   # called after CharacterAction#create
 	def enqueue
     start_at = self.start_time.nil? ? self.created_at.utc : self.start_time.utc
-    start_at += self.action.delay.seconds if self.action.delay
+    start_at += self.game_action.delay.seconds if self.game_action.delay
 
     if Time.now.utc >= start_at
       Resque.enqueue(CharacterActionWorker, self.id)
@@ -73,7 +73,7 @@ class CharacterAction < ActiveRecord::Base
   end
 
   def repeat_active?
-    if self.action.repeat
+    if self.game_action.repeat
       logger.info "REPEAT CHECK CharacterAction #{self.id}"
       self.repeat_index = 1 if not self.repeat_index or self.repeat_index == 0
       return true if self.repeat_count == 0
@@ -105,7 +105,7 @@ class CharacterAction < ActiveRecord::Base
       puts "ACHTUNG #{e.inspect}"
     end
 
-    case self.action.default_type
+    case self.game_action.default_type
     when 'buy_clicks'
       puts "buy_clicks! PROCESS_ACTION"
       self.character.update_attributes(
@@ -121,13 +121,13 @@ class CharacterAction < ActiveRecord::Base
     end
 
     # do something with action.subject
-    puts "#{self.action.default_type} subject: #{self.action.subject.inspect}"
-    case self.action.subject_type
+    puts "#{self.game_action.default_type} subject: #{self.game_action.subject.inspect}"
+    case self.game_action.subject_type
     when 'Place'
-      case self.action.default_type
+      case self.game_action.default_type
       when 'enter'
         puts "ENTER PLACE! PROCESS_ACTION"
-        self.character.update_attributes :place => self.action.subject
+        self.character.update_attributes :place => self.game_action.subject
       when 'leave'
         puts "LEAVE PLACE! PROCESS_ACTION"
         self.character.update_attributes :place => nil
@@ -140,13 +140,13 @@ class CharacterAction < ActiveRecord::Base
         end
       end
     when 'Item'
-      case self.action.default_type
+      case self.game_action.default_type
       when 'buy'
-        unless self.action.subject.item_type.name == 'drink'
-          puts "BUY! adding #{self.action.subject.name} to #{self.character.name}"
-          self.character.items.clothes.where(:item_id => self.action.subject.id).map(&:destroy)
+        unless self.game_action.subject.item_type.name == 'drink'
+          puts "BUY! adding #{self.game_action.subject.name} to #{self.character.name}"
+          self.character.items.clothes.where(:item_id => self.game_action.subject.id).map(&:destroy)
           ci = CharacterItem.create(
-            :item => self.action.subject,
+            :item => self.game_action.subject,
             :equipped => false,
             :gift => false,
             :wear => 0
@@ -155,23 +155,23 @@ class CharacterAction < ActiveRecord::Base
           self.character.put_on(ci)
         end
       when 'gift'
-        puts "GIFT! adding #{self.action.subject.name} to #{self.target_character.name}"
+        puts "GIFT! adding #{self.game_action.subject.name} to #{self.target_character.name}"
         self.target_character.items << CharacterItem.create(
-          :item => self.action.subject,
+          :item => self.game_action.subject,
           :equipped => false,
           :gift => true,
           :wear => 0,
           :source_character_id => self.character_id
         )
       when 'use'
-        puts "USED! used #{self.action.subject.name} for #{self.character.name} - removing"
-        self.character.items.gift_drinks.where(:item_id => self.action.subject_id).last.destroy
+        puts "USED! used #{self.game_action.subject.name} for #{self.character.name} - removing"
+        self.character.items.gift_drinks.where(:item_id => self.game_action.subject_id).last.destroy
       end
     end
 
     # check if we have to disable some actions
-    # Action.where(:disabler_action_id => self.action.id).each
-    self.action.disabling_actions.each {|action|
+    # GameAction.where(:disabler_action_id => self.game_action.id).each
+    self.game_action.disabling_actions.each {|action|
       puts "have to cancel action #{action.name}(#{action.id})"
       CharacterAction.where(
         :character_id => self.character_id,
@@ -189,7 +189,7 @@ class CharacterAction < ActiveRecord::Base
       ca_repeat.update_attributes :repeat_index => self.repeat_index + 1
     end
 
-    self.action.children.each {|child|
+    self.game_action.children.each {|child|
       self.character.do_action(child, self.target_character)
     }
     return true

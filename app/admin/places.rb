@@ -22,7 +22,7 @@ ActiveAdmin.register Place, { :sort_order => :name_asc } do
       f.input :map_y
       f.input :video_urls
       f.input :actions,
-        :collection => Action.all.map {|a| ["#{a.name} (#{a.description})", a.id]}
+        :collection => GameAction.all.map {|a| ["#{a.name} (#{a.description})", a.id]}
     end
     f.buttons
   end

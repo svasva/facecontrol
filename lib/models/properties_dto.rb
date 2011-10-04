@@ -12,7 +12,7 @@ class PropertiesDTO
 
 	def initialize(obj)
 		case obj.class.name
-		when 'Action'
+		when 'GameAction'
 			@glory = obj.delta_glory
 			@real_glory = obj.delta_real_glory
 			@money = obj.delta_money

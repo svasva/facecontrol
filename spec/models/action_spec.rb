@@ -1,10 +1,10 @@
 # encoding: utf-8
 require 'spec_helper'
 
-describe Action do
+describe GameAction do
   context "creates default condition" do
     it "creates default condition" do
-      a = Action.create({
+      a = GameAction.create({
        :delta_energy => -1,
        :delta_money => -2,
        :delta_drive => -3,
@@ -18,7 +18,7 @@ describe Action do
       default_condition.real_glory.should == 5 
     end
     it 'doen\'t crreates condition, not needed' do
-      a = Action.create({
+      a = GameAction.create({
        :delta_energy => 1,
        :delta_money => 2,
        :delta_drive => 3,
@@ -28,7 +28,7 @@ describe Action do
     end
 
      it 'should not raise' do
-      a = Action.create
+      a = GameAction.create
       a.conditions.should == []
     end
   end

@@ -1,5 +1,6 @@
 # encoding: utf-8
-ActiveAdmin.register Action do  
+ActiveAdmin.register GameAction do
+  menu :label => 'Actions'
  #belongs_to :item 
  #FIXME! workaround https://github.com/gregbell/active_admin/issues/221 
   controller.belongs_to :place, :item, :polymorphic => true, :optional => true

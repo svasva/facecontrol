@@ -1,7 +1,7 @@
 class ExchangeRate < ActiveRecord::Base
   has_one :buy_action,
 		:as => :subject,
-		:class_name => 'Action',
+		:class_name => 'GameAction',
 		:conditions => {:default_type => "buy_gold"},
 	  :autosave => true,
 	  :dependent => :destroy
