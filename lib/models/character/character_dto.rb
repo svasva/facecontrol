@@ -13,6 +13,7 @@ class CharacterDTO
 	attr_accessor :drive
 	attr_accessor :place
 	attr_accessor :max_energy
+	attr_accessor :next_level_glory
 
 	def initialize(char, target_char_id = nil)
 		@id = char.id
@@ -32,6 +33,7 @@ class CharacterDTO
 		@energy = char.energy
 		@drive = char.drive
 		@place = char.place_id
+		@next_level_glory = char.glory_for_next_level
 	end
 end
 
