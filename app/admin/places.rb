@@ -35,7 +35,7 @@ ActiveAdmin.register Place, { :sort_order => :name_asc } do
   collection_action :export, :method => :get do
     respond_to do |f| 
       f.csv {
-          send_data generate_csv, 
+          send_data Place.generate_csv, 
             :type => 'text/csv; charset=utf-8; header=present', 
             :disposition => "attachment; filename=places.csv"  
           }

@@ -2,9 +2,6 @@
 require 'spec_helper'
 
 describe Item do
-
-
-
   context "parse drinks table" do
     before(:all) do
       Factory.create :drink_type
@@ -35,7 +32,7 @@ describe Item do
     it "writes actions to new entries" do
       Item.parse_drinks_table @table
 
-      new_drink.actions.count.should == 3
+      new_drink.game_actions.count.should == 3
       new_drink.buy_action.should_not == nil
       new_drink.gift_action.should_not == nil
       new_drink.use_action.should_not == nil
@@ -100,7 +97,7 @@ describe Item do
 
     it "writes actions to new entries" do
       Item.parse_gifts_table @table
-      new_gift.actions.count.should == 1
+      new_gift.game_actions.count.should == 1
       new_gift.buy_action.should == nil
       new_gift.gift_action.should_not == nil
       new_gift.use_action.should == nil
@@ -125,7 +122,6 @@ describe Item do
       new_gift.gift_action.contest_rating.should == 10000
       new_gift.gift_action.need_target.should == true
     end
-
   end
 
 
