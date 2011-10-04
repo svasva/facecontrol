@@ -250,9 +250,7 @@ class AmfgateController < ApplicationController
   end
 
   def cookie_hook
-    # use different session key so we don`t break activeadmin session
-    request.session_options[:session_key] = '_amf'
     # try to remove cookie
-    # headers.delete('Set-Cookie')
+    headers.delete('Set-Cookie')
   end
 end
