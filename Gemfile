@@ -7,7 +7,7 @@ gem 'rails', '3.1.1.rc2'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 group :test, :development do
-	gem 'sqlite3'
+  gem 'sqlite3'
   gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl_rails'
@@ -41,18 +41,18 @@ gem 'therubyracer'
 
 gem 'activeadmin'
 
-gem 'sass-rails', "  ~> 3.1.0"
+gem 'haml'
+gem 'haml-rails'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'coffee-rails', "~> 3.1.0"
+  gem 'sass-rails'
+  gem 'coffee-rails'
   gem 'uglifier'
 end
 
 gem 'jquery-rails'
 
-gem 'haml'
-gem 'haml-rails'
 
 
 # Use thin as the web server
