@@ -66,8 +66,12 @@ class Character < ActiveRecord::Base
 	end
 
 	def social_friends
-		friends = FCconfig.vk_session.friends.get(:uid => self.social_id).map {|f| f['uid']}
-		Character.where(:social_id => friends)
+		begin
+			friends = FCconfig.vk_session.friends.get(:uid => self.social_id).map {|f| f['uid']}
+			Character.where(:social_id => friends)
+		rescue => e
+			logger.error "#{Time.now.to_s(:short)} ACHTUNG! Character#social_friends failed: #{e.inspect}"
+		end
 	end
 
 	def social_friends_count
