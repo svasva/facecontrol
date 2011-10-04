@@ -37,6 +37,10 @@ gem 'vk_api'
 # js compiler
 gem 'therubyracer'
 
+#Google data API
+gem 'gdata_19', :git => 'https://github.com/tokumine/GData.git', :require => 'gdata'
+
+
 ###
 
 gem 'activeadmin'

@@ -20,6 +20,12 @@ GIT
     rubyamf (2.0.0)
       activesupport (>= 2.3)
 
+GIT
+  remote: https://github.com/tokumine/GData.git
+  revision: 14e5a8a1381f4d50bc99ed083d89101f5111e3ea
+  specs:
+    gdata_19 (1.1.3)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -260,6 +266,7 @@ DEPENDENCIES
   database_cleaner
   factory_girl_rails
   foreman
+  gdata_19!
   haml
   haml-rails
   jquery-rails
