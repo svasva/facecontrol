@@ -2,7 +2,7 @@
 
 class Character < ActiveRecord::Base
 	has_many :character_actions, :dependent => :destroy
-	has_many :actions, :through => :character_actions, :class_name => 'GameAction'
+	has_many :game_actions, :through => :character_actions
 	has_many :character_action_groups, :dependent => :destroy
 	has_many :action_groups, :through => :character_action_groups
 	has_many :items, :class_name => 'CharacterItem', :dependent => :destroy
