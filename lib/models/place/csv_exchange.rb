@@ -102,7 +102,6 @@ module Models
             self.stay_action.delta_glory,
             self.stay_action.delta_drive,
             self.stay_action.delta_wear,
-            self.stay_action.social_friends_count,
 
             view_condition.level,
             view_condition.energy,
