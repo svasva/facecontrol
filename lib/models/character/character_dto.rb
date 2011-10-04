@@ -33,7 +33,7 @@ class CharacterDTO
 		@energy = char.energy
 		@drive = char.drive
 		@place = char.place_id
-		@next_level_glory = char.glory_for_next_level
+		@next_level_glory = char.next_level_glory
 	end
 end
 

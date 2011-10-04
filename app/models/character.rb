@@ -105,12 +105,12 @@ class Character < ActiveRecord::Base
 		GloryLevel.where{(glory.lteq g)}.order('glory asc').last.level
 	end
 
-	def glory_for_next_level
+	def next_level_glory
 		level = self.level
 		return 0 if level == 0
 		nextlevel = GloryLevel.find_by_level(level+1)
 		return 0 unless nextlevel
-		return nextlevel.glory - self.glory
+		return nextlevel.glory
 	end
 
 	def max_energy
