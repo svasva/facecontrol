@@ -27,6 +27,8 @@ class CharacterItem < ActiveRecord::Base
 
   scope :equipped, where(:equipped => true)
 
+  after_create :drop_after_ttl
+
   def glamour
     self.item.glamour - (self.wear * self.item.wear_factor) if self.item.glamour
   end
@@ -37,18 +39,6 @@ class CharacterItem < ActiveRecord::Base
 
   def dto
     CharacterItemDTO.new self
-  end
-
-  def wear_limit
-  	self.item.item_type.wear_limit
-  end
-
-  def unique?
-  	self.item.item_type.unique
-  end
-
-  def wearable?
-  	self.item.item_type.wearable
   end
 
   def find_same_type_eq
@@ -64,6 +54,12 @@ class CharacterItem < ActiveRecord::Base
   end
 
   def remaining_ttl
-    Time.now.utc.to_i - (self.created_at.utc.to_i + self.item.ttl) if self.item.ttl
+    Time.now.utc.to_i - (self.created_at.utc.to_i + self.item.ttl) if self.item.ttl and self.item.ttl > 0
+  end
+
+  protected
+
+  def drop_after_ttl
+    Resque.enqueue_in(self.item.ttl.seconds, DropItemWorker, self.id) if self.gift and (not self.item.item_type.usable)
   end
 end
