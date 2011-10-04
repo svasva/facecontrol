@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1.rc1'
+gem 'rails', '3.1.1.rc2'
 #, :git => 'git://github.com/rails/rails.git', :branch=>'3-1-stable'
 
 # Bundle edge Rails instead:
