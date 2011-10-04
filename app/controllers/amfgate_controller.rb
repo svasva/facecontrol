@@ -232,6 +232,9 @@ class AmfgateController < ApplicationController
   # @param[0][0]: @flash_vars
   # @param[0][1..-1]: @misc_params
   def amf_init
+    # use different session key so we don`t break activeadmin session
+    request.session_options[:session_key] = '_amf'
+
     @flash_vars = params[0][0]
     @misc_params = []
     params[0].each {|p| @misc_params << p unless p == @flash_vars }
