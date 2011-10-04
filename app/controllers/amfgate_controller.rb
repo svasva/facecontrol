@@ -2,7 +2,7 @@ class AmfgateController < ApplicationController
   @@app_id = '2452518'
   @@app_secret = 'c3j9y9BmHPcNo7JmkvRL'
 
-  respond_to :amf, :html
+  respond_to :amf
   before_filter :amf_init
 
   @character = nil
@@ -79,7 +79,7 @@ class AmfgateController < ApplicationController
   end
 
   def get_rumors_to_vote
-    render :amf => load_rumors_to_vote
+    render :amf => (load_rumors_to_vote << GameAction.vote.last.dto)
   end
 
   # @param: Message.id (+)
@@ -100,7 +100,7 @@ class AmfgateController < ApplicationController
   end
 
   def get_chars_to_vote
-    render :amf => load_chars_to_vote
+    render :amf => (load_chars_to_vote << GameAction.vote.last.dto)
   end
 
   # @param: Character.id (+)
