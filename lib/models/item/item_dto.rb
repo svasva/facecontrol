@@ -21,9 +21,9 @@ class ItemDTO
 		@wear_factor = item.wear_factor
 		@glamour = item.glamour
 		@properties = (item.item_type.name == 'gift') ? item.gift_action.dto : item.buy_action.dto
-		if item.gift_for_gold_action and item.item_type.name == 'gift'
+		if item.gift_for_gold_action != nil and item.item_type.name == 'gift'
 			@gold_properties = item.gift_for_gold_action.dto
-		elsif item.buy_for_gold_action
+		elsif item.buy_for_gold_action != nil
 			@gold_properties = item.buy_for_gold_action.dto
 		end
 		@type = item.item_type.name
