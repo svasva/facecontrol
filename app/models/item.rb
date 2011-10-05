@@ -84,11 +84,13 @@ class Item < ActiveRecord::Base
       build_buy_for_gold_action(self.buy_action.dup.attributes)
       buy_for_gold_action.name = "Купить #{self.name} (gold)"
       buy_for_gold_action.delta_money = self.buy_action.delta_energy / FCconfig.energy_gold_ratio
+      buy_for_gold_action.default_type = 'buy_for_gold'
     end
     if self.gift_action and self.gift_action.delta_money == 0
       build_gift_for_gold_action(self.gift_action.dup.attributes)
       gift_for_gold_action.name = "Подарить #{self.name} (gold)"
       gift_for_gold_action.delta_money = self.gift_action.delta_energy / FCconfig.energy_gold_ratio
+      buy_for_gold_action.default_type = 'gift_for_gold'
     end
   end
 
