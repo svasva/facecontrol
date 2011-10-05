@@ -30,8 +30,6 @@ ActiveAdmin.register Item do
 	    f.input :glamour
 	    f.input :item_type,
 	    	:collection => ItemType.all.map {|i| ["#{i.name} (#{i.description})", i.id]}
-      f.input :game_actions,
-        :collection => GameAction.all.map {|a| ["#{a.name} (#{a.description})", a.id]}
 	    f.input :sex
 	  end
     f.buttons
