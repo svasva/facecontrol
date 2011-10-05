@@ -86,6 +86,8 @@ class Item < ActiveRecord::Base
       buy_for_gold_action.name = "Купить #{self.name} (gold)"
       buy_for_gold_action.delta_money = self.buy_action.delta_energy / FCconfig.energy_gold_ratio
       buy_for_gold_action.default_type = 'buy_for_gold'
+      buy_for_gold_action.subject_type = 'Item'
+      buy_for_gold_action.subject_id = self.id
       buy_for_gold_action.delta_energy = 0
       buy_for_gold.conditions.first.energy = 0
       buy_for_gold.conditions.first.money = -(buy_for_gold.delta_money))
@@ -96,6 +98,8 @@ class Item < ActiveRecord::Base
       gift_for_gold_action.name = "Подарить #{self.name} (gold)"
       gift_for_gold_action.delta_money = self.gift_action.delta_energy / FCconfig.energy_gold_ratio
       gift_for_gold_action.default_type = 'gift_for_gold'
+      gift_for_gold_action.subject_type = 'Item'
+      gift_for_gold_action.subject_id = self.id
       gift_for_gold_action.delta_energy = 0
       gift_for_gold.conditions.first.energy = 0
       gift_for_gold.conditions.first.money = -(gift_for_gold.delta_money))
