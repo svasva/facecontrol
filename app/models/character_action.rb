@@ -127,9 +127,9 @@ class CharacterAction < ActiveRecord::Base
         self.character.update_attributes :place => nil
       when 'stay'
         puts "STAY PLACE! PROCESS_ACTION"
-	unless self.character.place
+        unless self.character.place
           self.cancel!
-          return false;
+          return false
           puts "PLACE is NIL! CANCEL STAY!"
         end
       end
@@ -138,7 +138,7 @@ class CharacterAction < ActiveRecord::Base
       when 'buy'
         unless self.game_action.subject.item_type.name == 'drink'
           puts "BUY! adding #{self.game_action.subject.name} to #{self.character.name}"
-          self.character.items.clothes.where(:item_id => self.game_action.subject.id).map(&:destroy)
+          self.character.items.clothes.where(:item_id => self.game_action.subject.id).destroy_all
           ci = CharacterItem.create(
             :item => self.game_action.subject,
             :equipped => false,
