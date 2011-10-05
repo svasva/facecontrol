@@ -148,9 +148,9 @@ class AmfgateController < ApplicationController
     render :amf => @character.do_action(CharacterItem.find(@misc_params[0]).item.use_action)
   end
 
-  # @param: CharacterItem.id
+  # @param: Item.id
   def take_off
-    render :amf => @character.take_off(CharacterItem.find(@misc_params[0])).dto
+    render :amf => @character.take_off(@character.items.find_by_item_id(@misc_params[0])).dto
   end
 
   # @param: Item.id
