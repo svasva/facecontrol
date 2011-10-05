@@ -87,7 +87,7 @@ class Item < ActiveRecord::Base
       buy_for_gold_action.default_type = 'buy_for_gold'
       buy_for_gold_action.delta_energy = 0
       buy_for_gold.conditions.first.energy = 0
-      buy_for_gold.conditions.first.money = -(buy_for_gold.delta_money))
+      buy_for_gold.conditions.first.money = -(buy_for_gold.delta_money)
     end
     if self.gift_action and self.gift_action.delta_money == 0
       build_gift_for_gold_action(self.gift_action.dup.attributes)
@@ -96,7 +96,7 @@ class Item < ActiveRecord::Base
       gift_for_gold_action.default_type = 'gift_for_gold'
       gift_for_gold_action.delta_energy = 0
       gift_for_gold.conditions.first.energy = 0
-      gift_for_gold.conditions.first.money = -(gift_for_gold.delta_money))
+      gift_for_gold.conditions.first.money = -(gift_for_gold.delta_money)
     end
     buy_action.name = "Купить #{self.name}" if buy_action
     use_action.name = "Использовать #{self.name}" if use_action
