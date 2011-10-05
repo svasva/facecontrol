@@ -90,7 +90,7 @@ class Item < ActiveRecord::Base
       build_gift_for_gold_action(self.gift_action.dup.attributes)
       gift_for_gold_action.name = "Подарить #{self.name} (gold)"
       gift_for_gold_action.delta_money = self.gift_action.delta_energy / FCconfig.energy_gold_ratio
-      buy_for_gold_action.default_type = 'gift_for_gold'
+      gift_for_gold_action.default_type = 'gift_for_gold'
     end
   end
 
