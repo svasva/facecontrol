@@ -135,7 +135,7 @@ class CharacterAction < ActiveRecord::Base
       end
     when 'Item'
       case self.game_action.default_type
-      when 'buy'
+      when 'buy', 'buy_for_gold'
         unless self.game_action.subject.item_type.name == 'drink'
           puts "BUY! adding #{self.game_action.subject.name} to #{self.character.name}"
           self.character.items.clothes.where(:item_id => self.game_action.subject.id).destroy_all
@@ -148,7 +148,7 @@ class CharacterAction < ActiveRecord::Base
           self.character.items << ci
           self.character.put_on(ci)
         end
-      when 'gift'
+      when 'gift', 'gift_for_gold'
         puts "GIFT! adding #{self.game_action.subject.name} to #{self.target_character.name}"
         self.target_character.items << CharacterItem.create(
           :item => self.game_action.subject,
