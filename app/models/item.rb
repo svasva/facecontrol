@@ -94,6 +94,9 @@ class Item < ActiveRecord::Base
       gift_for_gold_action.delta_money = self.gift_action.delta_energy / FCconfig.energy_gold_ratio
       gift_for_gold_action.default_type = 'gift_for_gold'
     end
+    if self.use_action
+      self.use_action.name = "Использовать #{self.name}"
+    end
   end
 
   def dto
