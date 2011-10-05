@@ -206,7 +206,7 @@ class Character < ActiveRecord::Base
 
 	def can_put_on?(char_item)
 		return false unless char_item.character_id == self.id
-		return false unless char_item.wearable?
+		return false unless char_item.item.item_type.wearable
 		return false if char_item.wear_limit and char_item.find_same_type_eq.count >= char_item.wear_limit
 		return true
 	end
