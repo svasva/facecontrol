@@ -172,7 +172,7 @@ class CharacterAction < ActiveRecord::Base
       puts "have to cancel action #{action.name}(#{action.id})"
       CharacterAction.where(
         :character_id => self.character_id,
-        :action_id => action.id,
+        :game_action_id => action.id,
         :status => ['pending']
       ).each {|ca|
         logger.info "canceling CA ##{ca.id}"

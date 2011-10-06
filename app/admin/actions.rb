@@ -35,6 +35,7 @@ ActiveAdmin.register GameAction do
       f.input :delta_drive
       f.input :delta_money
       f.input :delta_wear
+      f.input :delta_relation_index
     end
     f.inputs "Timings" do
       f.input :repeat
