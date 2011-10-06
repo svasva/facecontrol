@@ -19,6 +19,7 @@ class InitAmfDTO
 	attr_accessor :top_rumor
 	attr_accessor :top_avatar
 	attr_accessor :exchange_rates
+	attr_accessor :sounds
 
 	def initialize(char, friends)
 		@contest = ActionGroup.last.dto(char) if ActionGroup.count > 0
@@ -45,5 +46,6 @@ class InitAmfDTO
 		@exchange_rates = ExchangeRate.order('game_value ASC').map {|er|
 			[er.id, er.social_price, er.game_value, er.game_string]
 		}
+		@sounds = Sound.all(:select => :url).map(&:url)
 	end
 end
