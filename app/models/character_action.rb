@@ -79,6 +79,7 @@ class CharacterAction < ActiveRecord::Base
 
   # called from resque
   def process_action
+    selfdestroy = false
     puts "enter PROCESS_ACTION, #{self.inspect}"
     # check stop_time
     if self.stop_time and (Time.now.utc.to_i >= self.stop_time.to_i)
@@ -111,6 +112,7 @@ class CharacterAction < ActiveRecord::Base
       if self.character.paid_clicks > 0
         puts "got paid clicks (#{self.character.paid_clicks}), taking one"
         self.character.update_attributes(:paid_clicks => (self.character.paid_clicks - 1))
+        selfdestroy = true
       end
     end
 
@@ -187,6 +189,7 @@ class CharacterAction < ActiveRecord::Base
     self.game_action.children.each {|child|
       self.character.do_action(child, self.target_character)
     }
+    self.destroy if selfdestroy
     return true
     # PROCESS
   end
