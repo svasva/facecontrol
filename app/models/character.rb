@@ -32,8 +32,16 @@ class Character < ActiveRecord::Base
 		.limit(10)
 	}
 
-	def self.notify_all(text)
-		Resque.enqueue(CharacterNotifyWorker, text)
+	def self.notify_all(text, &proc)
+		count = Character.count
+		position = 0
+		Character.find_in_batches(:select => :social_id, :batch_size => 100) {|group|
+			FCconfig.vk_session.secure.sendNotification :uids => group.map(&:social_id).join(','),
+																									:message => text,
+																									:timestamp => Time.now.to_i
+			position += group.count
+			yield(count, position) if block_given?
+		}
 	end
 
 	def notify(text)
