@@ -32,6 +32,16 @@ class Character < ActiveRecord::Base
 		.limit(10)
 	}
 
+	def self.notify_all(text)
+		Resque.enqueue(CharacterNotifyWorker, text)
+	end
+
+	def notify(text)
+		FCconfig.vk_session.secure.sendNotification :uids => self.social_id,
+																								:message => text,
+																								:timestamp => Time.now.to_i
+	end
+
 	def login_hook
 		# placeholder
 	end
