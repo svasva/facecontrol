@@ -35,7 +35,7 @@ class Character < ActiveRecord::Base
 	def self.notify_all(text, &proc)
 		count = Character.count
 		position = 0
-		Character.find_in_batches(:select => :social_id, :batch_size => 100) {|group|
+		Character.find_in_batches(:select => [:id,:social_id], :batch_size => 100) {|group|
 			FCconfig.vk_session.secure.sendNotification :uids => group.map(&:social_id).join(','),
 																									:message => text,
 																									:timestamp => Time.now.to_i
