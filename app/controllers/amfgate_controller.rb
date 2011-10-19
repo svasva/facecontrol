@@ -1,7 +1,4 @@
 class AmfgateController < ApplicationController
-  @@app_id = '2452518'
-  @@app_secret = 'c3j9y9BmHPcNo7JmkvRL'
-
   respond_to :amf
   before_filter :amf_init
 
@@ -96,7 +93,7 @@ class AmfgateController < ApplicationController
   # @param: ExchangeRate.id
   def request_funds
     return false unless (er = ExchangeRate.find(@misc_params[0]))
-    render :amf => @character.withraw_vk(er, @@app_id, @@app_secret)
+    render :amf => @character.withraw_vk(er, FCconfig.app_id, FCconfig.app_secret)
   end
 
   def get_chars_to_vote
@@ -236,7 +233,7 @@ class AmfgateController < ApplicationController
     @misc_params = []
     params[0].each {|p| @misc_params << p unless p == @flash_vars }
 
-    raise 'unauthorized!' unless auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
+    raise "unauthorized! : #{FCconfig.app_id}, #{FCconfig.app_secret}" unless auth_vk? @flash_vars['viewer_id'], @flash_vars['auth_key']
     @character = Character.find(:first, :conditions => {:social_id => @flash_vars['viewer_id']})
     @character.restore_energy if @character
   end
@@ -244,7 +241,7 @@ class AmfgateController < ApplicationController
   # @param: Character.social_id
   # @param: @flash_vars['auth_key']
   def auth_vk?(social_id, session_key)
-    auth_key = Digest::MD5.hexdigest "#{@@app_id}_#{social_id}_#{@@app_secret}"
+    auth_key = Digest::MD5.hexdigest "#{FCconfig.app_id}_#{social_id}_#{FCconfig.app_secret}"
     return auth_key == session_key
   end
 end
