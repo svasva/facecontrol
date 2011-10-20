@@ -1,4 +1,4 @@
-ActiveAdmin.register CharacterActionGroup do
+ActiveAdmin.register CharacterActionGroup, { :sort_order => :action_group_rating_desc } do
   menu :label => 'Contest stats'
   index do
     column :action_group
