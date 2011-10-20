@@ -1,6 +1,10 @@
 ActiveAdmin.register Message do
   scope :questions, :default => true
   scope :rumors
+
+  filter :content
+  filter :rating
+
   index do
     column :content
     column :source
