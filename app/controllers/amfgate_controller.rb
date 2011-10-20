@@ -22,7 +22,7 @@ class AmfgateController < ApplicationController
       :name => @misc_params[0],
       :male => @misc_params[1],
       :social_id => @flash_vars['viewer_id'],
-      :energy => GloryLevel.where(:level => 1).first.max_energy,
+      :energy => GloryLevel.find_by_level(1).max_energy,
       :drive => 100,
       :money => 5,
       :real_glory => 1,

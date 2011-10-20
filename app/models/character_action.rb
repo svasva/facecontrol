@@ -79,6 +79,9 @@ class CharacterAction < ActiveRecord::Base
 
   # called from resque
   def process_action
+    # double-check conditions
+    return false unless self.character.pass_conditions? self.game_action
+
     selfdestroy = false
     puts "enter PROCESS_ACTION, #{self.inspect}"
     # check stop_time
