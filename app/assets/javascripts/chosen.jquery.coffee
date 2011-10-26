@@ -662,6 +662,6 @@ this.SelectParser = SelectParser
 
 $(document).ready ->
   $('input[type=url]').each (i,e) ->
-    $(e).attr 'type', 'text'
+    e.type = 'text'
   $('select:not(.disable-chosen)').each (i,e) ->
     $(e).chosen() if $(e).attr('id') != '' 
